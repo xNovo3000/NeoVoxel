@@ -1,6 +1,7 @@
 workspace "NeoVoxel"
     architecture "x86_64"
     configurations { "Debug", "Release", "Dist" }
+    startproject "Sandbox"
 
 project "NeoVoxel"
     kind "StaticLib"
