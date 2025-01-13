@@ -47,6 +47,7 @@ project "NeoVoxel"
         cppdialect "C++20"
         staticruntime "On"
         systemversion "latest"
+        buildoptions { "/utf-8" }
         links { "opengl32.lib", "glfw3dll.lib", "OpenAL32dll.lib" }
         postbuildcommands {
             "{COPYFILE} vendor/glfw/lib/%{cfg.system}-%{cfg.architecture}/glfw3.dll ../bin/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}",
@@ -112,6 +113,7 @@ project "Sandbox"
         cppdialect "C++20"
         staticruntime "On"
         systemversion "latest"
+        buildoptions { "/utf-8" }
         defines {
             "NV_PLATFORM=NV_PLATFORM_DESKTOP",
             "WINVER=_WIN32_WINNT_WIN10", "_WIN32_WINNT=_WIN32_WINNT_WIN10", "NTDDI_VERSION=NTDDI_WIN10_RS4",

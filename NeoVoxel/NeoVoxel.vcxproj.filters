@@ -4,28 +4,57 @@
     <Filter Include="include">
       <UniqueIdentifier>{89AF369E-F58E-B539-FEA6-40106A051C9B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\NeoVoxel">
+      <UniqueIdentifier>{A890B424-9489-D376-BDBB-B8FBA913B382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NeoVoxel\Core">
+      <UniqueIdentifier>{005E6AA7-6CCA-25A2-35BE-BDFFA1E9470A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NeoVoxel\Debug">
+      <UniqueIdentifier>{1E79C294-0A73-EBE6-F3DF-81F7DF785153}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel">
+      <UniqueIdentifier>{CCE43510-B847-C5B4-61CD-FD6A4D0F9137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Core">
+      <UniqueIdentifier>{A4E8D930-10FF-D7C6-5976-63E8C5CBA84E}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\NeoVoxel.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Application.h">
+      <Filter>include\NeoVoxel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Core\Base.h">
+      <Filter>include\NeoVoxel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Core\Event.h">
+      <Filter>include\NeoVoxel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Debug\Log.h">
+      <Filter>include\NeoVoxel\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Entrypoint.h">
+      <Filter>include\NeoVoxel</Filter>
+    </ClInclude>
     <ClInclude Include="include\PCH.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\NeoVoxel\Application.h" />
-    <ClInclude Include="include\NeoVoxel\Core\Base.h" />
-    <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
-    <ClInclude Include="include\NeoVoxel\Debug\Log.h" />
-    <ClInclude Include="include\NeoVoxel\Core\Event.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\NeoVoxel\Application.cpp">
+      <Filter>src\NeoVoxel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Core\Event.cpp">
+      <Filter>src\NeoVoxel\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NeoVoxel\Application.cpp" />
-    <ClCompile Include="src\NeoVoxel\Core\Event.cpp" />
   </ItemGroup>
 </Project>
