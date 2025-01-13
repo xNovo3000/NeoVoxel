@@ -15,10 +15,14 @@
     <ClInclude Include="include\PCH.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Application.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Base.h" />
+    <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Application.cpp" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
-#include <iostream>
+#include <NeoVoxel/Entrypoint.h>
 
-int main(int argc, char** argv) {
-    std::cout << "Hello, NeoVoxel!" << std::endl;
-    return 0;
+NeoVoxel::Application* createApplication() {
+	return new NeoVoxel::Application();
 }

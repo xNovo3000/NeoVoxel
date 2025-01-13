@@ -153,9 +153,13 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\NeoVoxel.h" />
+    <ClInclude Include="include\NeoVoxel\Application.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Base.h" />
+    <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
     <ClInclude Include="include\PCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\NeoVoxel\Application.cpp" />
     <ClCompile Include="src\PCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
