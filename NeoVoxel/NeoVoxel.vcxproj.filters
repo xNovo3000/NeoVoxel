@@ -18,11 +18,14 @@
     <ClInclude Include="include\NeoVoxel\Application.h" />
     <ClInclude Include="include\NeoVoxel\Core\Base.h" />
     <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
+    <ClInclude Include="include\NeoVoxel\Debug\Log.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Application.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event.cpp" />
   </ItemGroup>
 </Project>

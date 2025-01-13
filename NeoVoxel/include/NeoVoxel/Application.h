@@ -15,7 +15,13 @@ namespace NeoVoxel {
 	public:
 		Application();
 		Application(const char* name);
-		~Application();
+		virtual ~Application();
+
+		Application(const Application&) = delete;
+		Application& operator=(const Application&) = delete;
+
+		Application(Application&&) noexcept = delete;
+		Application& operator=(Application&&) noexcept = delete;
 
 		void run();
 
