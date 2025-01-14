@@ -25,7 +25,9 @@ namespace NeoVoxel {
 
 		void run();
 
-	protected:
+		const char* getName() const noexcept { return m_Name; }
+
+	private:
 		const char* m_Name;
 
 	};

@@ -45,6 +45,8 @@
     <ClInclude Include="include\PCH.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Layer.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -56,5 +58,7 @@
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Layer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Time.cpp" />
   </ItemGroup>
 </Project>
