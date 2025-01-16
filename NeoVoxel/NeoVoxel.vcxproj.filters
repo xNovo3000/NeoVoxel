@@ -47,6 +47,8 @@
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Layer.h" />
     <ClInclude Include="include\NeoVoxel\Core\Time.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Window.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Input.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -60,5 +62,7 @@
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Time.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Window.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Input.cpp" />
   </ItemGroup>
 </Project>

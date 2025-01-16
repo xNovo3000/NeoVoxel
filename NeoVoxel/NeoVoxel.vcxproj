@@ -159,6 +159,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Application.h" />
     <ClInclude Include="include\NeoVoxel\Core\Base.h" />
     <ClInclude Include="include\NeoVoxel\Core\Event.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Input.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Window.h" />
     <ClInclude Include="include\NeoVoxel\Layer.h" />
     <ClInclude Include="include\NeoVoxel\Core\Time.h" />
     <ClInclude Include="include\NeoVoxel\Debug\Log.h" />
@@ -166,9 +168,11 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\PCH.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\NeoVoxel\Core\Input.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Time.cpp" />
     <ClCompile Include="src\NeoVoxel\Application.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Event.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Window.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />
     <ClCompile Include="src\PCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

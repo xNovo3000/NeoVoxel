@@ -13,7 +13,7 @@ namespace NeoVoxel {
 		static Application* INSTANCE;
 
 	public:
-		static inline Application& get() noexcept { return *INSTANCE; }
+		static Application& get() noexcept { return *INSTANCE; }
 
 	public:
 		Application();
