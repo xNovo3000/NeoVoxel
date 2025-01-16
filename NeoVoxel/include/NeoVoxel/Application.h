@@ -1,6 +1,9 @@
 #pragma once
 
 #include <NeoVoxel/Core/Base.h>
+#include <NeoVoxel/Core/Input.h>
+#include <NeoVoxel/Core/Time.h>
+#include <NeoVoxel/Core/Window.h>
 #include <NeoVoxel/Layer.h>
 
 #include <vector>
@@ -38,9 +41,14 @@ namespace NeoVoxel {
 		bool m_IsRunning;
 		const char* m_Name;
 
+		Timepoint m_LastTime;
+
 		std::vector<LayerPtr> m_LayerStack;
 		std::vector<Layer*> m_LayersToCreate;
 		std::vector<Layer*> m_LayersToDestroy;
+
+		WindowRef m_Window;
+		InputRef m_Input;
 
 	};
 

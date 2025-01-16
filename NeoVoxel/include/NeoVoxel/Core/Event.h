@@ -4,7 +4,7 @@
 
 namespace NeoVoxel {
 
-	enum class EventType : uint8_t {};
+	enum class EventType : uint8_t { CURSOR_POSITION, KEY, MOUSE_BUTTON, WINDOW_CLOSE, WINDOW_FOCUS, WINDOW_SIZE };
 
 	class Event {
 

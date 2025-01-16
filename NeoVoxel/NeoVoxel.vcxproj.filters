@@ -49,6 +49,13 @@
     <ClInclude Include="include\NeoVoxel\Core\Time.h" />
     <ClInclude Include="include\NeoVoxel\Core\Window.h" />
     <ClInclude Include="include\NeoVoxel\Core\Input.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\CursorPositionEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\KeyEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\MouseButtonEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\WindowCloseEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\WindowFocusEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Event\WindowSizeEvent.h" />
+    <ClInclude Include="include\NeoVoxel\Core\Key.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -64,5 +71,11 @@
     <ClCompile Include="src\NeoVoxel\Core\Time.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Window.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Input.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\CursorPositionEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\KeyEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\MouseButtonEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\WindowCloseEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\WindowFocusEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Core\Event\WindowSizeEvent.cpp" />
   </ItemGroup>
 </Project>

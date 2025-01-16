@@ -12,8 +12,9 @@ namespace NeoVoxel {
 
 	Application::Application() : Application("Application") {}
 
-	Application::Application(const char* name) : m_IsRunning(true), m_Name(name),
-		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy()
+	Application::Application(const char* name) : m_IsRunning(true), m_Name(name), m_LastTime(0),
+		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy(),
+		m_Window(new Window()), m_Input(new Input())
 	{ INSTANCE = this; }
 
 	Application::~Application() {}
@@ -21,10 +22,13 @@ namespace NeoVoxel {
 	void Application::run() {
 		NV_INFO("Starting {}", m_Name);
 		while (m_IsRunning) {
-			// TODO: Calculate timestep
-			auto timestep = Timestep(0.0);
-			// TODO: Read window/input events
-			auto events = std::vector<EventPtr>();
+			// Calculate timestep
+			auto currentTime = m_Input->getCurrentTime();
+			auto timestep = currentTime - m_LastTime;
+			m_LastTime = currentTime;
+			NV_TRACE("{}: current timestep {} ns", m_Name, currentTime.getNanoseconds());
+			// Read window/input events
+			auto events = m_Window->pollEvents();
 			// LayerStack update (reverse order)
 			for (auto& layer : m_LayerStack | std::views::reverse) {
 				layer->onUpdate(timestep, events);
@@ -37,7 +41,8 @@ namespace NeoVoxel {
 			}
 			// TODO: Add new layers to the stack
 			// TODO: Remove layers from the stack
-			// TODO: Swap window buffers
+			// Swap window buffers
+			m_Window->swapBuffers();
 		}
 	}
 
