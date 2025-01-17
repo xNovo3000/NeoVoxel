@@ -100,6 +100,8 @@
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\Common\BaseLayer.h" />
+    <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -151,5 +153,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
   </ItemGroup>
 </Project>

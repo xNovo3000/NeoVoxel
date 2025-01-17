@@ -35,6 +35,9 @@ namespace NeoVoxel {
 		void pushLayer(Layer* layer);
 		void popLayer(Layer* layer);
 
+		Window& getWindow() const noexcept { return *m_Window; }
+		Input& getInput() const noexcept { return *m_Input; }
+
 		const char* getName() const noexcept { return m_Name; }
 
 	private:

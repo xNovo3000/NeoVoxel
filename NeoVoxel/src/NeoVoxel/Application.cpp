@@ -39,9 +39,10 @@ namespace NeoVoxel {
 			auto currentTime = m_Input->getCurrentTime();
 			auto timestep = currentTime - m_LastTime;
 			m_LastTime = currentTime;
-			NV_TRACE("{}: current timestep {} ms", m_Name, timestep.deltaMilliseconds());
 			// Read window/input events
 			auto events = m_Window->pollEvents();
+			// Trace current time and events
+			NV_TRACE("{}: {} events in {} ms", m_Name, events.size(), timestep.deltaMilliseconds());
 			// LayerStack update (reverse order)
 			for (auto& layer : m_LayerStack | std::views::reverse) {
 				layer->onUpdate(timestep, events);
@@ -52,8 +53,55 @@ namespace NeoVoxel {
 			for (auto& layer : m_LayerStack) {
 				layer->onRender();
 			}
-			// TODO: Add new layers to the stack
-			// TODO: Remove layers from the stack
+			// Get layers to create and destroy
+			std::vector<Layer*> layersToCreate;
+			std::vector<Layer*> layersToDestroy;
+			std::swap(m_LayersToCreate, layersToCreate);
+			std::swap(m_LayersToDestroy, layersToDestroy);
+			// Add new layers to the stack. TODO: Optimize this routine
+			for (auto layerToCreate : layersToCreate) {
+				// Call onCover on the last layer
+				if (!m_LayerStack.empty()) {
+					m_LayerStack.back()->onCover();
+				}
+				// Add layer and call onCreate and onVisible
+				layerToCreate->onCreate();
+				layerToCreate->onVisible();
+				m_LayerStack.emplace_back(layerToCreate);
+			}
+			// Remove layers from the stack
+			for (auto layerToDestroy : layersToDestroy) {
+				// Find layer in the stack
+				auto maybeFound = std::find_if(
+					m_LayerStack.begin(), m_LayerStack.end(),
+					[layerToDestroy](LayerPtr& layer) { return layerToDestroy == layer.get(); }
+				);
+				// Case 1: layer does not exists. Trigger an error in the console
+				// Case 2: layer is on top of the stack. Call onCover and onDestroy on that
+				//         layer and call onVisible on the underlying layer if exists
+				// Case 3: layer is in the middle of the stack. Call onDestroy
+				if (maybeFound == m_LayerStack.end()) {
+					// Case 1
+					NV_ERROR(
+						"{}: pointer of layer to destroy {} not found in the stack",
+						m_Name, fmt::ptr(layerToDestroy)
+					);
+				}
+				else if (maybeFound == m_LayerStack.end() - 1) {
+					// Case 2
+					(*maybeFound)->onCover();
+					(*maybeFound)->onDestroy();
+					m_LayerStack.erase(maybeFound);
+					if (!m_LayerStack.empty()) {
+						m_LayerStack.back()->onVisible();
+					}
+				}
+				else {
+					// Case 3
+					(*maybeFound)->onDestroy();
+					m_LayerStack.erase(maybeFound);
+				}
+			}
 			// Swap window buffers
 			m_Window->swapBuffers();
 		}

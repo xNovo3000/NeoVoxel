@@ -173,7 +173,9 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
     <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
     <ClInclude Include="include\NeoVoxel\Layer.h" />
+    <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
     <ClInclude Include="include\PCH.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\Common\BaseLayer.h" />
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.h" />
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\GlfwInput.h" />
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.h" />
@@ -192,6 +194,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Core\Window.cpp" />
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\GlfwInput.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.cpp" />
