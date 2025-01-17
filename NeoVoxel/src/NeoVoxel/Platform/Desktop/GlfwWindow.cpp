@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include "GlfwWindow.h"
 #include <NeoVoxel/Debug/Log.h>
+#include <NeoVoxel/Debug/Profile.h>
 
 #include <NeoVoxel/Core/Event/CursorPositionEvent.h>
 #include <NeoVoxel/Core/Event/KeyEvent.h>
@@ -159,6 +160,7 @@ namespace NeoVoxel {
 	}
 
 	std::vector<EventPtr> GlfwWindow::pollEvents() {
+		NV_PROFILE;
 		std::vector<EventPtr> other;
 		glfwPollEvents();
 		std::swap(m_EventList, other);
@@ -166,11 +168,13 @@ namespace NeoVoxel {
 	}
 
 	void GlfwWindow::swapBuffers() {
+		NV_PROFILE;
 		glfwSwapBuffers(m_WindowHandle);
 		m_FramerateLimiter.wait();
 	}
 
 	void GlfwWindow::setRefreshRate(uint32_t refreshRate) {
+		glfwSwapInterval(refreshRate == 0);
 		m_FramerateLimiter.setFrequency(refreshRate);
 	}
 

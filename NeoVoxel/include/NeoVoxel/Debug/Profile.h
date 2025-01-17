@@ -21,6 +21,8 @@ namespace NeoVoxel {
 
 #endif
 
+}
+
 #if NV_BUILD_MODE == NV_BUILD_MODE_RELEASE
 	#define NV_PROFILE_START				::NeoVoxel::Profiler::start()
 	#define NV_PROFILE_STOP					::NeoVoxel::Profiler::stop()
@@ -30,5 +32,3 @@ namespace NeoVoxel {
 	#define NV_PROFILE_STOP
 	#define NV_PROFILE
 #endif
-
-}

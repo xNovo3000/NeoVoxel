@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include <NeoVoxel/Application.h>
 #include <NeoVoxel/Debug/Log.h>
+#include <NeoVoxel/Debug/Profile.h>
 
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 	#include "Platform/Desktop/GlfwWindow.h"
@@ -33,6 +34,7 @@ namespace NeoVoxel {
 	void Application::run() {
 		NV_INFO("Starting {}", m_Name);
 		while (m_IsRunning) {
+			NV_PROFILE;
 			// Calculate timestep
 			auto currentTime = m_Input->getCurrentTime();
 			auto timestep = currentTime - m_LastTime;

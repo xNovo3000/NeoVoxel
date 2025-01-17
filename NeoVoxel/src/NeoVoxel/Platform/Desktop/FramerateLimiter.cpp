@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include "FramerateLimiter.h"
 #include <NeoVoxel/Debug/Log.h>
+#include <NeoVoxel/Debug/Profile.h>
 
 namespace NeoVoxel {
 
@@ -70,6 +71,7 @@ namespace NeoVoxel {
 	}
 
 	void FramerateLimiter::wait() {
+		NV_PROFILE;
 		auto targetTime = m_LastTime + m_TimestepTime;
 		auto deltaTime = targetTime - std::chrono::steady_clock::now();
 		if (deltaTime > std::chrono::milliseconds(1)) {
