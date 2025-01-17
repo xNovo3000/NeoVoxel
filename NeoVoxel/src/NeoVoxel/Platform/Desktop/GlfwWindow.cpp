@@ -11,16 +11,91 @@
 
 namespace NeoVoxel {
 
+	/* Utility */
+
+	constexpr glm::dvec2 INVALID_MOUSE = glm::dvec2(std::numeric_limits<float>::max());
+
 	/* Callback - Error */
 
 	static void callback_GlfwError(int32_t errorCode, const char* errorDescription) {
 		NV_CRITICAL("GLFW error. Code: {}. Description: '{}'", errorCode, errorDescription);
 	}
 
+	/* Callbacks */
+
+	static void callback_WindowClose(GLFWwindow* window) {
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		context->pushEvent(new WindowCloseEvent());
+	}
+
+	static void callback_WindowSize(GLFWwindow* window, int32_t width, int32_t height) {
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		context->pushEvent(new WindowSizeEvent({ width, height }));
+	}
+
+	static void callback_WindowFocus(GLFWwindow* window, int32_t focused) {
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		context->pushEvent(new WindowFocusEvent(focused == GLFW_TRUE));
+	}
+
+	static void callback_Key(GLFWwindow* window, int32_t key, int32_t scancode, int32_t action, int32_t mods) {
+		auto keyAction = KeyAction::PRESS;
+		switch (action) {
+			case GLFW_PRESS: keyAction = KeyAction::PRESS; break;
+			case GLFW_RELEASE: keyAction = KeyAction::RELEASE; break;
+			case GLFW_REPEAT: keyAction = KeyAction::REPEAT; break;
+		}
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		context->pushEvent(new KeyEvent(key, keyAction, mods));
+	}
+
+	static void callback_MouseButton(GLFWwindow* window, int32_t button, int32_t action, int32_t mods) {
+		auto mouseAction = MouseButtonAction::PRESS;
+		switch (action) {
+			case GLFW_PRESS: mouseAction = MouseButtonAction::PRESS; break;
+			case GLFW_RELEASE: mouseAction = MouseButtonAction::RELEASE; break;
+			case GLFW_REPEAT: mouseAction = MouseButtonAction::REPEAT; break;
+		}
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		context->pushEvent(new MouseButtonEvent(button, mouseAction, mods));
+	}
+
+	static void callback_CursorPosition(GLFWwindow* window, double xpos, double ypos) {
+		auto context = reinterpret_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+		// Check for current cursor mode
+		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_DISABLED) {
+			auto cursorPosition = glm::dvec2(xpos, ypos);
+			// 3D camera movement, must return the delta
+			if (context->m_LastCursorPosition == INVALID_MOUSE) {
+				// First movement doesn't count
+				context->pushEvent(new CursorPositionEvent({ 0.0F, 0.0F }));
+			}
+			else {
+				// Push the delta position
+				auto delta = cursorPosition - context->m_LastCursorPosition;
+				context->pushEvent(new CursorPositionEvent({ delta.x, -delta.y }));
+			}
+			// Set last position
+			context->m_LastCursorPosition = cursorPosition;
+		}
+		else {
+			// Invalidate last position for 3d camera
+			context->m_LastCursorPosition = INVALID_MOUSE;
+			// Normal mouse movement, must follow OpenGL coordinate system
+			auto windowSize = glm::ivec2();
+			glfwGetWindowSize(window, &windowSize.x, &windowSize.y);
+			auto cursorPosition = glm::vec2();
+			cursorPosition.x = static_cast<float>(xpos) / windowSize.x * 2.0F - 1.0F;
+			cursorPosition.y = -(static_cast<float>(ypos) / windowSize.y * 2.0F - 1.0F);
+			context->pushEvent(new CursorPositionEvent(cursorPosition));
+		}
+	}
+
 	/* GlfwWindow */
 
 	GlfwWindow::GlfwWindow(const GlfwWindowSpec& spec) : Window("GlfwWindow"),
-		m_WindowHandle(nullptr), m_EventList(), m_FramerateLimiter(spec.m_Framerate)
+		m_WindowHandle(nullptr), m_EventList(),
+		m_FramerateLimiter(spec.m_Framerate), m_LastCursorPosition(INVALID_MOUSE)
 	{
 		// Set GLFW error callback
 		glfwSetErrorCallback(callback_GlfwError);
@@ -46,7 +121,13 @@ namespace NeoVoxel {
 		setRefreshRate(spec.m_Framerate);
 		// Set pointer for callbacks
 		glfwSetWindowUserPointer(m_WindowHandle, this);
-		// TODO: Set callbacks
+		// Set callbacks
+		glfwSetCursorPosCallback(m_WindowHandle, callback_CursorPosition);
+		glfwSetMouseButtonCallback(m_WindowHandle, callback_MouseButton);
+		glfwSetKeyCallback(m_WindowHandle, callback_Key);
+		glfwSetWindowFocusCallback(m_WindowHandle, callback_WindowFocus);
+		glfwSetWindowCloseCallback(m_WindowHandle, callback_WindowClose);
+		glfwSetWindowSizeCallback(m_WindowHandle, callback_WindowSize);
 		// Move context to render thread
 		glfwMakeContextCurrent(nullptr);
 	}
@@ -61,7 +142,8 @@ namespace NeoVoxel {
 	GlfwWindow::GlfwWindow(GlfwWindow&& other) noexcept : Window(std::move(other)),
 		m_WindowHandle(other.m_WindowHandle),
 		m_EventList(std::move(other.m_EventList)),
-		m_FramerateLimiter(std::move(other.m_FramerateLimiter))
+		m_FramerateLimiter(std::move(other.m_FramerateLimiter)),
+		m_LastCursorPosition(other.m_LastCursorPosition)
 	{
 		other.m_WindowHandle = nullptr;
 	}
@@ -71,6 +153,7 @@ namespace NeoVoxel {
 		m_WindowHandle = other.m_WindowHandle;
 		m_EventList = std::move(other.m_EventList);
 		m_FramerateLimiter = std::move(other.m_FramerateLimiter);
+		m_LastCursorPosition = other.m_LastCursorPosition;
 		other.m_WindowHandle = nullptr;
 		return *this;
 	}
@@ -107,6 +190,10 @@ namespace NeoVoxel {
 		glm::ivec2 size{};
 		glfwGetWindowSize(m_WindowHandle, &size.x, &size.y);
 		return size;
+	}
+
+	void GlfwWindow::pushEvent(Event* event) {
+		m_EventList.emplace_back(event);
 	}
 
 }

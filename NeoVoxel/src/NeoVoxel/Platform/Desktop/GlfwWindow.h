@@ -18,6 +18,8 @@ namespace NeoVoxel {
 		uint32_t m_Framerate;
 	};
 
+	using ContextLoaderPtr = void (*(*)(const char*))(void);
+
 	class GlfwWindow : public Window {
 
 	public:
@@ -40,10 +42,18 @@ namespace NeoVoxel {
 		virtual uint32_t getRefreshRate() override;
 		virtual glm::ivec2 getSize() override;
 
+		void pushEvent(Event* event);
+
+		ContextLoaderPtr getContextLoaderPtr() { return glfwGetProcAddress; }
+		GLFWwindow* getHandle() const noexcept { return m_WindowHandle; }
+
 	private:
 		GLFWwindow* m_WindowHandle;
 		std::vector<EventPtr> m_EventList;
 		FramerateLimiter m_FramerateLimiter;
+
+	public:
+		glm::dvec2 m_LastCursorPosition;
 
 	};
 

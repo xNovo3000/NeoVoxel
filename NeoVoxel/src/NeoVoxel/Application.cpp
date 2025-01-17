@@ -4,6 +4,7 @@
 
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 	#include "Platform/Desktop/GlfwWindow.h"
+	#include "Platform/Desktop/GlfwInput.h"
 #endif
 
 namespace NeoVoxel {
@@ -20,10 +21,11 @@ namespace NeoVoxel {
 		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy(),
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 		m_Window(new GlfwWindow({ "NeoVoxel", { 960, 540 }, 60 })),
+		m_Input(new GlfwInput(reinterpret_cast<GlfwWindow&>(*m_Window).getHandle()))
 #else
 		m_Window(new Window()),
-#endif
 		m_Input(new Input())
+#endif
 	{ INSTANCE = this; }
 
 	Application::~Application() {}

@@ -16,11 +16,11 @@ namespace NeoVoxel {
 		FramerateLimiter(uint32_t frequency);
 		~FramerateLimiter();
 
-		FramerateLimiter(const FramerateLimiter&) = default;
-		FramerateLimiter& operator=(const FramerateLimiter&) = default;
+		FramerateLimiter(const FramerateLimiter&) = delete;
+		FramerateLimiter& operator=(const FramerateLimiter&) = delete;
 
-		FramerateLimiter(FramerateLimiter&&) noexcept = default;
-		FramerateLimiter& operator=(FramerateLimiter&&) noexcept = default;
+		FramerateLimiter(FramerateLimiter&& other) noexcept;
+		FramerateLimiter& operator=(FramerateLimiter&& other) noexcept;
 
 		void setFrequency(uint32_t frequency);
 		void wait();
