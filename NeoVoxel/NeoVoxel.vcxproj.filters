@@ -56,6 +56,8 @@
     <ClInclude Include="include\NeoVoxel\Core\Event\WindowFocusEvent.h" />
     <ClInclude Include="include\NeoVoxel\Core\Event\WindowSizeEvent.h" />
     <ClInclude Include="include\NeoVoxel\Core\Key.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -77,5 +79,7 @@
     <ClCompile Include="src\NeoVoxel\Core\Event\WindowCloseEvent.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Event\WindowFocusEvent.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Event\WindowSizeEvent.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.cpp" />
   </ItemGroup>
 </Project>

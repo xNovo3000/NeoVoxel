@@ -2,6 +2,10 @@
 #include <NeoVoxel/Application.h>
 #include <NeoVoxel/Debug/Log.h>
 
+#if NV_PLATFORM == NV_PLATFORM_DESKTOP
+	#include "Platform/Desktop/GlfwWindow.h"
+#endif
+
 namespace NeoVoxel {
 
 	/* Application - Singleton */
@@ -14,7 +18,12 @@ namespace NeoVoxel {
 
 	Application::Application(const char* name) : m_IsRunning(true), m_Name(name), m_LastTime(0),
 		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy(),
-		m_Window(new Window()), m_Input(new Input())
+#if NV_PLATFORM == NV_PLATFORM_DESKTOP
+		m_Window(new GlfwWindow({ "NeoVoxel", { 960, 540 }, 60 })),
+#else
+		m_Window(new Window()),
+#endif
+		m_Input(new Input())
 	{ INSTANCE = this; }
 
 	Application::~Application() {}
@@ -26,7 +35,7 @@ namespace NeoVoxel {
 			auto currentTime = m_Input->getCurrentTime();
 			auto timestep = currentTime - m_LastTime;
 			m_LastTime = currentTime;
-			NV_TRACE("{}: current timestep {} ns", m_Name, currentTime.getNanoseconds());
+			NV_TRACE("{}: current timestep {} ms", m_Name, timestep.deltaMilliseconds());
 			// Read window/input events
 			auto events = m_Window->pollEvents();
 			// LayerStack update (reverse order)

@@ -5,6 +5,7 @@
 #include <memory>
 #include <ranges>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include <glm/glm.hpp>
