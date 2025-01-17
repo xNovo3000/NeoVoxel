@@ -2,7 +2,9 @@
 
 #include <chrono>
 #include <cstdint>
+#include <fstream>
 #include <memory>
+#include <mutex>
 #include <ranges>
 #include <string>
 #include <thread>

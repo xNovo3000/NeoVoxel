@@ -99,6 +99,7 @@
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.h">
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -149,5 +150,6 @@
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
   </ItemGroup>
 </Project>
