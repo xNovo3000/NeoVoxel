@@ -19,7 +19,14 @@ namespace NeoVoxel {
 	class Shader {
 
 	public:
+		Shader() = default;
 		virtual ~Shader() = default;
+
+		Shader(const Shader&) = delete;
+		Shader& operator=(const Shader&) = delete;
+
+		Shader(Shader&&) noexcept = default;
+		Shader& operator=(Shader&&) noexcept = default;
 
 		virtual void activate();
 

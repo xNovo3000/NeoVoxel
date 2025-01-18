@@ -16,7 +16,9 @@
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
+#include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/GraphicsApi.h>
+#include <NeoVoxel/Graphics/Shader.h>
 
 #include <NeoVoxel/Layer/EventListenerLayer.h>
 

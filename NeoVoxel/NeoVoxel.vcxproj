@@ -185,6 +185,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLErrorManagement.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp" />
@@ -210,6 +211,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\PCH.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

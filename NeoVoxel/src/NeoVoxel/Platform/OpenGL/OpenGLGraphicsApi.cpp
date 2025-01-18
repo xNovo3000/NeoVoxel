@@ -1,6 +1,8 @@
 #include <PCH.h>
 #include "OpenGLGraphicsApi.h"
 #include "OpenGLErrorManagement.h"
+#include "OpenGLArrayBuffer.h"
+#include "OpenGLShader.h"
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
@@ -89,6 +91,14 @@ namespace NeoVoxel {
 	void OpenGLGraphicsApi::setViewport(const glm::ivec2& viewport) {
 		NV_PROFILE;
 		glCall(glViewport(0, 0, viewport.x, viewport.y));
+	}
+
+	ArrayBufferRef OpenGLGraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
+		return std::make_shared<OpenGLArrayBuffer>(spec);
+	}
+
+	ShaderRef OpenGLGraphicsApi::createShader(const ShaderSpec& spec) {
+		return std::make_shared<OpenGLShader>(spec);
 	}
 
 }
