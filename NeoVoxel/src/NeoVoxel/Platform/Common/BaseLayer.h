@@ -16,7 +16,9 @@ namespace NeoVoxel {
 		BaseLayer(BaseLayer&&) noexcept = default;
 		BaseLayer& operator=(BaseLayer&&) noexcept = default;
 
-		virtual bool onWindowCloseEvent(Timestep timestep, WindowCloseEvent& event);
+		virtual void onRender() override;
+
+		virtual bool onWindowCloseEvent(Timestep timestep, WindowCloseEvent& event) override;
 
 	};
 

@@ -4,6 +4,7 @@
 #include <NeoVoxel/Core/Input.h>
 #include <NeoVoxel/Core/Time.h>
 #include <NeoVoxel/Core/Window.h>
+#include <NeoVoxel/Graphics/GraphicsApi.h>
 #include <NeoVoxel/Layer.h>
 
 #include <vector>
@@ -37,6 +38,7 @@ namespace NeoVoxel {
 
 		Window& getWindow() const noexcept { return *m_Window; }
 		Input& getInput() const noexcept { return *m_Input; }
+		GraphicsApi& getGraphicsApi() const noexcept { return *m_GraphicsApi; }
 
 		const char* getName() const noexcept { return m_Name; }
 
@@ -52,6 +54,7 @@ namespace NeoVoxel {
 
 		WindowRef m_Window;
 		InputRef m_Input;
+		GraphicsApiRef m_GraphicsApi;
 
 	};
 

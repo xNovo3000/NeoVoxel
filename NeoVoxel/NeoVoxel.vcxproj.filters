@@ -102,6 +102,7 @@
     <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
     <ClInclude Include="src\NeoVoxel\Platform\Common\BaseLayer.h" />
     <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -155,5 +156,6 @@
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
   </ItemGroup>
 </Project>

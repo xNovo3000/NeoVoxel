@@ -14,6 +14,11 @@
 #include <NeoVoxel/Core/Event/WindowSizeEvent.h>
 
 #include <NeoVoxel/Debug/Log.h>
+#include <NeoVoxel/Debug/Profile.h>
+
+#include <NeoVoxel/Graphics/GraphicsApi.h>
+
+#include <NeoVoxel/Layer/EventListenerLayer.h>
 
 #include <NeoVoxel/Layer.h>
 #include <NeoVoxel/Application.h>

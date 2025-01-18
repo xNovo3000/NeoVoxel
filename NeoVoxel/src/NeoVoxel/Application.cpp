@@ -24,7 +24,8 @@ namespace NeoVoxel {
 		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy(),
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 		m_Window(new GlfwWindow({ "NeoVoxel", { 960, 540 }, 60 })),
-		m_Input(new GlfwInput(reinterpret_cast<GlfwWindow&>(*m_Window).getHandle()))
+		m_Input(new GlfwInput(reinterpret_cast<GlfwWindow&>(*m_Window).getHandle())),
+		m_GraphicsApi(new GraphicsApi())
 #else
 		m_Window(new Window()),
 		m_Input(new Input())
