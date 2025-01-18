@@ -7,6 +7,8 @@
 
 namespace NeoVoxel {
 
+	constexpr GLuint OPENGL_INVALID_HANDLE = 0xFFFFFFFF;
+
 #if NV_BUILD_MODE == NV_BUILD_MODE_DEBUG
 
 	static inline void glCheckError(const char* file, long line) {
