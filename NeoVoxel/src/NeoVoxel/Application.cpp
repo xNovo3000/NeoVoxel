@@ -3,6 +3,8 @@
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
+#include "Platform/Common/BaseLayer.h"
+
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 	#include "Platform/Desktop/GlfwWindow.h"
 	#include "Platform/Desktop/GlfwInput.h"
@@ -27,7 +29,10 @@ namespace NeoVoxel {
 		m_Window(new Window()),
 		m_Input(new Input())
 #endif
-	{ INSTANCE = this; }
+	{
+		INSTANCE = this;
+		pushLayer(new BaseLayer());
+	}
 
 	Application::~Application() {}
 
