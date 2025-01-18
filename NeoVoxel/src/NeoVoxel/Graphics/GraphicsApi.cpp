@@ -11,4 +11,12 @@ namespace NeoVoxel {
 
 	void GraphicsApi::setViewport(const glm::ivec2& viewport) {}
 
+	ArrayBufferRef GraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
+		return std::make_shared<ArrayBuffer>();
+	}
+
+	ShaderRef GraphicsApi::createShader(const ShaderSpec& spec) {
+		return std::make_shared<Shader>();
+	}
+
 }

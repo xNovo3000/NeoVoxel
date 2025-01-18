@@ -105,6 +105,8 @@
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLErrorManagement.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -160,5 +162,7 @@
     <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
   </ItemGroup>
 </Project>

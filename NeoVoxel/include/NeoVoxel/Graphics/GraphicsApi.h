@@ -1,6 +1,8 @@
 #pragma once
 
 #include <NeoVoxel/Core/Base.h>
+#include <NeoVoxel/Graphics/ArrayBuffer.h>
+#include <NeoVoxel/Graphics/Shader.h>
 
 #include <glm/glm.hpp>
 
@@ -31,6 +33,9 @@ namespace NeoVoxel {
 		virtual void clearDepth(float depth = DEFAULT_CLEAR_DEPTH);
 
 		virtual void setViewport(const glm::ivec2& viewport);
+
+		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec);
+		virtual ShaderRef createShader(const ShaderSpec& spec);
 
 		const char* getName() const noexcept { return m_Name; }
 
