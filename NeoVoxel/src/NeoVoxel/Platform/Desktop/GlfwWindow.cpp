@@ -129,8 +129,6 @@ namespace NeoVoxel {
 		glfwSetWindowFocusCallback(m_WindowHandle, callback_WindowFocus);
 		glfwSetWindowCloseCallback(m_WindowHandle, callback_WindowClose);
 		glfwSetWindowSizeCallback(m_WindowHandle, callback_WindowSize);
-		// Move context to render thread
-		glfwMakeContextCurrent(nullptr);
 	}
 
 	GlfwWindow::~GlfwWindow() {

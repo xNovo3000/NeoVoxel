@@ -19,6 +19,7 @@ namespace NeoVoxel {
 		virtual void onRender() override;
 
 		virtual bool onWindowCloseEvent(Timestep timestep, WindowCloseEvent& event) override;
+		virtual bool onWindowSizeEvent(Timestep timestep, WindowSizeEvent& event) override;
 
 	};
 

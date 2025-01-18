@@ -19,4 +19,10 @@ namespace NeoVoxel {
 		return true;
 	}
 
+	bool BaseLayer::onWindowSizeEvent(Timestep timestep, WindowSizeEvent& event) {
+		EventListenerLayer::onWindowSizeEvent(timestep, event);
+		Application::get().getGraphicsApi().setViewport(event.getSize());
+		return false;
+	}
+
 }
