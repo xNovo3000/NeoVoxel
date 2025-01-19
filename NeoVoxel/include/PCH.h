@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <numeric>
 #include <optional>
 #include <ranges>
 #include <string>
