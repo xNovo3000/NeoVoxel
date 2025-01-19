@@ -23,6 +23,7 @@ namespace NeoVoxel {
 
 	Application::Application(const char* name) : m_IsRunning(true), m_Name(name), m_LastTime(0),
 		m_LayerStack(), m_LayersToCreate(), m_LayersToDestroy(),
+		m_AssetLoader(),
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 		m_Window(new GlfwWindow({ "NeoVoxel", { 960, 540 }, 60 })),
 		m_Input(new GlfwInput(reinterpret_cast<GlfwWindow&>(*m_Window).getHandle())),

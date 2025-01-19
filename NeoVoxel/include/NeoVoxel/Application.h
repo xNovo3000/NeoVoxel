@@ -1,6 +1,7 @@
 #pragma once
 
 #include <NeoVoxel/Core/Base.h>
+#include <NeoVoxel/Core/Asset.h>
 #include <NeoVoxel/Core/Input.h>
 #include <NeoVoxel/Core/Time.h>
 #include <NeoVoxel/Core/Window.h>
@@ -36,6 +37,7 @@ namespace NeoVoxel {
 		void pushLayer(Layer* layer);
 		void popLayer(Layer* layer);
 
+		const AssetLoader& getAssetLoader() const noexcept { return m_AssetLoader; }
 		Window& getWindow() const noexcept { return *m_Window; }
 		Input& getInput() const noexcept { return *m_Input; }
 		GraphicsApi& getGraphicsApi() const noexcept { return *m_GraphicsApi; }
@@ -52,6 +54,7 @@ namespace NeoVoxel {
 		std::vector<Layer*> m_LayersToCreate;
 		std::vector<Layer*> m_LayersToDestroy;
 
+		AssetLoader m_AssetLoader;
 		WindowRef m_Window;
 		InputRef m_Input;
 		GraphicsApiRef m_GraphicsApi;

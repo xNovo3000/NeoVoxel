@@ -1,5 +1,6 @@
 #pragma once
 
+#include <NeoVoxel/Core/Asset.h>
 #include <NeoVoxel/Core/Event.h>
 #include <NeoVoxel/Core/Input.h>
 #include <NeoVoxel/Core/Key.h>
