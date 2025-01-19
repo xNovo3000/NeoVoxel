@@ -23,6 +23,20 @@ public:
 		NeoVoxel::ShaderSpec shaderSpec{ *maybeVertexShader, std::nullopt, *maybeFragmentShader };
 		m_Shader = graphicsApi.createShader(shaderSpec);
 
+		auto maybeStoneImage = assetLoader.loadImage("asset/texture/stone.png");
+		NeoVoxel::Texture2DSpec texture2DSpec{
+			NeoVoxel::TextureColorFormat::RGB,
+			NeoVoxel::TextureColorSpace::SDR,
+			NeoVoxel::TextureMipmapGeneration::ENABLED,
+			{
+				{ NeoVoxel::TextureParamsName::FILTER_MAG, NeoVoxel::TextureParamsValue::FILTER_NEAREST },
+				{ NeoVoxel::TextureParamsName::FILTER_MIN, NeoVoxel::TextureParamsValue::FILTER_LINEAR },
+				{ NeoVoxel::TextureParamsName::WRAP_S, NeoVoxel::TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+				{ NeoVoxel::TextureParamsName::WRAP_T, NeoVoxel::TextureParamsValue::WRAP_CLAMP_TO_EDGE }
+			}
+		};
+		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
+
 		std::vector<std::pair<glm::vec2, glm::vec2>> positionsAndUvs = {
 			{ { -0.5F, -0.5F }, { 0.0F, 0.0F } },
 			{ { -0.5F,  0.5F }, { 0.0F, 1.0F } },
@@ -34,12 +48,16 @@ public:
 		m_ArrayBuffer->setVertexBufferData(0, positionsAndUvs);
 		m_ArrayBuffer->setElementBufferData(indices);
 
+		m_Texture2D->update((*maybeStoneImage).m_Size, (*maybeStoneImage).m_Data);
+
 	}
 
 	virtual void onRender() override {
 		EventListenerLayer::onRender();
 
 		m_Shader->activate();
+		m_Shader->setUniform(0, 0);
+		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
 	}
@@ -47,6 +65,7 @@ public:
 private:
 	NeoVoxel::ArrayBufferRef m_ArrayBuffer;
 	NeoVoxel::ShaderRef m_Shader;
+	NeoVoxel::Texture2DRef m_Texture2D;
 
 };
 

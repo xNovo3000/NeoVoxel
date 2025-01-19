@@ -37,7 +37,7 @@ namespace NeoVoxel {
 		GLuint m_VaoHandle;
 		GLuint m_EboHandle;
 		std::array<GLuint, MAX_BUFFERS> m_VboHandles;
-		uint32_t m_DrawType : 1;  // ArrayBufferDrawType m_DrawType;
+		ArrayBufferDrawType m_DrawType : 1;
 		uint32_t m_NumberOfVbos : 31;
 		uint32_t m_NumberOfVertices;
 

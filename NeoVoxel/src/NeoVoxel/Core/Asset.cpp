@@ -78,7 +78,6 @@ namespace NeoVoxel {
 		// Create metadata containers
 		glm::ivec2 size = {};
 		int32_t channels;
-		int32_t requiredChannels = STBI_rgb;
 		// stb: load image
 		auto imageData = stbi_load(path.c_str(), &size.x, &size.y, &channels, STBI_rgb_alpha);
 		if (imageData == nullptr) {

@@ -9,7 +9,7 @@ namespace NeoVoxel {
 	class OpenGLTexture2D : public Texture2D {
 
 	public:
-		OpenGLTexture2D();
+		OpenGLTexture2D(const Texture2DSpec& spec);
 		virtual ~OpenGLTexture2D();
 
 		OpenGLTexture2D(const OpenGLTexture2D&) = delete;

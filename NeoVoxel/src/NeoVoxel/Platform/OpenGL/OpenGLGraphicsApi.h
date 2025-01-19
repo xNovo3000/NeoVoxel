@@ -25,6 +25,7 @@ namespace NeoVoxel {
 
 		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec) override;
 		virtual ShaderRef createShader(const ShaderSpec& spec) override;
+		virtual Texture2DRef createTexture2D(const Texture2DSpec& spec) override;
 
 	};
 

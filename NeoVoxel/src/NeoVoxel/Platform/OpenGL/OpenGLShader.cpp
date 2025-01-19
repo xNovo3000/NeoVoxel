@@ -81,8 +81,8 @@ namespace NeoVoxel {
 	}
 
 	OpenGLShader::~OpenGLShader() {
-		NV_PROFILE;
 		if (m_ProgramHandle != OPENGL_INVALID_HANDLE) {
+			NV_PROFILE;
 			glCall(glDeleteProgram(m_ProgramHandle));
 		}
 	}

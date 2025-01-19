@@ -20,6 +20,7 @@
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/GraphicsApi.h>
 #include <NeoVoxel/Graphics/Shader.h>
+#include <NeoVoxel/Graphics/Texture.h>
 
 #include <NeoVoxel/Layer/EventListenerLayer.h>
 

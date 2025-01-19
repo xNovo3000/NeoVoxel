@@ -3,6 +3,7 @@
 #include "OpenGLErrorManagement.h"
 #include "OpenGLArrayBuffer.h"
 #include "OpenGLShader.h"
+#include "OpenGLTexture.h"
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
@@ -99,6 +100,10 @@ namespace NeoVoxel {
 
 	ShaderRef OpenGLGraphicsApi::createShader(const ShaderSpec& spec) {
 		return std::make_shared<OpenGLShader>(spec);
+	}
+
+	Texture2DRef OpenGLGraphicsApi::createTexture2D(const Texture2DSpec& spec) {
+		return std::make_shared<OpenGLTexture2D>(spec);
 	}
 
 }

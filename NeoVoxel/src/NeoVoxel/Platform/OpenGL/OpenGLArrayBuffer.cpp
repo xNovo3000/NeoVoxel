@@ -8,10 +8,10 @@ namespace NeoVoxel {
 
 	/* Utility */
 
-	static inline GLenum utility_GetDrawType(uint32_t drawType) {
+	static inline GLenum utility_GetDrawType(ArrayBufferDrawType drawType) {
 		switch (drawType) {
-			case 0: return GL_STATIC_DRAW;
-			case 1: return GL_DYNAMIC_DRAW;
+			case ArrayBufferDrawType::STATIC: return GL_STATIC_DRAW;
+			case ArrayBufferDrawType::DYNAMIC: return GL_DYNAMIC_DRAW;
 		}
 		return GL_STATIC_DRAW;
 	}
@@ -31,7 +31,7 @@ namespace NeoVoxel {
 	OpenGLArrayBuffer::OpenGLArrayBuffer(const ArrayBufferSpec& spec) : ArrayBuffer(),
 		m_VaoHandle(OPENGL_INVALID_HANDLE), m_EboHandle(OPENGL_INVALID_HANDLE), m_VboHandles(),
 		m_NumberOfVbos(static_cast<uint32_t>(spec.m_Elements.size())),
-		m_DrawType(static_cast<uint32_t>(spec.m_DrawType)), m_NumberOfVertices(0)
+		m_DrawType(spec.m_DrawType), m_NumberOfVertices(0)
 	{
 		NV_PROFILE;
 		// Out-of-bounds check
