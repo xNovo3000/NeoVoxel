@@ -25,7 +25,6 @@ public:
 
 		auto maybeStoneImage = assetLoader.loadImage("asset/texture/stone.png");
 		NeoVoxel::Texture2DSpec texture2DSpec{
-			NeoVoxel::TextureColorFormat::RGB,
 			NeoVoxel::TextureColorSpace::SDR,
 			NeoVoxel::TextureMipmapGeneration::ENABLED,
 			{

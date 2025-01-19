@@ -10,7 +10,6 @@
 
 namespace NeoVoxel {
 
-	enum class TextureColorFormat : uint8_t { RGB, RGBA };
 	enum class TextureColorSpace : uint8_t { SDR, HDR16, HDR32 };
 	enum class TextureMipmapGeneration : uint8_t { ENABLED, DISABLED };
 
@@ -18,7 +17,6 @@ namespace NeoVoxel {
 	enum class TextureParamsValue : uint8_t { WRAP_CLAMP_TO_EDGE, WRAP_REPEAT, FILTER_NEAREST, FILTER_LINEAR };
 
 	struct Texture2DSpec {
-		TextureColorFormat m_ColorFormat;
 		TextureColorSpace m_ColorSpace;
 		TextureMipmapGeneration m_MipmapGeneration;
 		std::map<TextureParamsName, TextureParamsValue> m_Parameters;

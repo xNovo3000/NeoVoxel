@@ -26,7 +26,6 @@ namespace NeoVoxel {
 
 	private:
 		GLuint m_TextureHandle;
-		TextureColorFormat m_ColorFormat;
 		TextureColorSpace m_ColorSpace;
 		TextureMipmapGeneration m_GenerateMipmaps;
 

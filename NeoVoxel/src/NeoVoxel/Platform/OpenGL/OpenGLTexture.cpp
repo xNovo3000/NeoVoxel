@@ -41,38 +41,19 @@ namespace NeoVoxel {
 		}
 	}
 
-	static inline GLint utility_GetInternalFormat(TextureColorFormat colorFormat, TextureColorSpace colorSpace) {
-		switch (colorFormat) {
-			case TextureColorFormat::RGB:
-				switch (colorSpace) {
-					case TextureColorSpace::SDR: return GL_RGB8;
-					case TextureColorSpace::HDR16: return GL_RGB16F;
-					case TextureColorSpace::HDR32: return GL_RGB32F;
-				}
-				break;
-			case TextureColorFormat::RGBA:
-				switch (colorSpace) {
-					case TextureColorSpace::SDR: return GL_RGBA8;
-					case TextureColorSpace::HDR16: return GL_RGBA16F;
-					case TextureColorSpace::HDR32: return GL_RGBA32F;
-				}
-				break;
+	static inline GLint utility_GetInternalFormat(TextureColorSpace colorSpace) {
+		switch (colorSpace) {
+			case TextureColorSpace::SDR: return GL_RGBA8;
+			case TextureColorSpace::HDR16: return GL_RGBA16F;
+			case TextureColorSpace::HDR32: return GL_RGBA32F;
 		}
-		return GL_RGB8;
-	}
-
-	static inline GLenum utility_GetFormat(TextureColorFormat colorFormat) {
-		switch (colorFormat) {
-			case TextureColorFormat::RGB: return GL_RGB;
-			case TextureColorFormat::RGBA: return GL_RGBA;
-		}
-		return GL_RGB;
+		return GL_RGBA8;
 	}
 
 	/* OpenGLTexture2D */
 
-	OpenGLTexture2D::OpenGLTexture2D(const Texture2DSpec& spec) : Texture2D(),
-		m_TextureHandle(OPENGL_INVALID_HANDLE), m_ColorFormat(spec.m_ColorFormat),
+	OpenGLTexture2D::OpenGLTexture2D(const Texture2DSpec& spec) :
+		Texture2D(), m_TextureHandle(OPENGL_INVALID_HANDLE),
 		m_ColorSpace(spec.m_ColorSpace), m_GenerateMipmaps(spec.m_MipmapGeneration)
 	{
 		NV_PROFILE;
@@ -94,8 +75,8 @@ namespace NeoVoxel {
 		}
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(OpenGLTexture2D&& other) noexcept : Texture2D(std::move(other)),
-		m_TextureHandle(other.m_TextureHandle), m_ColorFormat(other.m_ColorFormat),
+	OpenGLTexture2D::OpenGLTexture2D(OpenGLTexture2D&& other) noexcept :
+		Texture2D(std::move(other)), m_TextureHandle(other.m_TextureHandle),
 		m_ColorSpace(other.m_ColorSpace), m_GenerateMipmaps(other.m_GenerateMipmaps)
 	{
 		other.m_TextureHandle = OPENGL_INVALID_HANDLE;
@@ -104,7 +85,6 @@ namespace NeoVoxel {
 	OpenGLTexture2D& OpenGLTexture2D::operator=(OpenGLTexture2D&& other) noexcept {
 		Texture2D::operator=(std::move(other));
 		m_TextureHandle = other.m_TextureHandle;
-		m_ColorFormat = other.m_ColorFormat;
 		m_ColorSpace = other.m_ColorSpace;
 		m_GenerateMipmaps = other.m_GenerateMipmaps;
 		other.m_TextureHandle = OPENGL_INVALID_HANDLE;
@@ -119,18 +99,14 @@ namespace NeoVoxel {
 
 	void OpenGLTexture2D::update(const glm::ivec2& size) {
 		NV_PROFILE;
-		auto internalFormat = utility_GetInternalFormat(m_ColorFormat, m_ColorSpace);
-		auto format = utility_GetFormat(m_ColorFormat);
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr));
+		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 	}
 
 	void OpenGLTexture2D::update(const glm::ivec2& size, const std::vector<uint8_t>& data) {
 		NV_PROFILE;
-		auto internalFormat = utility_GetInternalFormat(m_ColorFormat, m_ColorSpace);
-		auto format = utility_GetFormat(m_ColorFormat);
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, data.data()));
+		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
 		if (m_GenerateMipmaps == TextureMipmapGeneration::ENABLED) {
 			glCall(glGenerateMipmap(GL_TEXTURE_2D));
@@ -139,10 +115,8 @@ namespace NeoVoxel {
 
 	void OpenGLTexture2D::subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data) {
 		NV_PROFILE;
-		auto internalFormat = utility_GetInternalFormat(m_ColorFormat, m_ColorSpace);
-		auto format = utility_GetFormat(m_ColorFormat);
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexSubImage2D(GL_TEXTURE_2D, 0, offset.x, offset.y, size.x, size.y, format, GL_UNSIGNED_BYTE, data.data()));
+		glCall(glTexSubImage2D(GL_TEXTURE_2D, 0, offset.x, offset.y, size.x, size.y, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
 		if (m_GenerateMipmaps == TextureMipmapGeneration::ENABLED) {
 			glCall(glGenerateMipmap(GL_TEXTURE_2D));
