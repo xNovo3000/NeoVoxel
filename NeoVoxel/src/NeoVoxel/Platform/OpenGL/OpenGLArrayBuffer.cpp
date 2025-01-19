@@ -1,6 +1,7 @@
 #include <PCH.h>
 #include "OpenGLArrayBuffer.h"
 #include "OpenGLErrorManagement.h"
+#include "OpenGLMemoryProfile.h"
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
@@ -89,6 +90,15 @@ namespace NeoVoxel {
 	OpenGLArrayBuffer::~OpenGLArrayBuffer() {
 		if (m_VaoHandle != OPENGL_INVALID_HANDLE) {
 			NV_PROFILE;
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 0, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 1, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 2, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 3, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 4, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 5, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 6, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 7, 0);
+			NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 8, 0);
 			// Destroy handles
 			glCall(glDeleteVertexArrays(1, &m_VaoHandle));
 			glCall(glDeleteBuffers(1, &m_EboHandle));
@@ -123,42 +133,49 @@ namespace NeoVoxel {
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<float>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(float));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(float), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<glm::vec2>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(glm::vec2));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec2), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<glm::vec3>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(glm::vec3));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec3), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<glm::vec4>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(glm::vec4));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(glm::vec4), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<std::pair<glm::vec2, glm::vec2>>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(std::pair<glm::vec2, glm::vec2>));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(std::pair<glm::vec2, glm::vec2>), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setVertexBufferData(uint32_t index, const std::vector<std::tuple<glm::vec3, glm::vec2, glm::vec3>>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, index, data.size() * sizeof(std::tuple<glm::vec3, glm::vec2, glm::vec3>));
 		glCall(glBindBuffer(GL_ARRAY_BUFFER, m_VboHandles[index]));
 		glCall(glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(std::tuple<glm::vec3, glm::vec2, glm::vec3>), data.data(), utility_GetDrawType(m_DrawType)));
 	}
 
 	void OpenGLArrayBuffer::setElementBufferData(const std::vector<uint32_t>& data) {
 		NV_PROFILE;
+		NV_PROFILE_MEMORY_ARRAY_BUFFER(m_VaoHandle, 8, data.size() * sizeof(uint32_t));
 		m_NumberOfVertices = static_cast<uint32_t>(data.size());
 		glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EboHandle));
 		glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(uint32_t), data.data(), utility_GetDrawType(m_DrawType)));

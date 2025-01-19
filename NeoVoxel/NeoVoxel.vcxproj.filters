@@ -112,6 +112,7 @@
     <ClInclude Include="include\NeoVoxel\Core\Asset.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLMemoryProfile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">

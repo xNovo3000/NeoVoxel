@@ -50,8 +50,9 @@ namespace NeoVoxel {
 			m_LastTime = currentTime;
 			// Read window/input events
 			auto events = m_Window->pollEvents();
-			// Trace current time and events
+			// Trace current time, events and GPU memory usage
 			NV_TRACE("{}: {} events in {} ms", m_Name, events.size(), timestep.deltaMilliseconds());
+			NV_PROFILE_MEMORY_PRINT;
 			// LayerStack update (reverse order)
 			for (auto& layer : m_LayerStack | std::views::reverse) {
 				layer->onUpdate(timestep, events);
