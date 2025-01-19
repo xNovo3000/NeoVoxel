@@ -17,7 +17,8 @@ project "NeoVoxel"
         "NV_BUILD_MODE_DIST=2",
         "NV_PLATFORM_DESKTOP=0",
         "GLFW_INCLUDE_NONE", "GLFW_DLL",
-        "SPDLOG_NO_SOURCE_LOC"
+        "SPDLOG_NO_SOURCE_LOC",
+        "GLM_ENABLE_EXPERIMENTAL"
     }
 
     files {

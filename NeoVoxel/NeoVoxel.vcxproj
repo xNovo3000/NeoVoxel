@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NV_BUILD_MODE=NV_BUILD_MODE_DEBUG;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;GLM_ENABLE_EXPERIMENTAL;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NV_BUILD_MODE=NV_BUILD_MODE_DEBUG;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_TRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;vendor\glad\include;vendor\glfw\include;vendor\glm\include;vendor\openal-soft\include;vendor\spdlog\include;vendor\stb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -103,7 +103,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Debug-windo
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NDEBUG;NV_BUILD_MODE=NV_BUILD_MODE_RELEASE;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;GLM_ENABLE_EXPERIMENTAL;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NDEBUG;NV_BUILD_MODE=NV_BUILD_MODE_RELEASE;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;vendor\glad\include;vendor\glfw\include;vendor\glm\include;vendor\openal-soft\include;vendor\spdlog\include;vendor\stb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -128,7 +128,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Release-win
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NDEBUG;NV_BUILD_MODE=NV_BUILD_MODE_DIST;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_ERROR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NV_BUILD_MODE_DEBUG=0;NV_BUILD_MODE_RELEASE=1;NV_BUILD_MODE_DIST=2;NV_PLATFORM_DESKTOP=0;GLFW_INCLUDE_NONE;GLFW_DLL;SPDLOG_NO_SOURCE_LOC;GLM_ENABLE_EXPERIMENTAL;NV_PLATFORM=NV_PLATFORM_DESKTOP;WINVER=_WIN32_WINNT_WIN10;_WIN32_WINNT=_WIN32_WINNT_WIN10;NTDDI_VERSION=NTDDI_WIN10_RS4;WIN32_LEAN_AND_MEAN;NOMINMAX;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;NDEBUG;NV_BUILD_MODE=NV_BUILD_MODE_DIST;SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_ERROR;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>include;vendor\glad\include;vendor\glfw\include;vendor\glm\include;vendor\openal-soft\include;vendor\spdlog\include;vendor\stb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -174,7 +174,10 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
     <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Camera2D.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
     <ClInclude Include="include\NeoVoxel\Layer.h" />
@@ -206,7 +209,9 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Core\Window.cpp" />
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Camera2D.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />

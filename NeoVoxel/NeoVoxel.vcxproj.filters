@@ -16,6 +16,12 @@
     <Filter Include="include\NeoVoxel\Debug">
       <UniqueIdentifier>{1E79C294-0A73-EBE6-F3DF-81F7DF785153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\NeoVoxel\Graphics">
+      <UniqueIdentifier>{E895B962-5458-EDEC-9D08-7C79090AC6CA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NeoVoxel\Layer">
+      <UniqueIdentifier>{746B5195-6065-7AE7-49D2-10F8356BE053}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
@@ -28,11 +34,26 @@
     <Filter Include="src\NeoVoxel\Core\Event">
       <UniqueIdentifier>{F554BC39-618C-04D1-6A96-68F4D64C2BCA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\NeoVoxel\Debug">
+      <UniqueIdentifier>{4258234C-2E3C-E4A1-979C-DEF4839FCE23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Graphics">
+      <UniqueIdentifier>{8CD275D8-F83E-31D3-C132-C9302D5E533B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Layer">
+      <UniqueIdentifier>{984AB24C-842E-73A2-ED8E-6DF5D9915D24}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\NeoVoxel\Platform">
       <UniqueIdentifier>{A0463059-0CB3-EB53-D5A6-83B141D20DBC}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\NeoVoxel\Platform\Common">
+      <UniqueIdentifier>{D89FDB92-C45A-CB3E-6D12-448959AC15CF}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\NeoVoxel\Platform\Desktop">
       <UniqueIdentifier>{69D16124-D5E9-484E-9E96-D8E70A6EDDE7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Platform\OpenGL">
+      <UniqueIdentifier>{D43BE7AE-C0F6-D65A-69AE-4FA5554821EB}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Application.h">
       <Filter>include\NeoVoxel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Core\Asset.h">
+      <Filter>include\NeoVoxel\Core</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Core\Base.h">
       <Filter>include\NeoVoxel\Core</Filter>
@@ -81,14 +105,38 @@
     <ClInclude Include="include\NeoVoxel\Debug\Log.h">
       <Filter>include\NeoVoxel\Debug</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Debug\Profile.h">
+      <Filter>include\NeoVoxel\Debug</Filter>
+    </ClInclude>
     <ClInclude Include="include\NeoVoxel\Entrypoint.h">
       <Filter>include\NeoVoxel</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Camera2D.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Shader.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Texture.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Layer.h">
       <Filter>include\NeoVoxel</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h">
+      <Filter>include\NeoVoxel\Layer</Filter>
+    </ClInclude>
     <ClInclude Include="include\PCH.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\Common\BaseLayer.h">
+      <Filter>src\NeoVoxel\Platform\Common</Filter>
     </ClInclude>
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.h">
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
@@ -99,24 +147,33 @@
     <ClInclude Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.h">
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
     </ClInclude>
-    <ClInclude Include="include\NeoVoxel\Debug\Profile.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\Common\BaseLayer.h" />
-    <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLErrorManagement.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="include\NeoVoxel\Core\Asset.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLMemoryProfile.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLErrorManagement.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLMemoryProfile.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
       <Filter>src\NeoVoxel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Core\Asset.cpp">
+      <Filter>src\NeoVoxel\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Core\Event.cpp">
       <Filter>src\NeoVoxel\Core</Filter>
@@ -148,8 +205,32 @@
     <ClCompile Include="src\NeoVoxel\Core\Window.cpp">
       <Filter>src\NeoVoxel\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp">
+      <Filter>src\NeoVoxel\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Camera2D.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\NeoVoxel\Layer.cpp">
       <Filter>src\NeoVoxel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp">
+      <Filter>src\NeoVoxel\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp">
+      <Filter>src\NeoVoxel\Platform\Common</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\FramerateLimiter.cpp">
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
@@ -160,20 +241,21 @@
     <ClCompile Include="src\NeoVoxel\Platform\Desktop\GlfwWindow.cpp">
       <Filter>src\NeoVoxel\Platform\Desktop</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.cpp">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.cpp">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="src\NeoVoxel\Core\Asset.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
   </ItemGroup>
 </Project>
