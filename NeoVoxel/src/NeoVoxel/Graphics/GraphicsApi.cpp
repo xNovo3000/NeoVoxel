@@ -19,4 +19,8 @@ namespace NeoVoxel {
 		return std::make_shared<Shader>();
 	}
 
+	Texture2DRef GraphicsApi::createTexture2D(const Texture2DSpec& spec) {
+		return std::make_shared<Texture2D>();
+	}
+
 }

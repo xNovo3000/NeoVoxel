@@ -110,6 +110,8 @@
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.h" />
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="include\NeoVoxel\Core\Asset.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -170,5 +172,7 @@
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Asset.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.cpp" />
   </ItemGroup>
 </Project>

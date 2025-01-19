@@ -3,6 +3,7 @@
 #include <NeoVoxel/Core/Base.h>
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/Shader.h>
+#include <NeoVoxel/Graphics/Texture.h>
 
 #include <glm/glm.hpp>
 
@@ -36,6 +37,7 @@ namespace NeoVoxel {
 
 		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec);
 		virtual ShaderRef createShader(const ShaderSpec& spec);
+		virtual Texture2DRef createTexture2D(const Texture2DSpec& spec);
 
 		const char* getName() const noexcept { return m_Name; }
 
