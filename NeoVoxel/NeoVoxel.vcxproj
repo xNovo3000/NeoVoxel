@@ -180,6 +180,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
     <ClInclude Include="include\NeoVoxel\Layer.h" />
     <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
     <ClInclude Include="include\PCH.h" />
@@ -214,6 +215,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />

@@ -9,10 +9,7 @@ namespace NeoVoxel {
 	OrthographicProjection::OrthographicProjection(float zoom) : m_Zoom(zoom) {}
 
 	void OrthographicProjection::setZoom(float zoom) {
-		m_Zoom = zoom;
-		if (m_Zoom <= 0.0F) {
-			m_Zoom = glm::epsilon<float>();
-		}
+		m_Zoom = std::clamp(zoom, 0.01F, 100.0F);
 	}
 
 	glm::mat4 OrthographicProjection::getProjectionMatrix(float aspectRatio) const {

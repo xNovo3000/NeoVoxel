@@ -167,6 +167,7 @@
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -257,5 +258,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />
   </ItemGroup>
 </Project>

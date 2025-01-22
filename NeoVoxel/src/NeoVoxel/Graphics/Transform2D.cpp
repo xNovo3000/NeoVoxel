@@ -1,18 +1,18 @@
 #include <PCH.h>
-#include <NeoVoxel/Graphics/Camera2D.h>
+#include <NeoVoxel/Graphics/Transform2D.h>
 
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 
 namespace NeoVoxel {
 
-	Camera2D::Camera2D() : m_Position(0.0F), m_Roll(0.0F) {}
+	Transform2D::Transform2D() : m_Position(0.0F), m_Roll(0.0F), m_Scale(1.0F) {}
 
-	void Camera2D::setPosition(const glm::vec2& position) {
+	void Transform2D::setPosition(const glm::vec2& position) {
 		m_Position = position;
 	}
 
-	void Camera2D::setRoll(float roll) {
+	void Transform2D::setRoll(float roll) {
 		m_Roll = roll;
 		while (m_Roll > glm::pi<float>()) {
 			m_Roll -= glm::two_pi<float>();
@@ -22,8 +22,13 @@ namespace NeoVoxel {
 		}
 	}
 
-	glm::mat3 Camera2D::getViewMatrix() const {
+	void Transform2D::setScale(float scale) {
+		m_Scale = std::clamp(scale, 0.001F, 1000.0F);
+	}
+
+	glm::mat3 Transform2D::getViewMatrix() const {
 		auto result = glm::mat3(1.0F);
+		result = glm::scale(result, glm::vec2(m_Scale));
 		result = glm::rotate(result, -m_Roll);
 		result = glm::translate(result, -m_Position);
 		return result;
