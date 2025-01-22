@@ -7,8 +7,6 @@ namespace NeoVoxel {
 
 	void Framebuffer::bind() {}
 
-	void Framebuffer::setSize(const glm::ivec2& size) {
-		m_ColorAttachment->update(size);
-	}
+	void Framebuffer::setSize(const glm::ivec2& size) {}
 
 }
