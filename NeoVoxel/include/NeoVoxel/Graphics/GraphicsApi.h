@@ -2,6 +2,7 @@
 
 #include <NeoVoxel/Core/Base.h>
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
+#include <NeoVoxel/Graphics/Framebuffer.h>
 #include <NeoVoxel/Graphics/Shader.h>
 #include <NeoVoxel/Graphics/Texture.h>
 
@@ -36,6 +37,7 @@ namespace NeoVoxel {
 		virtual void setViewport(const glm::ivec2& viewport);
 
 		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec);
+		virtual FramebufferRef createFramebuffer(const FramebufferSpec& spec);
 		virtual ShaderRef createShader(const ShaderSpec& spec);
 		virtual Texture2DRef createTexture2D(const Texture2DSpec& spec);
 

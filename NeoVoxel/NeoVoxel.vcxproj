@@ -175,6 +175,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Camera2D.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Framebuffer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
@@ -211,6 +212,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Camera2D.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Framebuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />

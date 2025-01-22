@@ -168,6 +168,7 @@
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Framebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -259,5 +260,6 @@
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Framebuffer.cpp" />
   </ItemGroup>
 </Project>
