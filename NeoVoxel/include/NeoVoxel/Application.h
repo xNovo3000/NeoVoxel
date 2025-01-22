@@ -61,4 +61,9 @@ namespace NeoVoxel {
 
 	};
 
+#define NV_GET_ASSET_LOADER		::NeoVoxel::Application::get().getAssetLoader()
+#define NV_GET_WINDOW			::NeoVoxel::Application::get().getWindow()
+#define NV_GET_INPUT			::NeoVoxel::Application::get().getInput()
+#define NV_GET_GRAPHICS_API		::NeoVoxel::Application::get().getGraphicsApi()
+
 }

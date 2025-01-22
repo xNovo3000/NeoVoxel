@@ -2,7 +2,7 @@
 #include <NeoVoxel/Graphics/Transform2D.h>
 
 #include <glm/gtc/constants.hpp>
-#include <glm/gtx/matrix_transform_2d.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace NeoVoxel {
 
@@ -26,11 +26,11 @@ namespace NeoVoxel {
 		m_Scale = std::clamp(scale, 0.001F, 1000.0F);
 	}
 
-	glm::mat3 Transform2D::getViewMatrix() const {
-		auto result = glm::mat3(1.0F);
-		result = glm::scale(result, glm::vec2(m_Scale));
-		result = glm::rotate(result, -m_Roll);
-		result = glm::translate(result, -m_Position);
+	glm::mat4 Transform2D::getViewMatrix() const {
+		auto result = glm::mat4(1.0F);
+		result = glm::scale(result, glm::vec3(m_Scale));
+		result = glm::rotate(result, -m_Roll, glm::vec3(0.0F, 0.0F, 1.0F));
+		result = glm::translate(result, -glm::vec3(m_Position, 0.0F));
 		return result;
 	}
 

@@ -24,7 +24,7 @@ namespace NeoVoxel {
 		const glm::vec2& getPosition() const noexcept { return m_Position; }
 		float getRoll() const noexcept { return m_Roll; }
 
-		glm::mat3 getViewMatrix() const;
+		glm::mat4 getViewMatrix() const;
 
 	private:
 		glm::vec2 m_Position;
