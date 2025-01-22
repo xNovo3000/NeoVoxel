@@ -94,7 +94,7 @@ public:
 		m_Shader->activate();
 		m_Shader->setUniform(0, m_Projection.getProjectionMatrix(aspectRatio));
 		m_Shader->setUniform(1, m_Camera2D.getViewMatrix());
-		m_Shader->setUniform(2, glm::mat4(1.0F));
+		m_Shader->setUniform(2, m_Transform.getModelMatrix());
 		m_Shader->setUniform(3, 0);
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
@@ -104,6 +104,7 @@ public:
 private:
 	NeoVoxel::Camera2D m_Camera2D;
 	NeoVoxel::OrthographicProjection m_Projection;
+	NeoVoxel::Transform2D m_Transform;
 	NeoVoxel::ArrayBufferRef m_ArrayBuffer;
 	NeoVoxel::ShaderRef m_Shader;
 	NeoVoxel::Texture2DRef m_Texture2D;
