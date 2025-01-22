@@ -23,9 +23,9 @@ namespace NeoVoxel {
 		Framebuffer(Framebuffer&&) noexcept = default;
 		Framebuffer& operator=(Framebuffer&&) noexcept = default;
 
-		void bind();
+		virtual void bind();
 
-		void setSize(const glm::ivec2& size);
+		virtual void setSize(const glm::ivec2& size);
 
 		const Texture2DRef& getColorAttachment() const noexcept { return m_ColorAttachment; }
 
