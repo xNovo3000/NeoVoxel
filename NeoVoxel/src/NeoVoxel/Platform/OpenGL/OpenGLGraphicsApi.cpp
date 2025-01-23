@@ -2,6 +2,7 @@
 #include "OpenGLGraphicsApi.h"
 #include "OpenGLErrorManagement.h"
 #include "OpenGLArrayBuffer.h"
+#include "OpenGLFramebuffer.h"
 #include "OpenGLShader.h"
 #include "OpenGLTexture.h"
 #include <NeoVoxel/Debug/Log.h>
@@ -94,8 +95,28 @@ namespace NeoVoxel {
 		glCall(glViewport(0, 0, viewport.x, viewport.y));
 	}
 
+	void OpenGLGraphicsApi::unbindFramebuffer() {
+		NV_PROFILE;
+		glCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+	}
+
 	ArrayBufferRef OpenGLGraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
 		return std::make_shared<OpenGLArrayBuffer>(spec);
+	}
+
+	FramebufferRef OpenGLGraphicsApi::createFramebuffer(const FramebufferSpec& spec) {
+		Texture2DSpec textureSpec{
+			spec.m_ColorSpace,
+			TextureMipmapGeneration::DISABLED,
+			{
+				{ TextureParamsName::FILTER_MAG, TextureParamsValue::FILTER_LINEAR },
+				{ TextureParamsName::FILTER_MIN, TextureParamsValue::FILTER_NEAREST },
+				{ TextureParamsName::WRAP_S, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+				{ TextureParamsName::WRAP_T, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+			}
+		};
+		auto textureRef = createTexture2D(textureSpec);
+		return std::make_shared<OpenGLFramebuffer>(textureRef, spec);
 	}
 
 	ShaderRef OpenGLGraphicsApi::createShader(const ShaderSpec& spec) {

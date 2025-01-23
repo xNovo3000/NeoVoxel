@@ -19,6 +19,7 @@
 
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/Camera2D.h>
+#include <NeoVoxel/Graphics/Framebuffer.h>
 #include <NeoVoxel/Graphics/GraphicsApi.h>
 #include <NeoVoxel/Graphics/Projection.h>
 #include <NeoVoxel/Graphics/Shader.h>

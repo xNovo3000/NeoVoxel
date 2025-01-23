@@ -24,6 +24,8 @@ namespace NeoVoxel {
 		virtual void update(const glm::ivec2& size, const std::vector<uint8_t>& data);
 		virtual void subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data);
 
+		GLuint getTextureHandle() const noexcept { return m_TextureHandle; }
+
 	private:
 		GLuint m_TextureHandle;
 		TextureColorSpace m_ColorSpace;

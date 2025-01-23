@@ -11,8 +11,25 @@ namespace NeoVoxel {
 
 	void GraphicsApi::setViewport(const glm::ivec2& viewport) {}
 
+	void GraphicsApi::unbindFramebuffer() {}
+
 	ArrayBufferRef GraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
 		return std::make_shared<ArrayBuffer>();
+	}
+
+	FramebufferRef GraphicsApi::createFramebuffer(const FramebufferSpec& spec) {
+		Texture2DSpec textureSpec{
+			spec.m_ColorSpace,
+			TextureMipmapGeneration::DISABLED,
+			{
+				{ TextureParamsName::FILTER_MAG, TextureParamsValue::FILTER_LINEAR },
+				{ TextureParamsName::FILTER_MIN, TextureParamsValue::FILTER_NEAREST },
+				{ TextureParamsName::WRAP_S, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+				{ TextureParamsName::WRAP_T, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+			}
+		};
+		auto textureRef = createTexture2D(textureSpec);
+		return std::make_shared<Framebuffer>(textureRef);
 	}
 
 	ShaderRef GraphicsApi::createShader(const ShaderSpec& spec) {
