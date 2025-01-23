@@ -93,6 +93,7 @@ namespace NeoVoxel {
 	OpenGLTexture2D::~OpenGLTexture2D() {
 		if (m_TextureHandle != OPENGL_INVALID_HANDLE) {
 			NV_PROFILE;
+			NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, 0);
 			glCall(glDeleteTextures(1, &m_TextureHandle));
 		}
 	}
@@ -121,14 +122,14 @@ namespace NeoVoxel {
 
 	void OpenGLTexture2D::update(const glm::ivec2& size) {
 		NV_PROFILE;
-		NV_PROFILE_MEMORY(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace));
+		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
 		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 	}
 
 	void OpenGLTexture2D::update(const glm::ivec2& size, const std::vector<uint8_t>& data) {
 		NV_PROFILE;
-		NV_PROFILE_MEMORY(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace) * utility_GenerateMipmapMultiplier(m_GenerateMipmaps));
+		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace) * utility_GenerateMipmapMultiplier(m_GenerateMipmaps));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
 		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
