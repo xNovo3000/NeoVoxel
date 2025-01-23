@@ -17,6 +17,8 @@ public:
 
 		auto maybeVertexShader = assetLoader.loadStringFile("asset/shader/2d.vert");
 		auto maybeFragmentShader = assetLoader.loadStringFile("asset/shader/2d.frag");
+		auto maybePostprocessingVertexShader = assetLoader.loadStringFile("asset/shader/post.vert");
+		auto maybePostprocessingFragmentShader = assetLoader.loadStringFile("asset/shader/post.frag");
 		auto maybeStoneImage = assetLoader.loadImage("asset/texture/stone.png");
 
 		/* Create objects */
@@ -26,9 +28,12 @@ public:
 			NeoVoxel::ArrayBufferDrawType::STATIC
 		};
 		m_ArrayBuffer = graphicsApi.createArrayBuffer(arrayBufferSpec);
+		m_PostprocessingBuffer = graphicsApi.createArrayBuffer(arrayBufferSpec);
 
 		NeoVoxel::ShaderSpec shaderSpec{ *maybeVertexShader, std::nullopt, *maybeFragmentShader };
 		m_Shader = graphicsApi.createShader(shaderSpec);
+		NeoVoxel::ShaderSpec postprocessingShaderSpec{ *maybePostprocessingVertexShader, std::nullopt, *maybePostprocessingFragmentShader };
+		m_PostprocessingShader = graphicsApi.createShader(postprocessingShaderSpec);
 
 		NeoVoxel::Texture2DSpec texture2DSpec{
 			NeoVoxel::TextureColorSpace::SDR,
@@ -42,6 +47,12 @@ public:
 		};
 		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
 
+		NeoVoxel::FramebufferSpec framebufferSpec{
+			NeoVoxel::TextureColorSpace::SDR,
+			{ 960, 540 }
+		};
+		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(framebufferSpec);
+
 		/* Update data */
 
 		std::vector<std::pair<glm::vec2, glm::vec2>> positionsAndUvs = {
@@ -50,10 +61,18 @@ public:
 			{ {  0.5F, -0.5F }, { 1.0F, 0.0F } },
 			{ {  0.5F,  0.5F }, { 1.0F, 1.0F } }
 		};
+		std::vector<std::pair<glm::vec2, glm::vec2>> postprocessingPositionsAndUvs = {
+			{ { -1.0F, -1.0F }, { 0.0F, 0.0F } },
+			{ { -1.0F,  1.0F }, { 0.0F, 1.0F } },
+			{ {  1.0F, -1.0F }, { 1.0F, 0.0F } },
+			{ {  1.0F,  1.0F }, { 1.0F, 1.0F } }
+		};
 		std::vector<uint32_t> indices = { 0, 2, 1, 2, 3, 1 };
 
 		m_ArrayBuffer->setVertexBufferData(0, positionsAndUvs);
 		m_ArrayBuffer->setElementBufferData(indices);
+		m_PostprocessingBuffer->setVertexBufferData(0, postprocessingPositionsAndUvs);
+		m_PostprocessingBuffer->setElementBufferData(indices);
 
 		m_Texture2D->update((*maybeStoneImage).m_Size, (*maybeStoneImage).m_Data);
 
@@ -88,8 +107,17 @@ public:
 	virtual void onRender() override {
 		EventListenerLayer::onRender();
 
+		auto& graphicsApi = NV_GET_GRAPHICS_API;
 		auto& window = NV_GET_WINDOW;
-		auto aspectRatio = static_cast<float>(window.getSize().x) / static_cast<float>(window.getSize().y);
+
+		auto windowSize = window.getSize();
+		auto aspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
+
+		m_PostprocessingFramebuffer->setSize(windowSize);
+		m_PostprocessingFramebuffer->bind();
+
+		graphicsApi.clearColor();
+		graphicsApi.clearDepth();
 
 		m_Shader->activate();
 		m_Shader->setUniform(0, m_Projection.getProjectionMatrix(aspectRatio));
@@ -99,15 +127,23 @@ public:
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
+		graphicsApi.unbindFramebuffer();
+
+		m_PostprocessingShader->activate();
+		m_PostprocessingShader->setUniform(0, 0);
+		m_PostprocessingFramebuffer->getColorAttachment()->bind();
+		m_PostprocessingBuffer->render();
+
 	}
 
 private:
 	NeoVoxel::Camera2D m_Camera2D;
 	NeoVoxel::OrthographicProjection m_Projection;
 	NeoVoxel::Transform2D m_Transform;
-	NeoVoxel::ArrayBufferRef m_ArrayBuffer;
-	NeoVoxel::ShaderRef m_Shader;
+	NeoVoxel::ArrayBufferRef m_ArrayBuffer, m_PostprocessingBuffer;
+	NeoVoxel::ShaderRef m_Shader, m_PostprocessingShader;
 	NeoVoxel::Texture2DRef m_Texture2D;
+	NeoVoxel::FramebufferRef m_PostprocessingFramebuffer;
 
 };
 

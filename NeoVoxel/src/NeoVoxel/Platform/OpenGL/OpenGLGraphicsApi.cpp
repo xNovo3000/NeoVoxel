@@ -95,6 +95,11 @@ namespace NeoVoxel {
 		glCall(glViewport(0, 0, viewport.x, viewport.y));
 	}
 
+	void OpenGLGraphicsApi::unbindFramebuffer() {
+		NV_PROFILE;
+		glCall(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+	}
+
 	ArrayBufferRef OpenGLGraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
 		return std::make_shared<OpenGLArrayBuffer>(spec);
 	}

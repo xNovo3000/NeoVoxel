@@ -36,6 +36,8 @@ namespace NeoVoxel {
 
 		virtual void setViewport(const glm::ivec2& viewport);
 
+		virtual void unbindFramebuffer();
+
 		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec);
 		virtual FramebufferRef createFramebuffer(const FramebufferSpec& spec);
 		virtual ShaderRef createShader(const ShaderSpec& spec);
