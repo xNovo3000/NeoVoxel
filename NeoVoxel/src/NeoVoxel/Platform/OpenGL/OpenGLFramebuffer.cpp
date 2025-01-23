@@ -14,6 +14,8 @@ namespace NeoVoxel {
 	{
 		NV_PROFILE;
 		NV_PROFILE_MEMORY_FRAMEBUFFER(m_FramebufferHandle, spec.m_Size.x * spec.m_Size.y * 4);
+		// Color attachment texture
+		m_ColorAttachment->update(spec.m_Size);
 		// Depth-stencil renderbuffer
 		glCall(glGenRenderbuffers(1, &m_DepthStencilRenderbufferHandle));
 		glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthStencilRenderbufferHandle));
