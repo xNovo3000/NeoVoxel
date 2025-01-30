@@ -74,7 +74,7 @@ public:
 		m_PostprocessingBuffer->setVertexBufferData(0, postprocessingPositionsAndUvs);
 		m_PostprocessingBuffer->setElementBufferData(indices);
 
-		m_Texture2D->update((*maybeStoneImage).m_Size, (*maybeStoneImage).m_Data);
+		m_Texture2D->update((*maybeStoneImage).m_Size, (*maybeStoneImage).m_Data, NeoVoxel::TextureDataChannels::RGBA);
 
 	}
 

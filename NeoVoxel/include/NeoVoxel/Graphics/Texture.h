@@ -11,6 +11,7 @@
 namespace NeoVoxel {
 
 	enum class TextureChannels : uint8_t { RED_8, RGB_8, RGBA_8, RGB_16, RGBA_16, SRGB_8, SRGBA_8 };
+	enum class TextureDataChannels : uint8_t { RED, RGB, RGBA };
 	enum class TextureMipmapGeneration : uint8_t { ENABLED, DISABLED };
 
 	enum class TextureParamsName : uint8_t { WRAP_S, WRAP_T, FILTER_MIN, FILTER_MAG };
@@ -37,8 +38,8 @@ namespace NeoVoxel {
 		virtual void bind(uint32_t slot = 0);
 
 		virtual void update(const glm::ivec2& size);
-		virtual void update(const glm::ivec2& size, const std::vector<uint8_t>& data);
-		virtual void subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data);
+		virtual void update(const glm::ivec2& size, const std::vector<uint8_t>& data, TextureDataChannels channels);
+		virtual void subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data, TextureDataChannels channels);
 
 	};
 

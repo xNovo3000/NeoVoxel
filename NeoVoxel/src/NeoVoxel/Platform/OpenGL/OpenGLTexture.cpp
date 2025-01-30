@@ -42,6 +42,15 @@ namespace NeoVoxel {
 		}
 	}
 
+	static inline GLint utility_GetFormat(TextureDataChannels channels) {
+		switch (channels) {
+			case TextureDataChannels::RED: return GL_RED;
+			case TextureDataChannels::RGB: return GL_RGB;
+			case TextureDataChannels::RGBA: return GL_RGBA;
+		}
+		return GL_RGBA;
+	}
+
 	static inline GLint utility_GetInternalFormat(TextureChannels channels) {
 		switch (channels) {
 			case TextureChannels::RED_8: return GL_R8;
@@ -135,21 +144,21 @@ namespace NeoVoxel {
 		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 	}
 
-	void OpenGLTexture2D::update(const glm::ivec2& size, const std::vector<uint8_t>& data) {
+	void OpenGLTexture2D::update(const glm::ivec2& size, const std::vector<uint8_t>& data, TextureDataChannels channels) {
 		NV_PROFILE;
 		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_Channels) * utility_GenerateMipmapMultiplier(m_GenerateMipmaps));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
+		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, utility_GetFormat(channels), GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
 		if (m_GenerateMipmaps == TextureMipmapGeneration::ENABLED) {
 			glCall(glGenerateMipmap(GL_TEXTURE_2D));
 		}
 	}
 
-	void OpenGLTexture2D::subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data) {
+	void OpenGLTexture2D::subUpdate(const glm::ivec2& size, const glm::ivec2& offset, const std::vector<uint8_t>& data, TextureDataChannels channels) {
 		NV_PROFILE;
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexSubImage2D(GL_TEXTURE_2D, 0, offset.x, offset.y, size.x, size.y, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
+		glCall(glTexSubImage2D(GL_TEXTURE_2D, 0, offset.x, offset.y, size.x, size.y, utility_GetFormat(channels), GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
 		if (m_GenerateMipmaps == TextureMipmapGeneration::ENABLED) {
 			glCall(glGenerateMipmap(GL_TEXTURE_2D));
