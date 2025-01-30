@@ -6,7 +6,7 @@
 namespace NeoVoxel {
 
 	OrthographicProjection::OrthographicProjection() : OrthographicProjection(1.0F) {}
-	OrthographicProjection::OrthographicProjection(float zoom) : m_Zoom(zoom) {}
+	OrthographicProjection::OrthographicProjection(float zoom) : m_Zoom(1.0F) { setZoom(zoom); }
 
 	void OrthographicProjection::setZoom(float zoom) {
 		m_Zoom = std::clamp(zoom, 0.01F, 100.0F);

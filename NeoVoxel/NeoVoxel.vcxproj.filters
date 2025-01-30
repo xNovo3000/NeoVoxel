@@ -172,6 +172,7 @@
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Camera3D.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Transform3D.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -267,5 +268,6 @@
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Camera3D.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Transform3D.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp" />
   </ItemGroup>
 </Project>
