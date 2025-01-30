@@ -42,22 +42,30 @@ namespace NeoVoxel {
 		}
 	}
 
-	static inline GLint utility_GetInternalFormat(TextureColorSpace colorSpace) {
-		switch (colorSpace) {
-			case TextureColorSpace::SDR: return GL_RGBA8;
-			case TextureColorSpace::HDR16: return GL_RGBA16F;
-			case TextureColorSpace::HDR32: return GL_RGBA32F;
+	static inline GLint utility_GetInternalFormat(TextureChannels channels) {
+		switch (channels) {
+			case TextureChannels::RED_8: return GL_R8;
+			case TextureChannels::RGB_8: return GL_RGB8;
+			case TextureChannels::RGBA_8: return GL_RGBA8;
+			case TextureChannels::RGB_16: return GL_RGB16F;
+			case TextureChannels::RGBA_16: return GL_RGBA16F;
+			case TextureChannels::SRGB_8: return GL_SRGB8;
+			case TextureChannels::SRGBA_8: return GL_SRGB8_ALPHA8;
 		}
 		return GL_RGBA8;
 	}
 
 #if NV_BUILD_MODE == NV_BUILD_MODE_DEBUG
 
-	static inline uint32_t utility_GetInternalFormatSize(TextureColorSpace colorSpace) {
-		switch (colorSpace) {
-			case TextureColorSpace::SDR: return 4;
-			case TextureColorSpace::HDR16: return 8;
-			case TextureColorSpace::HDR32: return 16;
+	static inline uint32_t utility_GetInternalFormatSize(TextureChannels channels) {
+		switch (channels) {
+			case TextureChannels::RED_8: return 1;
+			case TextureChannels::RGB_8: return 3;
+			case TextureChannels::RGBA_8: return 4;
+			case TextureChannels::RGB_16: return 6;
+			case TextureChannels::RGBA_16: return 8;
+			case TextureChannels::SRGB_8: return 3;
+			case TextureChannels::SRGBA_8: return 4;
 		}
 		return 0;
 	}
@@ -76,7 +84,7 @@ namespace NeoVoxel {
 
 	OpenGLTexture2D::OpenGLTexture2D(const Texture2DSpec& spec) :
 		Texture2D(), m_TextureHandle(OPENGL_INVALID_HANDLE),
-		m_ColorSpace(spec.m_ColorSpace), m_GenerateMipmaps(spec.m_MipmapGeneration)
+		m_Channels(spec.m_Channels), m_GenerateMipmaps(spec.m_MipmapGeneration)
 	{
 		NV_PROFILE;
 		// Generate texture
@@ -100,7 +108,7 @@ namespace NeoVoxel {
 
 	OpenGLTexture2D::OpenGLTexture2D(OpenGLTexture2D&& other) noexcept :
 		Texture2D(std::move(other)), m_TextureHandle(other.m_TextureHandle),
-		m_ColorSpace(other.m_ColorSpace), m_GenerateMipmaps(other.m_GenerateMipmaps)
+		m_Channels(other.m_Channels), m_GenerateMipmaps(other.m_GenerateMipmaps)
 	{
 		other.m_TextureHandle = OPENGL_INVALID_HANDLE;
 	}
@@ -108,7 +116,7 @@ namespace NeoVoxel {
 	OpenGLTexture2D& OpenGLTexture2D::operator=(OpenGLTexture2D&& other) noexcept {
 		Texture2D::operator=(std::move(other));
 		m_TextureHandle = other.m_TextureHandle;
-		m_ColorSpace = other.m_ColorSpace;
+		m_Channels = other.m_Channels;
 		m_GenerateMipmaps = other.m_GenerateMipmaps;
 		other.m_TextureHandle = OPENGL_INVALID_HANDLE;
 		return *this;
@@ -122,16 +130,16 @@ namespace NeoVoxel {
 
 	void OpenGLTexture2D::update(const glm::ivec2& size) {
 		NV_PROFILE;
-		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace));
+		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_Channels));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
+		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 	}
 
 	void OpenGLTexture2D::update(const glm::ivec2& size, const std::vector<uint8_t>& data) {
 		NV_PROFILE;
-		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_ColorSpace) * utility_GenerateMipmapMultiplier(m_GenerateMipmaps));
+		NV_PROFILE_MEMORY_TEXTURE_2D(m_TextureHandle, size.x * size.y * utility_GetInternalFormatSize(m_Channels) * utility_GenerateMipmapMultiplier(m_GenerateMipmaps));
 		glCall(glBindTexture(GL_TEXTURE_2D, m_TextureHandle));
-		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_ColorSpace), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
+		glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data()));
 		// Generate mipmaps (if required)
 		if (m_GenerateMipmaps == TextureMipmapGeneration::ENABLED) {
 			glCall(glGenerateMipmap(GL_TEXTURE_2D));

@@ -106,7 +106,7 @@ namespace NeoVoxel {
 
 	FramebufferRef OpenGLGraphicsApi::createFramebuffer(const FramebufferSpec& spec) {
 		Texture2DSpec textureSpec{
-			spec.m_ColorSpace,
+			spec.m_Channels,
 			TextureMipmapGeneration::DISABLED,
 			{
 				{ TextureParamsName::FILTER_MAG, TextureParamsValue::FILTER_LINEAR },

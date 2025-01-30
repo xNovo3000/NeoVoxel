@@ -18,7 +18,7 @@ namespace NeoVoxel {
 	#define NV_PROFILE_STOP					::NeoVoxel::GpuMemoryProfiler::stop()
 	#define NV_PROFILE
 	#define NV_PROFILE_MEMORY(id, bytes)	::NeoVoxel::GpuMemoryProfiler::trace(id, bytes)
-	#define NV_PROFILE_MEMORY_PRINT			NV_TRACE("GpuMemoryProfiler: {} bytes used", ::NeoVoxel::GpuMemoryProfiler::getTotal())
+	#define NV_PROFILE_MEMORY_PRINT			NV_TRACE("GpuMemoryProfiler: {} MBs used", static_cast<float>(::NeoVoxel::GpuMemoryProfiler::getTotal()) / (1024.0F * 1024.0F))
 
 #elif NV_BUILD_MODE == NV_BUILD_MODE_RELEASE
 

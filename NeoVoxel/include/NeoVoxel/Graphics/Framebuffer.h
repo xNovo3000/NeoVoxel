@@ -8,7 +8,7 @@
 namespace NeoVoxel {
 
 	struct FramebufferSpec {
-		TextureColorSpace m_ColorSpace;
+		TextureChannels m_Channels;
 		glm::ivec2 m_Size;
 	};
 

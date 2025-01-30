@@ -36,7 +36,7 @@ public:
 		m_PostprocessingShader = graphicsApi.createShader(postprocessingShaderSpec);
 
 		NeoVoxel::Texture2DSpec texture2DSpec{
-			NeoVoxel::TextureColorSpace::SDR,
+			NeoVoxel::TextureChannels::RGBA_8,
 			NeoVoxel::TextureMipmapGeneration::ENABLED,
 			{
 				{ NeoVoxel::TextureParamsName::FILTER_MAG, NeoVoxel::TextureParamsValue::FILTER_NEAREST },
@@ -48,7 +48,7 @@ public:
 		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
 
 		NeoVoxel::FramebufferSpec framebufferSpec{
-			NeoVoxel::TextureColorSpace::SDR,
+			NeoVoxel::TextureChannels::RGBA_8,
 			{ 960, 540 }
 		};
 		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(framebufferSpec);
