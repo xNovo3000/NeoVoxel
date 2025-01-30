@@ -175,6 +175,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Entrypoint.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\ArrayBuffer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Camera2D.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Camera3D.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Framebuffer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
@@ -182,6 +183,7 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Transform3D.h" />
     <ClInclude Include="include\NeoVoxel\Layer.h" />
     <ClInclude Include="include\NeoVoxel\Layer\EventListenerLayer.h" />
     <ClInclude Include="include\PCH.h" />
@@ -213,12 +215,14 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Debug\Profile.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\ArrayBuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Camera2D.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Camera3D.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Framebuffer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Transform3D.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer.cpp" />
     <ClCompile Include="src\NeoVoxel\Layer\EventListenerLayer.cpp" />
     <ClCompile Include="src\NeoVoxel\Platform\Common\BaseLayer.cpp" />

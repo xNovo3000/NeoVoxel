@@ -29,8 +29,8 @@ namespace NeoVoxel {
 	glm::mat4 Transform2D::getModelMatrix() const {
 		auto result = glm::mat4(1.0F);
 		result = glm::scale(result, glm::vec3(m_Scale));
-		result = glm::rotate(result, -m_Roll, glm::vec3(0.0F, 0.0F, 1.0F));
-		result = glm::translate(result, -glm::vec3(m_Position, 0.0F));
+		result = glm::rotate(result, m_Roll, glm::vec3(0.0F, 0.0F, 1.0F));
+		result = glm::translate(result, glm::vec3(m_Position, 0.0F));
 		return result;
 	}
 
