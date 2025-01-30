@@ -23,6 +23,7 @@ namespace NeoVoxel {
 		struct Image {
 			std::vector<uint8_t> m_Data;
 			glm::ivec2 m_Size;
+			int32_t m_Channels;
 		};
 
 	}

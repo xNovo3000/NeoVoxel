@@ -89,7 +89,7 @@ namespace NeoVoxel {
 		// Clear stb pointer
 		stbi_image_free(imageData);
 		// Return the image struct
-		return Asset::Image{ data, size };
+		return Asset::Image{ data, size, channels };
 	}
 
 }
