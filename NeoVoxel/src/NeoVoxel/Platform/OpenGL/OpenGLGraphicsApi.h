@@ -23,6 +23,7 @@ namespace NeoVoxel {
 
 		virtual void setViewport(const glm::ivec2& viewport) override;
 
+		virtual void copyFramebufferData(const FramebufferRef& source, const FramebufferRef& destination, const glm::ivec2& size) override;
 		virtual void unbindFramebuffer() override;
 
 		virtual ArrayBufferRef createArrayBuffer(const ArrayBufferSpec& spec) override;

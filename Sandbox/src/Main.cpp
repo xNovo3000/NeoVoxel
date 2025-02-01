@@ -47,13 +47,21 @@ public:
 		};
 		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
 
-		NeoVoxel::FramebufferSpec framebufferSpec{
+		NeoVoxel::FramebufferSpec antialiasingFramebufferSpec{
 			NeoVoxel::FramebufferColorChannels::RGBA_8,
-			NeoVoxel::FramebufferColorType::PRESENT_BINDABLE,
-			NeoVoxel::FramebufferDepthType::PRESENT,
+			NeoVoxel::FramebufferColorType::BUFFER_MSAA,
+			NeoVoxel::FramebufferDepthType::BUFFER_MSAA,
 			{ 960, 540 }
 		};
-		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(framebufferSpec);
+		m_AntialiasingFramebuffer = graphicsApi.createFramebuffer(antialiasingFramebufferSpec);
+
+		NeoVoxel::FramebufferSpec postprocessingFramebufferSpec{
+			NeoVoxel::FramebufferColorChannels::RGBA_8,
+			NeoVoxel::FramebufferColorType::TEXTURE,
+			NeoVoxel::FramebufferDepthType::BUFFER,
+			{ 960, 540 }
+		};
+		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(postprocessingFramebufferSpec);
 
 		/* Update data */
 
@@ -115,8 +123,9 @@ public:
 		auto windowSize = window.getSize();
 		auto aspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
 
+		m_AntialiasingFramebuffer->setSize(windowSize);
 		m_PostprocessingFramebuffer->setSize(windowSize);
-		m_PostprocessingFramebuffer->bind();
+		m_AntialiasingFramebuffer->bind();
 
 		graphicsApi.clearColor();
 		graphicsApi.clearDepth();
@@ -129,6 +138,7 @@ public:
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
+		graphicsApi.copyFramebufferData(m_AntialiasingFramebuffer, m_PostprocessingFramebuffer, windowSize);
 		graphicsApi.unbindFramebuffer();
 
 		m_PostprocessingShader->activate();
@@ -145,7 +155,7 @@ private:
 	NeoVoxel::ArrayBufferRef m_ArrayBuffer, m_PostprocessingBuffer;
 	NeoVoxel::ShaderRef m_Shader, m_PostprocessingShader;
 	NeoVoxel::Texture2DRef m_Texture2D;
-	NeoVoxel::FramebufferRef m_PostprocessingFramebuffer;
+	NeoVoxel::FramebufferRef m_PostprocessingFramebuffer, m_AntialiasingFramebuffer;
 
 };
 

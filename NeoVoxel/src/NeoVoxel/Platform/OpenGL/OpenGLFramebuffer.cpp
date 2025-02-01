@@ -32,21 +32,21 @@ namespace NeoVoxel {
 	}
 
 	static inline uint32_t utility_GetBytesPerColorType(FramebufferColorType type) {
-		switch (type) {
-			case FramebufferColorType::ABSENT: return 0;
-			case FramebufferColorType::PRESENT:
-			case FramebufferColorType::PRESENT_BINDABLE: return 1;
+		if (type == FramebufferColorType::NONE) {
+			return 0;
 		}
-		return 0;
+		else {
+			return 1;
+		}
 	}
 
 	static inline uint32_t utility_GetBytesPerDepthType(FramebufferDepthType type) {
-		switch (type) {
-			case FramebufferDepthType::ABSENT: return 0;
-			case FramebufferDepthType::PRESENT:
-			case FramebufferDepthType::PRESENT_BINDABLE: return 1;
+		if (type == FramebufferDepthType::NONE) {
+			return 0;
 		}
-		return 0;
+		else {
+			return 1;
+		}
 	}
 
 #endif
@@ -62,16 +62,23 @@ namespace NeoVoxel {
 		NV_PROFILE_MEMORY_FRAMEBUFFER(m_FramebufferHandle, spec.m_Size.x * spec.m_Size.y * (utility_GetBytesPerDepthType(m_DepthType) * 4 + utility_GetBytesPerColorType(m_ColorType) * utility_GetBytesPerColorChannels(m_Channels)));
 		// Color attachment
 		switch (m_ColorType) {
-			case FramebufferColorType::ABSENT:
+			case FramebufferColorType::NONE:
 				break;
-			case FramebufferColorType::PRESENT:
+			case FramebufferColorType::BUFFER:
 				// Create renderbuffer
 				glCall(glGenRenderbuffers(1, &m_ColorAttachmentHandle));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_ColorAttachmentHandle));
 				glCall(glRenderbufferStorage(GL_RENDERBUFFER, utility_GetInternalFormat(m_Channels), spec.m_Size.x, spec.m_Size.y));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 				break;
-			case FramebufferColorType::PRESENT_BINDABLE:
+			case FramebufferColorType::BUFFER_MSAA:
+				// Create renderbuffer
+				glCall(glGenRenderbuffers(1, &m_ColorAttachmentHandle));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_ColorAttachmentHandle));
+				glCall(glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, utility_GetInternalFormat(m_Channels), spec.m_Size.x, spec.m_Size.y));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
+				break;
+			case FramebufferColorType::TEXTURE:
 				// Create texture
 				glCall(glGenTextures(1, &m_ColorAttachmentHandle));
 				glCall(glBindTexture(GL_TEXTURE_2D, m_ColorAttachmentHandle));
@@ -85,16 +92,23 @@ namespace NeoVoxel {
 		}
 		// Depth-stencil attachment
 		switch (m_DepthType) {
-			case FramebufferDepthType::ABSENT:
+			case FramebufferDepthType::NONE:
 				break;
-			case FramebufferDepthType::PRESENT:
+			case FramebufferDepthType::BUFFER:
 				// Create renderbuffer
 				glCall(glGenRenderbuffers(1, &m_DepthStencilAttachmentHandle));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthStencilAttachmentHandle));
 				glCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, spec.m_Size.x, spec.m_Size.y));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 				break;
-			case FramebufferDepthType::PRESENT_BINDABLE:
+			case FramebufferDepthType::BUFFER_MSAA:
+				// Create renderbuffer
+				glCall(glGenRenderbuffers(1, &m_DepthStencilAttachmentHandle));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthStencilAttachmentHandle));
+				glCall(glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, spec.m_Size.x, spec.m_Size.y));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
+				break;
+			case FramebufferDepthType::TEXTURE:
 				// Create texture
 				glCall(glGenTextures(1, &m_DepthStencilAttachmentHandle));
 				glCall(glBindTexture(GL_TEXTURE_2D, m_DepthStencilAttachmentHandle));
@@ -110,22 +124,24 @@ namespace NeoVoxel {
 		glCall(glGenFramebuffers(1, &m_FramebufferHandle));
 		glCall(glBindFramebuffer(GL_FRAMEBUFFER, m_FramebufferHandle));
 		switch (m_ColorType) {
-			case FramebufferColorType::ABSENT:
+			case FramebufferColorType::NONE:
 				break;
-			case FramebufferColorType::PRESENT:
+			case FramebufferColorType::BUFFER:
+			case FramebufferColorType::BUFFER_MSAA:
 				glCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, m_ColorAttachmentHandle));
 				break;
-			case FramebufferColorType::PRESENT_BINDABLE:
+			case FramebufferColorType::TEXTURE:
 				glCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ColorAttachmentHandle, 0));
 				break;
 		}
 		switch (m_DepthType) {
-			case FramebufferDepthType::ABSENT:
+			case FramebufferDepthType::NONE:
 				break;
-			case FramebufferDepthType::PRESENT:
+			case FramebufferDepthType::BUFFER:
+			case FramebufferDepthType::BUFFER_MSAA:
 				glCall(glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_DepthStencilAttachmentHandle));
 				break;
-			case FramebufferDepthType::PRESENT_BINDABLE:
+			case FramebufferDepthType::TEXTURE:
 				glCall(glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_DepthStencilAttachmentHandle, 0));
 				break;
 		}
@@ -140,22 +156,24 @@ namespace NeoVoxel {
 			NV_PROFILE;
 			NV_PROFILE_MEMORY_FRAMEBUFFER(m_FramebufferHandle, 0);
 			switch (m_ColorType) {
-				case FramebufferColorType::ABSENT:
+				case FramebufferColorType::NONE:
 					break;
-				case FramebufferColorType::PRESENT:
+				case FramebufferColorType::BUFFER:
+				case FramebufferColorType::BUFFER_MSAA:
 					glCall(glDeleteRenderbuffers(1, &m_ColorAttachmentHandle));
 					break;
-				case FramebufferColorType::PRESENT_BINDABLE:
+				case FramebufferColorType::TEXTURE:
 					glCall(glDeleteTextures(1, &m_ColorAttachmentHandle));
 					break;
 			}
 			switch (m_DepthType) {
-				case FramebufferDepthType::ABSENT:
+				case FramebufferDepthType::NONE:
 					break;
-				case FramebufferDepthType::PRESENT:
+				case FramebufferDepthType::BUFFER:
+				case FramebufferDepthType::BUFFER_MSAA:
 					glCall(glDeleteRenderbuffers(1, &m_DepthStencilAttachmentHandle));
 					break;
-				case FramebufferDepthType::PRESENT_BINDABLE:
+				case FramebufferDepthType::TEXTURE:
 					glCall(glDeleteTextures(1, &m_DepthStencilAttachmentHandle));
 					break;
 			}
@@ -199,7 +217,7 @@ namespace NeoVoxel {
 	}
 
 	void OpenGLFramebuffer::bindColorAttachment(uint32_t slot) {
-		if (m_ColorType == FramebufferColorType::PRESENT_BINDABLE) {
+		if (m_ColorType == FramebufferColorType::TEXTURE) {
 			NV_PROFILE;
 			glCall(glActiveTexture(GL_TEXTURE0 + slot));
 			glCall(glBindTexture(GL_TEXTURE_2D, m_ColorAttachmentHandle));
@@ -210,7 +228,7 @@ namespace NeoVoxel {
 	}
 
 	void OpenGLFramebuffer::bindDepthAttachment(uint32_t slot) {
-		if (m_DepthType == FramebufferDepthType::PRESENT_BINDABLE) {
+		if (m_DepthType == FramebufferDepthType::TEXTURE) {
 			NV_PROFILE;
 			glCall(glActiveTexture(GL_TEXTURE0 + slot));
 			glCall(glBindTexture(GL_TEXTURE_2D, m_DepthStencilAttachmentHandle));
@@ -224,28 +242,38 @@ namespace NeoVoxel {
 		NV_PROFILE;
 		NV_PROFILE_MEMORY_FRAMEBUFFER(m_FramebufferHandle, size.x * size.y * (utility_GetBytesPerDepthType(m_DepthType) * 4 + utility_GetBytesPerColorType(m_ColorType) * utility_GetBytesPerColorChannels(m_Channels)));
 		switch (m_ColorType) {
-			case FramebufferColorType::ABSENT:
+			case FramebufferColorType::NONE:
 				break;
-			case FramebufferColorType::PRESENT:
+			case FramebufferColorType::BUFFER:
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_ColorAttachmentHandle));
 				glCall(glRenderbufferStorage(GL_RENDERBUFFER, utility_GetInternalFormat(m_Channels), size.x, size.y));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 				break;
-			case FramebufferColorType::PRESENT_BINDABLE:
+			case FramebufferColorType::BUFFER_MSAA:
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_ColorAttachmentHandle));
+				glCall(glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, utility_GetInternalFormat(m_Channels), size.x, size.y));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
+				break;
+			case FramebufferColorType::TEXTURE:
 				glCall(glBindTexture(GL_TEXTURE_2D, m_ColorAttachmentHandle));
 				glCall(glTexImage2D(GL_TEXTURE_2D, 0, utility_GetInternalFormat(m_Channels), size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 				glCall(glBindTexture(GL_TEXTURE_2D, 0));
 				break;
 		}
 		switch (m_DepthType) {
-			case FramebufferDepthType::ABSENT:
+			case FramebufferDepthType::NONE:
 				break;
-			case FramebufferDepthType::PRESENT:
+			case FramebufferDepthType::BUFFER:
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthStencilAttachmentHandle));
 				glCall(glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, size.x, size.y));
 				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
 				break;
-			case FramebufferDepthType::PRESENT_BINDABLE:
+			case FramebufferDepthType::BUFFER_MSAA:
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, m_DepthStencilAttachmentHandle));
+				glCall(glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH24_STENCIL8, size.x, size.y));
+				glCall(glBindRenderbuffer(GL_RENDERBUFFER, 0));
+				break;
+			case FramebufferDepthType::TEXTURE:
 				glCall(glBindTexture(GL_TEXTURE_2D, m_DepthStencilAttachmentHandle));
 				glCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
 				glCall(glBindTexture(GL_TEXTURE_2D, 0));

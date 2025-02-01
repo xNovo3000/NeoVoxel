@@ -8,8 +8,8 @@ namespace NeoVoxel {
 
 	enum class FramebufferBinding : uint8_t { READ, WRITE, ALL };
 	enum class FramebufferColorChannels : uint8_t { RGB_8, RGBA_8, RGB_16, RGBA_16 };
-	enum class FramebufferColorType : uint8_t { ABSENT, PRESENT, PRESENT_BINDABLE };
-	enum class FramebufferDepthType : uint8_t { ABSENT, PRESENT, PRESENT_BINDABLE };
+	enum class FramebufferColorType : uint8_t { NONE, BUFFER, TEXTURE, BUFFER_MSAA };
+	enum class FramebufferDepthType : uint8_t { NONE, BUFFER, TEXTURE, BUFFER_MSAA };
 
 	struct FramebufferSpec {
 		FramebufferColorChannels m_Channels;
@@ -39,30 +39,5 @@ namespace NeoVoxel {
 	};
 
 	using FramebufferRef = Ref<Framebuffer>;
-
-	struct FramebufferMultisampleSpec {
-		FramebufferColorChannels m_Channels;
-		glm::ivec2 m_Size;
-	};
-
-	class FramebufferMultisample {
-
-	public:
-		FramebufferMultisample() = default;
-		virtual ~FramebufferMultisample() = default;
-
-		FramebufferMultisample(const FramebufferMultisample&) = delete;
-		FramebufferMultisample& operator=(const FramebufferMultisample&) = delete;
-
-		FramebufferMultisample(FramebufferMultisample&&) noexcept = default;
-		FramebufferMultisample& operator=(FramebufferMultisample&&) noexcept = default;
-
-		virtual void bind(FramebufferBinding binding = FramebufferBinding::ALL);
-
-		virtual void setSize(const glm::ivec2& size);
-
-	};
-
-	using FramebufferMultisampleRef = Ref<FramebufferMultisample>;
 
 }
