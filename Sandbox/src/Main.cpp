@@ -58,7 +58,7 @@ public:
 		NeoVoxel::FramebufferSpec postprocessingFramebufferSpec{
 			NeoVoxel::FramebufferColorChannels::RGBA_8,
 			NeoVoxel::FramebufferColorType::TEXTURE,
-			NeoVoxel::FramebufferDepthType::BUFFER,
+			NeoVoxel::FramebufferDepthType::TEXTURE,
 			{ 960, 540 }
 		};
 		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(postprocessingFramebufferSpec);

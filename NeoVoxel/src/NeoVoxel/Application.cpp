@@ -42,6 +42,12 @@ namespace NeoVoxel {
 
 	void Application::run() {
 		NV_INFO("Starting {}", m_Name);
+		// Assign above normal affinity in the scheduler
+#ifdef _WIN32
+		SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+		SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL);
+#endif
+		// Loop
 		while (m_IsRunning) {
 			NV_PROFILE;
 			// Calculate timestep

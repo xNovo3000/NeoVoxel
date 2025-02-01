@@ -116,7 +116,7 @@ namespace NeoVoxel {
 				glCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 				glCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 				glCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-				glCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, spec.m_Size.x, spec.m_Size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
+				glCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, spec.m_Size.x, spec.m_Size.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr));
 				glCall(glBindTexture(GL_TEXTURE_2D, 0));
 				break;
 		}
@@ -275,7 +275,7 @@ namespace NeoVoxel {
 				break;
 			case FramebufferDepthType::TEXTURE:
 				glCall(glBindTexture(GL_TEXTURE_2D, m_DepthStencilAttachmentHandle));
-				glCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr));
+				glCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, size.x, size.y, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr));
 				glCall(glBindTexture(GL_TEXTURE_2D, 0));
 				break;
 		}
