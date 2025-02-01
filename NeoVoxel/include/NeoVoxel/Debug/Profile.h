@@ -42,11 +42,13 @@ namespace NeoVoxel {
 	#define NV_PROFILE_MEMORY_PRINT
 
 #else
+
 	#define NV_PROFILE_START
 	#define NV_PROFILE_STOP
 	#define NV_PROFILE
 	#define NV_PROFILE_MEMORY(id, bytes)
 	#define NV_PROFILE_MEMORY_PRINT
+
 #endif
 
 }
