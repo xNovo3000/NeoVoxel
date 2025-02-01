@@ -48,7 +48,9 @@ public:
 		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
 
 		NeoVoxel::FramebufferSpec framebufferSpec{
-			NeoVoxel::TextureChannels::RGBA_8,
+			NeoVoxel::FramebufferColorChannels::RGBA_8,
+			NeoVoxel::FramebufferColorType::PRESENT_BINDABLE,
+			NeoVoxel::FramebufferDepthType::PRESENT,
 			{ 960, 540 }
 		};
 		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(framebufferSpec);
@@ -131,7 +133,7 @@ public:
 
 		m_PostprocessingShader->activate();
 		m_PostprocessingShader->setUniform(0, 0);
-		m_PostprocessingFramebuffer->getColorAttachment()->bind();
+		m_PostprocessingFramebuffer->bindColorAttachment();
 		m_PostprocessingBuffer->render();
 
 	}

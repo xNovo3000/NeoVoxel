@@ -18,18 +18,7 @@ namespace NeoVoxel {
 	}
 
 	FramebufferRef GraphicsApi::createFramebuffer(const FramebufferSpec& spec) {
-		Texture2DSpec textureSpec{
-			spec.m_Channels,
-			TextureMipmapGeneration::DISABLED,
-			{
-				{ TextureParamsName::FILTER_MAG, TextureParamsValue::FILTER_LINEAR },
-				{ TextureParamsName::FILTER_MIN, TextureParamsValue::FILTER_NEAREST },
-				{ TextureParamsName::WRAP_S, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
-				{ TextureParamsName::WRAP_T, TextureParamsValue::WRAP_CLAMP_TO_EDGE },
-			}
-		};
-		auto textureRef = createTexture2D(textureSpec);
-		return std::make_shared<Framebuffer>(textureRef);
+		return std::make_shared<Framebuffer>();
 	}
 
 	ShaderRef GraphicsApi::createShader(const ShaderSpec& spec) {
