@@ -48,7 +48,7 @@ public:
 		m_Texture2D = graphicsApi.createTexture2D(texture2DSpec);
 
 		NeoVoxel::FramebufferSpec antialiasingFramebufferSpec{
-			NeoVoxel::FramebufferColorChannels::RGBA_8,
+			NeoVoxel::FramebufferColorChannels::RGBA_16,
 			NeoVoxel::FramebufferColorType::BUFFER_MSAA,
 			NeoVoxel::FramebufferDepthType::BUFFER_MSAA,
 			{ 960, 540 }
@@ -56,7 +56,7 @@ public:
 		m_AntialiasingFramebuffer = graphicsApi.createFramebuffer(antialiasingFramebufferSpec);
 
 		NeoVoxel::FramebufferSpec postprocessingFramebufferSpec{
-			NeoVoxel::FramebufferColorChannels::RGBA_8,
+			NeoVoxel::FramebufferColorChannels::RGBA_16,
 			NeoVoxel::FramebufferColorType::TEXTURE,
 			NeoVoxel::FramebufferDepthType::TEXTURE,
 			{ 960, 540 }
@@ -123,8 +123,8 @@ public:
 		auto windowSize = window.getSize();
 		auto aspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
 
-		m_AntialiasingFramebuffer->setSize(windowSize);
-		m_PostprocessingFramebuffer->setSize(windowSize);
+		// m_AntialiasingFramebuffer->setSize(windowSize);
+		// m_PostprocessingFramebuffer->setSize(windowSize);
 		m_AntialiasingFramebuffer->bind();
 
 		graphicsApi.clearColor();
@@ -146,6 +146,13 @@ public:
 		m_PostprocessingFramebuffer->bindColorAttachment();
 		m_PostprocessingBuffer->render();
 
+	}
+
+	virtual bool onWindowSizeEvent(NeoVoxel::Timestep timestep, NeoVoxel::WindowSizeEvent& event) override {
+		EventListenerLayer::onWindowSizeEvent(timestep, event);
+		m_AntialiasingFramebuffer->setSize(event.getSize());
+		m_PostprocessingFramebuffer->setSize(event.getSize());
+		return false;
 	}
 
 private:
