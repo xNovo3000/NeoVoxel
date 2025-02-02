@@ -8,7 +8,7 @@ namespace NeoVoxel {
 
 	void BaseLayer::onRender() {
 		EventListenerLayer::onRender();
-		auto& graphicsApi = Application::get().getGraphicsApi();
+		auto& graphicsApi = NV_GET_GRAPHICS_API;
 		graphicsApi.clearColor();
 		graphicsApi.clearDepth();
 	}
@@ -21,7 +21,8 @@ namespace NeoVoxel {
 
 	bool BaseLayer::onWindowSizeEvent(Timestep timestep, WindowSizeEvent& event) {
 		EventListenerLayer::onWindowSizeEvent(timestep, event);
-		Application::get().getGraphicsApi().setViewport(event.getSize());
+		NV_GET_GRAPHICS_API.setViewport(event.getSize());
+		NV_GET_RENDERER.setWindowSize(event.getSize());
 		return false;
 	}
 

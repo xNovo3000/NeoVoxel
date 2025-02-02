@@ -27,12 +27,13 @@ namespace NeoVoxel {
 #if NV_PLATFORM == NV_PLATFORM_DESKTOP
 		m_Window(new GlfwWindow({ "NeoVoxel", { 960, 540 }, 60 })),
 		m_Input(new GlfwInput(reinterpret_cast<GlfwWindow&>(*m_Window).getHandle())),
-		m_GraphicsApi(new OpenGLGraphicsApi(reinterpret_cast<GlfwWindow&>(*m_Window).getContextLoaderPtr()))
+		m_GraphicsApi(new OpenGLGraphicsApi(reinterpret_cast<GlfwWindow&>(*m_Window).getContextLoaderPtr())),
 #else
 		m_Window(new Window()),
 		m_Input(new Input()),
-		m_GraphicsApi(new GraphicsApi())
+		m_GraphicsApi(new GraphicsApi()),
 #endif
+		m_Renderer(m_Window, m_GraphicsApi, m_AssetLoader)
 	{
 		INSTANCE = this;
 		pushLayer(new BaseLayer());

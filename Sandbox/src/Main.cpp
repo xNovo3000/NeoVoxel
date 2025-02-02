@@ -123,8 +123,6 @@ public:
 		auto windowSize = window.getSize();
 		auto aspectRatio = static_cast<float>(windowSize.x) / static_cast<float>(windowSize.y);
 
-		// m_AntialiasingFramebuffer->setSize(windowSize);
-		// m_PostprocessingFramebuffer->setSize(windowSize);
 		m_AntialiasingFramebuffer->bind();
 
 		graphicsApi.clearColor();

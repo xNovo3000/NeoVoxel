@@ -1,6 +1,7 @@
 #pragma once
 
 #include <NeoVoxel/Core/Base.h>
+#include <NeoVoxel/Core/Asset.h>
 #include <NeoVoxel/Core/Window.h>
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/Camera2D.h>
@@ -23,7 +24,7 @@ namespace NeoVoxel {
 	class Renderer {
 
 	public:
-		Renderer(const WindowRef& window, const GraphicsApiRef& graphicsApi);
+		Renderer(const WindowRef& window, const GraphicsApiRef& graphicsApi, const AssetLoader& assetLoader);
 
 		void beginScene(const Camera2D& camera, const Projection& projection);
 		// void begin(const Camera3D& camera, const Projection& projection);
@@ -43,6 +44,7 @@ namespace NeoVoxel {
 		ArrayBufferRef m_PostprocessingBuffer;
 		ShaderRef m_PostprocessingShader;
 		glm::mat4 m_ProjectionViewMatrix = glm::mat4(1.0F);
+		glm::vec2 m_KernelOffset = glm::vec2(0.0F);
 
 	};
 
