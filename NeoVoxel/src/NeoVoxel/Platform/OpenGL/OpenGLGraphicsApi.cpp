@@ -95,11 +95,11 @@ namespace NeoVoxel {
 		glCall(glViewport(0, 0, viewport.x, viewport.y));
 	}
 
-	void OpenGLGraphicsApi::copyFramebufferData(const FramebufferRef& source, const FramebufferRef& destination, const glm::ivec2& size) {
+	void OpenGLGraphicsApi::copyFramebufferColorData(const FramebufferRef& source, const FramebufferRef& destination, const glm::ivec2& size) {
 		NV_PROFILE;
 		source->bind(FramebufferBinding::READ);
 		destination->bind(FramebufferBinding::WRITE);
-		glCall(glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT, GL_NEAREST));
+		glCall(glBlitFramebuffer(0, 0, size.x, size.y, 0, 0, size.x, size.y, GL_COLOR_BUFFER_BIT, GL_NEAREST));
 	}
 
 	void OpenGLGraphicsApi::unbindFramebuffer() {

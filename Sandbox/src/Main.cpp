@@ -58,7 +58,7 @@ public:
 		NeoVoxel::FramebufferSpec postprocessingFramebufferSpec{
 			NeoVoxel::FramebufferColorChannels::RGBA_16,
 			NeoVoxel::FramebufferColorType::TEXTURE,
-			NeoVoxel::FramebufferDepthType::TEXTURE,
+			NeoVoxel::FramebufferDepthType::NONE,
 			{ 960, 540 }
 		};
 		m_PostprocessingFramebuffer = graphicsApi.createFramebuffer(postprocessingFramebufferSpec);
@@ -138,7 +138,7 @@ public:
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
-		graphicsApi.copyFramebufferData(m_AntialiasingFramebuffer, m_PostprocessingFramebuffer, windowSize);
+		graphicsApi.copyFramebufferColorData(m_AntialiasingFramebuffer, m_PostprocessingFramebuffer, windowSize);
 		graphicsApi.unbindFramebuffer();
 
 		m_PostprocessingShader->activate();

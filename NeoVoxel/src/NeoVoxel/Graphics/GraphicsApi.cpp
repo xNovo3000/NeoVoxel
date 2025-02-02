@@ -11,7 +11,7 @@ namespace NeoVoxel {
 
 	void GraphicsApi::setViewport(const glm::ivec2& viewport) {}
 
-	void GraphicsApi::copyFramebufferData(const FramebufferRef& source, const FramebufferRef& destination, const glm::ivec2& size) {}
+	void GraphicsApi::copyFramebufferColorData(const FramebufferRef& source, const FramebufferRef& destination, const glm::ivec2& size) {}
 	void GraphicsApi::unbindFramebuffer() {}
 
 	ArrayBufferRef GraphicsApi::createArrayBuffer(const ArrayBufferSpec& spec) {
