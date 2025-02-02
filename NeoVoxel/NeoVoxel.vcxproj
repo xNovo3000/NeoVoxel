@@ -183,6 +183,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Renderer.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Shader.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
@@ -225,6 +227,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Renderer.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />

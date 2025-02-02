@@ -175,6 +175,8 @@
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Material.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -273,5 +275,7 @@
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Material.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Renderer.cpp" />
   </ItemGroup>
 </Project>
