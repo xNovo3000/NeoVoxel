@@ -129,10 +129,9 @@ public:
 		graphicsApi.clearDepth();
 
 		m_Shader->activate();
-		m_Shader->setUniform(0, m_Projection.getProjectionMatrix(aspectRatio));
-		m_Shader->setUniform(1, m_Camera2D.getViewMatrix());
-		m_Shader->setUniform(2, m_Transform.getModelMatrix());
-		m_Shader->setUniform(3, 0);
+		m_Shader->setUniform(0, m_Projection.getProjectionMatrix(aspectRatio) * m_Camera2D.getViewMatrix());
+		m_Shader->setUniform(1, m_Transform.getModelMatrix());
+		m_Shader->setUniform(2, 0);
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
@@ -164,11 +163,108 @@ private:
 
 };
 
+class RenderingLayer : public NeoVoxel::EventListenerLayer {
+
+public:
+	RenderingLayer() : EventListenerLayer("RenderingLayer") {}
+
+	virtual void onCreate() override {
+		EventListenerLayer::onCreate();
+
+		auto& graphicsApi = NV_GET_GRAPHICS_API;
+		auto& assetLoader = NV_GET_ASSET_LOADER;
+
+		auto maybeVertexShader = assetLoader.loadStringFile("asset/shader/2d.vert");
+		auto maybeFragmentShader = assetLoader.loadStringFile("asset/shader/2d.frag");
+		auto maybeStoneImage = assetLoader.loadImage("asset/texture/stone.png");
+
+		NeoVoxel::ShaderSpec quadShaderSpec{
+			*maybeVertexShader, std::nullopt, *maybeFragmentShader
+		};
+		auto quadShader = graphicsApi.createShader(quadShaderSpec);
+
+		NeoVoxel::Texture2DSpec quadTextureSpec{
+			NeoVoxel::TextureChannels::SRGBA_8,
+			NeoVoxel::TextureMipmapGeneration::ENABLED,
+			{
+				{ NeoVoxel::TextureParamsName::FILTER_MAG, NeoVoxel::TextureParamsValue::FILTER_NEAREST },
+				{ NeoVoxel::TextureParamsName::FILTER_MIN, NeoVoxel::TextureParamsValue::FILTER_LINEAR },
+				{ NeoVoxel::TextureParamsName::WRAP_S, NeoVoxel::TextureParamsValue::WRAP_CLAMP_TO_EDGE },
+				{ NeoVoxel::TextureParamsName::WRAP_T, NeoVoxel::TextureParamsValue::WRAP_CLAMP_TO_EDGE }
+			}
+		};
+		auto quadTexture = graphicsApi.createTexture2D(quadTextureSpec);
+		quadTexture->update((*maybeStoneImage).m_Size, (*maybeStoneImage).m_Data, NeoVoxel::TextureDataChannels::RGBA);
+
+		NeoVoxel::BasicTexturizedMaterialSpec materialSpec{
+			quadShader, quadTexture
+		};
+		m_QuadMaterial = NeoVoxel::BasicTexturizedMaterial::create(materialSpec);
+
+		std::vector<std::pair<glm::vec2, glm::vec2>> positionsAndUvs = {
+			{ { -0.5F, -0.5F }, { 0.0F, 0.0F } },
+			{ { -0.5F,  0.5F }, { 0.0F, 1.0F } },
+			{ {  0.5F, -0.5F }, { 1.0F, 0.0F } },
+			{ {  0.5F,  0.5F }, { 1.0F, 1.0F } }
+		};
+		std::vector<uint32_t> indices = { 0, 2, 1, 2, 3, 1 };
+		m_QuadBuffer.updateVertices(positionsAndUvs);
+		m_QuadBuffer.updateIndices(indices);
+
+	}
+
+	virtual void onUpdate(NeoVoxel::Timestep timestep, std::vector<NeoVoxel::EventPtr>& events) override {
+		EventListenerLayer::onUpdate(timestep, events);
+
+		auto& input = NV_GET_INPUT;
+
+		auto cameraMovement = glm::vec2(0.0F);
+		if (input.isKeyPressed(NV_KEY_W)) {
+			// Up
+			cameraMovement.y += (float)timestep.deltaSeconds();
+		}
+		if (input.isKeyPressed(NV_KEY_S)) {
+			// Down
+			cameraMovement.y -= (float)timestep.deltaSeconds();
+		}
+		if (input.isKeyPressed(NV_KEY_D)) {
+			// Left
+			cameraMovement.x += (float)timestep.deltaSeconds();
+		}
+		if (input.isKeyPressed(NV_KEY_A)) {
+			// Right
+			cameraMovement.x -= (float)timestep.deltaSeconds();
+		}
+		m_Camera.setPosition(m_Camera.getPosition() + cameraMovement);
+
+	}
+
+	virtual void onRender() override {
+		EventListenerLayer::onRender();
+
+		auto& renderer = NV_GET_RENDERER;
+
+		renderer.beginScene(m_Camera, m_Projection);
+		renderer.submit(m_QuadBuffer, m_QuadMaterial, m_QuadTransform);
+		renderer.endScene();
+
+	}
+
+private:
+	NeoVoxel::QuadBatch m_QuadBuffer;
+	NeoVoxel::MaterialRef m_QuadMaterial;
+	NeoVoxel::Transform2D m_QuadTransform;
+	NeoVoxel::Camera2D m_Camera;
+	NeoVoxel::OrthographicProjection m_Projection;
+
+};
+
 class SandboxApplication : public NeoVoxel::Application {
 
 public:
 	SandboxApplication() : Application("SandboxApplication") {
-		pushLayer(new SandboxLayer());
+		// pushLayer(new SandboxLayer());
+		pushLayer(new RenderingLayer());
 	}
 
 };

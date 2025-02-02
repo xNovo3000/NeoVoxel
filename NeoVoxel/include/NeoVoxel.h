@@ -19,14 +19,22 @@
 
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/Camera2D.h>
+#include <NeoVoxel/Graphics/Camera3D.h>
 #include <NeoVoxel/Graphics/Framebuffer.h>
 #include <NeoVoxel/Graphics/GraphicsApi.h>
+#include <NeoVoxel/Graphics/Material.h>
 #include <NeoVoxel/Graphics/Projection.h>
+#include <NeoVoxel/Graphics/QuadBatch.h>
+#include <NeoVoxel/Graphics/Renderer.h>
 #include <NeoVoxel/Graphics/Shader.h>
 #include <NeoVoxel/Graphics/Texture.h>
 #include <NeoVoxel/Graphics/Transform2D.h>
+#include <NeoVoxel/Graphics/Transform3D.h>
+
+#include <NeoVoxel/Graphics/Material/BasicTexturizedMaterial.h>
 
 #include <NeoVoxel/Graphics/Projection/OrthographicProjection.h>
+#include <NeoVoxel/Graphics/Projection/PerspectiveProjection.h>
 
 #include <NeoVoxel/Layer/EventListenerLayer.h>
 

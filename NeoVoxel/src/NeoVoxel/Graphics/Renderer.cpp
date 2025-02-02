@@ -65,6 +65,7 @@ namespace NeoVoxel {
 		auto modelMatrix = transform.getModelMatrix();
 		// Enable material and set model matrix data
 		material->bind();
+		material->getShader()->setUniform(0, m_ProjectionViewMatrix);
 		material->getShader()->setUniform(1, modelMatrix);
 		// Render
 		quadBatch.getArrayBuffer()->render();
