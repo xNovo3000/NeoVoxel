@@ -65,8 +65,8 @@ namespace NeoVoxel {
 		auto modelMatrix = transform.getModelMatrix();
 		// Enable material and set model matrix data
 		material->bind();
-		material->getShader()->setUniform(0, m_ProjectionViewMatrix);
-		material->getShader()->setUniform(1, modelMatrix);
+		material->getShader()->setUniform("u_ProjectionViewMatrix", m_ProjectionViewMatrix);
+		material->getShader()->setUniform("u_ModelMatrix", modelMatrix);
 		// Render
 		quadBatch.getArrayBuffer()->render();
 	}
@@ -79,11 +79,11 @@ namespace NeoVoxel {
 		m_GraphicsApi->unbindFramebuffer();
 		// Render current texture to the postprocessing pipeline
 		m_PostprocessingShader->activate();
-		m_PostprocessingShader->setUniform(0, 0);
-		m_PostprocessingShader->setUniform(1, m_KernelOffset);
-		m_PostprocessingShader->setUniform(2, gamma);
-		m_PostprocessingShader->setUniform(3, kernel);
-		m_PostprocessingShader->setUniform(4, exposure);
+		m_PostprocessingShader->setUniform("u_Result0", 0);
+		m_PostprocessingShader->setUniform("u_Offset", m_KernelOffset);
+		m_PostprocessingShader->setUniform("u_Gamma", gamma);
+		m_PostprocessingShader->setUniform("u_Kernel", kernel);
+		m_PostprocessingShader->setUniform("u_Exposure", exposure);
 		m_PostprocessingFramebuffer->bindColorAttachment();
 		m_PostprocessingBuffer->render();
 	}

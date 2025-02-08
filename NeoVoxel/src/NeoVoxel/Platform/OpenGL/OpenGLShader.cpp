@@ -105,33 +105,39 @@ namespace NeoVoxel {
 		glCall(glUseProgram(m_ProgramHandle));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, int32_t value) {
+	void OpenGLShader::setUniform(const std::string& locationName, int32_t value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniform1i(location, value));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, float value) {
+	void OpenGLShader::setUniform(const std::string& locationName, float value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniform1f(location, value));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, const glm::vec2& value) {
+	void OpenGLShader::setUniform(const std::string& locationName, const glm::vec2& value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniform2fv(location, 1, glm::value_ptr(value)));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, const glm::vec3& value) {
+	void OpenGLShader::setUniform(const std::string& locationName, const glm::vec3& value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniform3fv(location, 1, glm::value_ptr(value)));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, const glm::mat3& value) {
+	void OpenGLShader::setUniform(const std::string& locationName, const glm::mat3& value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value)));
 	}
 
-	void OpenGLShader::setUniform(uint32_t location, const glm::mat4& value) {
+	void OpenGLShader::setUniform(const std::string& locationName, const glm::mat4& value) {
 		NV_PROFILE;
+		auto location = glCall(glGetUniformLocation(m_ProgramHandle, locationName.c_str()));
 		glCall(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value)));
 	}
 

@@ -14,7 +14,7 @@ namespace NeoVoxel {
 	void BasicTexturizedMaterial::bind() {
 		Material::bind();
 		m_Texture2D->bind();
-		m_Shader->setUniform(2, 0);
+		m_Shader->setUniform("u_Diffuse0", 0);
 	}
 
 }

@@ -30,12 +30,12 @@ namespace NeoVoxel {
 
 		virtual void activate();
 
-		virtual void setUniform(uint32_t location, int32_t value);
-		virtual void setUniform(uint32_t location, float value);
-		virtual void setUniform(uint32_t location, const glm::vec2& value);
-		virtual void setUniform(uint32_t location, const glm::vec3& value);
-		virtual void setUniform(uint32_t location, const glm::mat3& value);
-		virtual void setUniform(uint32_t location, const glm::mat4& value);
+		virtual void setUniform(const std::string& locationName, int32_t value);
+		virtual void setUniform(const std::string& locationName, float value);
+		virtual void setUniform(const std::string& locationName, const glm::vec2& value);
+		virtual void setUniform(const std::string& locationName, const glm::vec3& value);
+		virtual void setUniform(const std::string& locationName, const glm::mat3& value);
+		virtual void setUniform(const std::string& locationName, const glm::mat4& value);
 
 	};
 

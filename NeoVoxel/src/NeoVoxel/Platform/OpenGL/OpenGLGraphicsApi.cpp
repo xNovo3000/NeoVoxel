@@ -13,6 +13,10 @@
 
 namespace NeoVoxel {
 
+	/* Utility */
+	
+	constexpr glm::vec4 CLEAR_COLOR_GAMMA = glm::vec4(2.2F);
+
 	/* OpenGL - Debug callback */
 
 	static inline const char* callback_Helper_GetSeverityString(GLenum severity) {
@@ -63,10 +67,6 @@ namespace NeoVoxel {
 		if (!gladLoadGL(loaderFunction)) {
 			NV_CRITICAL("{}: cannot load OpenGL APIs", getName());
 		}
-		// Check for extensions
-		if (!GLAD_GL_ARB_explicit_uniform_location) {
-			NV_CRITICAL("{}: required extension GLAD_GL_ARB_explicit_uniform_location not found");
-		}
 		// Enable debug output if requested
 #if NV_BUILD_MODE < NV_BUILD_MODE_DIST
 		if (GLAD_GL_ARB_debug_output) {
@@ -80,7 +80,8 @@ namespace NeoVoxel {
 
 	void OpenGLGraphicsApi::clearColor(const glm::vec4& color) {
 		NV_PROFILE;
-		glCall(glClearColor(color.r, color.g, color.b, color.a));
+		auto color2 = glm::pow(color, CLEAR_COLOR_GAMMA);
+		glCall(glClearColor(color2.r, color2.g, color2.b, color2.a));
 		glCall(glClear(GL_COLOR_BUFFER_BIT));
 	}
 

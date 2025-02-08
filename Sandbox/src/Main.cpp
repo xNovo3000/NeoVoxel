@@ -129,9 +129,9 @@ public:
 		graphicsApi.clearDepth();
 
 		m_Shader->activate();
-		m_Shader->setUniform(0, m_Projection.getProjectionMatrix(aspectRatio) * m_Camera2D.getViewMatrix());
-		m_Shader->setUniform(1, m_Transform.getModelMatrix());
-		m_Shader->setUniform(2, 0);
+		m_Shader->setUniform("u_ProjectionViewMatrix", m_Projection.getProjectionMatrix(aspectRatio) * m_Camera2D.getViewMatrix());
+		m_Shader->setUniform("u_ModelMatrix", m_Transform.getModelMatrix());
+		m_Shader->setUniform("u_Diffuse0", 0);
 		m_Texture2D->bind();
 		m_ArrayBuffer->render();
 
@@ -219,6 +219,7 @@ public:
 		auto& input = NV_GET_INPUT;
 
 		auto cameraMovement = glm::vec2(0.0F);
+		float cameraRoll = 0.0F;
 		if (input.isKeyPressed(NV_KEY_W)) {
 			// Up
 			cameraMovement.y += (float)timestep.deltaSeconds();
@@ -235,7 +236,16 @@ public:
 			// Right
 			cameraMovement.x -= (float)timestep.deltaSeconds();
 		}
+		if (input.isKeyPressed(NV_KEY_Z)) {
+			// Right
+			cameraRoll -= (float)timestep.deltaSeconds();
+		}
+		if (input.isKeyPressed(NV_KEY_X)) {
+			// Right
+			cameraRoll += (float)timestep.deltaSeconds();
+		}
 		m_Camera.setPosition(m_Camera.getPosition() + cameraMovement);
+		m_Camera.setRoll(m_Camera.getRoll() + cameraRoll);
 
 	}
 
