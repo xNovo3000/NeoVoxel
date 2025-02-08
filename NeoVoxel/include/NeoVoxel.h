@@ -36,6 +36,8 @@
 #include <NeoVoxel/Graphics/Projection/OrthographicProjection.h>
 #include <NeoVoxel/Graphics/Projection/PerspectiveProjection.h>
 
+#include <NeoVoxel/Graphics/QuadBatch/DefaultQuadBatch.h>
+
 #include <NeoVoxel/Layer/EventListenerLayer.h>
 
 #include <NeoVoxel/Layer.h>

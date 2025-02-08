@@ -8,16 +8,25 @@ namespace NeoVoxel {
 	class QuadBatch {
 
 	public:
-		QuadBatch();
+		QuadBatch() = default;
+		virtual ~QuadBatch() = default;
 
-		void updateVertices(const std::vector<std::pair<glm::vec2, glm::vec2>>& data);
-		void updateIndices(const std::vector<uint32_t>& data);
+		QuadBatch(const QuadBatch&) = delete;
+		QuadBatch& operator=(const QuadBatch&) = delete;
+
+		QuadBatch(QuadBatch&&) noexcept = default;
+		QuadBatch& operator=(QuadBatch&&) noexcept = default;
+
+		virtual void updateVertices(const std::vector<std::pair<glm::vec2, glm::vec2>>& data);
+		virtual void updateIndices(const std::vector<uint32_t>& data);
 
 		const ArrayBufferRef& getArrayBuffer() const noexcept { return m_ArrayBuffer; }
 
-	private:
+	protected:
 		ArrayBufferRef m_ArrayBuffer;
 
 	};
+
+	using QuadBatchRef = Ref<QuadBatch>;
 
 }

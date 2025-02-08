@@ -29,7 +29,7 @@ namespace NeoVoxel {
 		void beginScene(const Camera2D& camera, const Projection& projection);
 		// void begin(const Camera3D& camera, const Projection& projection);
 
-		void submit(const QuadBatch& quadBatch, const MaterialRef& material, const Transform2D& transform);
+		void submit(const QuadBatchRef& quadBatch, const MaterialRef& material, const Transform2D& transform);
 		// void submit(const Mesh& mesh, const MaterialRef& material, const Transform3D& transform);
 
 		void endScene(float exposure = DEFAULT_EXPOSURE, float gamma = DEFAULT_GAMMA, const glm::mat3& kernel = DEFAULT_KERNEL);

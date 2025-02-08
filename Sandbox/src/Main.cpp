@@ -208,8 +208,9 @@ public:
 			{ {  0.5F,  0.5F }, { 1.0F, 1.0F } }
 		};
 		std::vector<uint32_t> indices = { 0, 2, 1, 2, 3, 1 };
-		m_QuadBuffer.updateVertices(positionsAndUvs);
-		m_QuadBuffer.updateIndices(indices);
+		m_QuadBuffer = NeoVoxel::DefaultQuadBatch::create();
+		m_QuadBuffer->updateVertices(positionsAndUvs);
+		m_QuadBuffer->updateIndices(indices);
 
 	}
 
@@ -261,7 +262,7 @@ public:
 	}
 
 private:
-	NeoVoxel::QuadBatch m_QuadBuffer;
+	NeoVoxel::QuadBatchRef m_QuadBuffer;
 	NeoVoxel::MaterialRef m_QuadMaterial;
 	NeoVoxel::Transform2D m_QuadTransform;
 	NeoVoxel::Camera2D m_Camera;

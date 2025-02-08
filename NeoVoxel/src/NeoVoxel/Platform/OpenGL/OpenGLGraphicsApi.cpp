@@ -54,7 +54,7 @@ namespace NeoVoxel {
 
 	static void callback_OpenGLError(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* ptr) {
 		NV_ERROR(
-			"OpenGL Error {}.\n\tSeverity: {}\n\tSource: {}\n\tType: {}\n{}",
+			"OpenGL Error {}.\n\tSeverity: {}\n\tSource: {}\n\tType: {}\n\tMessage: {}",
 			id, callback_Helper_GetSeverityString(severity), callback_Helper_GetSourceString(source),
 			callback_Helper_GetTypeString(type), message
 		);

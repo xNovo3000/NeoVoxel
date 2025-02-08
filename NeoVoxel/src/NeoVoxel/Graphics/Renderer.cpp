@@ -60,7 +60,7 @@ namespace NeoVoxel {
 		m_GraphicsApi->clearDepth();
 	}
 
-	void Renderer::submit(const QuadBatch& quadBatch, const MaterialRef& material, const Transform2D& transform) {
+	void Renderer::submit(const QuadBatchRef& quadBatch, const MaterialRef& material, const Transform2D& transform) {
 		// Calculare model matrix
 		auto modelMatrix = transform.getModelMatrix();
 		// Enable material and set model matrix data
@@ -68,7 +68,7 @@ namespace NeoVoxel {
 		material->getShader()->setUniform("u_ProjectionViewMatrix", m_ProjectionViewMatrix);
 		material->getShader()->setUniform("u_ModelMatrix", modelMatrix);
 		// Render
-		quadBatch.getArrayBuffer()->render();
+		quadBatch->getArrayBuffer()->render();
 	}
 
 	void Renderer::endScene(float exposure, float gamma, const glm::mat3& kernel) {
