@@ -19,6 +19,15 @@
     <Filter Include="include\NeoVoxel\Graphics">
       <UniqueIdentifier>{E895B962-5458-EDEC-9D08-7C79090AC6CA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\NeoVoxel\Graphics\Material">
+      <UniqueIdentifier>{86E95506-7225-5970-DB37-7167C792018B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NeoVoxel\Graphics\Projection">
+      <UniqueIdentifier>{D468BE80-C04F-8078-69A0-E6955566F9DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\NeoVoxel\Graphics\QuadBatch">
+      <UniqueIdentifier>{C429D95B-30E3-4306-B942-5EE025FBF975}</UniqueIdentifier>
+    </Filter>
     <Filter Include="include\NeoVoxel\Layer">
       <UniqueIdentifier>{746B5195-6065-7AE7-49D2-10F8356BE053}</UniqueIdentifier>
     </Filter>
@@ -39,6 +48,15 @@
     </Filter>
     <Filter Include="src\NeoVoxel\Graphics">
       <UniqueIdentifier>{8CD275D8-F83E-31D3-C132-C9302D5E533B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Graphics\Material">
+      <UniqueIdentifier>{AA9E5AC0-96C4-2427-7F0A-AAF26BCF49F3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Graphics\Projection">
+      <UniqueIdentifier>{F8F6C4CE-E447-B010-0DAC-9ED2F95B437A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\NeoVoxel\Graphics\QuadBatch">
+      <UniqueIdentifier>{68837456-D466-8396-DD69-B1D249CC49E7}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\NeoVoxel\Layer">
       <UniqueIdentifier>{984AB24C-842E-73A2-ED8E-6DF5D9915D24}</UniqueIdentifier>
@@ -117,13 +135,49 @@
     <ClInclude Include="include\NeoVoxel\Graphics\Camera2D.h">
       <Filter>include\NeoVoxel\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Camera3D.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Framebuffer.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Material.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.h">
+      <Filter>include\NeoVoxel\Graphics\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h">
+      <Filter>include\NeoVoxel\Graphics\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h">
+      <Filter>include\NeoVoxel\Graphics\Projection</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch\DefaultQuadBatch.h">
+      <Filter>include\NeoVoxel\Graphics\QuadBatch</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Renderer.h">
       <Filter>include\NeoVoxel\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Graphics\Shader.h">
       <Filter>include\NeoVoxel\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Graphics\Texture.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h">
+      <Filter>include\NeoVoxel\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Transform3D.h">
       <Filter>include\NeoVoxel\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Layer.h">
@@ -153,6 +207,9 @@
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLErrorManagement.h">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.h">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.h">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClInclude>
@@ -165,19 +222,6 @@
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Transform2D.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Framebuffer.h" />
-    <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Camera3D.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Transform3D.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Material.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\Renderer.h" />
-    <ClInclude Include="include\NeoVoxel\Graphics\QuadBatch\DefaultQuadBatch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -225,13 +269,46 @@
     <ClCompile Include="src\NeoVoxel\Graphics\Camera2D.cpp">
       <Filter>src\NeoVoxel\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Camera3D.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Framebuffer.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Material.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.cpp">
+      <Filter>src\NeoVoxel\Graphics\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp">
+      <Filter>src\NeoVoxel\Graphics\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp">
+      <Filter>src\NeoVoxel\Graphics\Projection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch\DefaultQuadBatch.cpp">
+      <Filter>src\NeoVoxel\Graphics\QuadBatch</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Renderer.cpp">
       <Filter>src\NeoVoxel\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\Shader.cpp">
       <Filter>src\NeoVoxel\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\Texture.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp">
+      <Filter>src\NeoVoxel\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Transform3D.cpp">
       <Filter>src\NeoVoxel\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Layer.cpp">
@@ -255,6 +332,9 @@
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLArrayBuffer.cpp">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.cpp">
+      <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLGraphicsApi.cpp">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClCompile>
@@ -267,17 +347,5 @@
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Transform2D.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Framebuffer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Platform\OpenGL\OpenGLFramebuffer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Camera3D.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Transform3D.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Material.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\Renderer.cpp" />
-    <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch\DefaultQuadBatch.cpp" />
   </ItemGroup>
 </Project>

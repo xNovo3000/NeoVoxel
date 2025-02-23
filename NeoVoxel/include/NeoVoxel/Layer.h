@@ -10,6 +10,12 @@ namespace NeoVoxel {
 
 	class Layer {
 
+	private:
+		static Layer* ACTIVE_INSTANCE;
+
+	public:
+		static Layer& getActive() noexcept { return *ACTIVE_INSTANCE; }
+
 	public:
 		Layer();
 		Layer(const char* name);
@@ -41,5 +47,7 @@ namespace NeoVoxel {
 	};
 
 	using LayerPtr = Ptr<Layer>;
+
+#define NV_LAYER_IS_FRONT	::NeoVoxel::Layer::getActive().isFront()
 
 }
