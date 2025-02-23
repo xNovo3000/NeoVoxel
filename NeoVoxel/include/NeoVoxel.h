@@ -17,12 +17,17 @@
 #include <NeoVoxel/Debug/Log.h>
 #include <NeoVoxel/Debug/Profile.h>
 
+#include <NeoVoxel/Audio/AudioApi.h>
+#include <NeoVoxel/Audio/AudioBuffer.h>
+#include <NeoVoxel/Audio/AudioSource.h>
+
 #include <NeoVoxel/Graphics/ArrayBuffer.h>
 #include <NeoVoxel/Graphics/Camera2D.h>
 #include <NeoVoxel/Graphics/Camera3D.h>
 #include <NeoVoxel/Graphics/Framebuffer.h>
 #include <NeoVoxel/Graphics/GraphicsApi.h>
 #include <NeoVoxel/Graphics/Material.h>
+#include <NeoVoxel/Graphics/Mesh.h>
 #include <NeoVoxel/Graphics/Projection.h>
 #include <NeoVoxel/Graphics/QuadBatch.h>
 #include <NeoVoxel/Graphics/Renderer.h>
@@ -32,6 +37,8 @@
 #include <NeoVoxel/Graphics/Transform3D.h>
 
 #include <NeoVoxel/Graphics/Material/BasicTexturizedMaterial.h>
+
+#include <NeoVoxel/Graphics/Mesh/DefaultMesh.h>
 
 #include <NeoVoxel/Graphics/Projection/OrthographicProjection.h>
 #include <NeoVoxel/Graphics/Projection/PerspectiveProjection.h>

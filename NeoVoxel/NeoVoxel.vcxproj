@@ -157,6 +157,9 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
   <ItemGroup>
     <ClInclude Include="include\NeoVoxel.h" />
     <ClInclude Include="include\NeoVoxel\Application.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioApi.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioBuffer.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioSource.h" />
     <ClInclude Include="include\NeoVoxel\Core\Asset.h" />
     <ClInclude Include="include\NeoVoxel\Core\Base.h" />
     <ClInclude Include="include\NeoVoxel\Core\Event.h" />
@@ -209,6 +212,9 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioApi.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioBuffer.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioSource.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Asset.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Event.cpp" />
     <ClCompile Include="src\NeoVoxel\Core\Event\CursorPositionEvent.cpp" />

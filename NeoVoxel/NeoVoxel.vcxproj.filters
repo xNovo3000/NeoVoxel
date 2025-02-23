@@ -224,6 +224,9 @@
     </ClInclude>
     <ClInclude Include="include\NeoVoxel\Graphics\Mesh.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Mesh\DefaultMesh.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioApi.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioBuffer.h" />
+    <ClInclude Include="include\NeoVoxel\Audio\AudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -351,5 +354,8 @@
     </ClCompile>
     <ClCompile Include="src\NeoVoxel\Graphics\Mesh.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Mesh\DefaultMesh.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioApi.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioSource.cpp" />
+    <ClCompile Include="src\NeoVoxel\Audio\AudioBuffer.cpp" />
   </ItemGroup>
 </Project>
