@@ -222,6 +222,8 @@
     <ClInclude Include="src\NeoVoxel\Platform\OpenGL\OpenGLTexture.h">
       <Filter>src\NeoVoxel\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="include\NeoVoxel\Graphics\Mesh.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Mesh\DefaultMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\NeoVoxel\Application.cpp">
@@ -347,5 +349,7 @@
     <ClCompile Include="src\PCH.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\NeoVoxel\Graphics\Mesh.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Mesh\DefaultMesh.cpp" />
   </ItemGroup>
 </Project>

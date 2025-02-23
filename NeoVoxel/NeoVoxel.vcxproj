@@ -180,6 +180,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClInclude Include="include\NeoVoxel\Graphics\GraphicsApi.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Material.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Mesh.h" />
+    <ClInclude Include="include\NeoVoxel\Graphics\Mesh\DefaultMesh.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\OrthographicProjection.h" />
     <ClInclude Include="include\NeoVoxel\Graphics\Projection\PerspectiveProjection.h" />
@@ -226,6 +228,8 @@ copy /B /Y vendor\openal-soft\lib\windows-x86_64\OpenAL32.dll ..\bin\Dist-window
     <ClCompile Include="src\NeoVoxel\Graphics\GraphicsApi.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Material.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Material\BasicTexturizedMaterial.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Mesh.cpp" />
+    <ClCompile Include="src\NeoVoxel\Graphics\Mesh\DefaultMesh.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\OrthographicProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\Projection\PerspectiveProjection.cpp" />
     <ClCompile Include="src\NeoVoxel\Graphics\QuadBatch.cpp" />
