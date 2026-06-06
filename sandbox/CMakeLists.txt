@@ -5,3 +5,5 @@ add_executable(sandbox ${src})
 target_include_directories(sandbox PRIVATE "include")
 
 set_target_properties(sandbox PROPERTIES CXX_STANDARD 23)
+
+target_link_libraries(sandbox PUBLIC neovoxel)

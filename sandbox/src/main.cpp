@@ -1,6 +1,5 @@
-#include <iostream>
+#include <neovoxel/entrypoint.hpp>
 
-int main(int argc, char const *argv[]) {
-    std::println("Hello neovoxel!");
-    return 0;
+neovoxel::application *create_application() {
+    return new neovoxel::application();
 }
