@@ -6,10 +6,12 @@
 */
 
 #include <neovoxel/application.hpp>
+#include <neovoxel/log.hpp>
 
 extern neovoxel::application *create_application();
 
 int main(int argc, char const *argv[]) {
+    neovoxel::log::initialize();
     auto app = create_application();
     app->run();
     delete app;

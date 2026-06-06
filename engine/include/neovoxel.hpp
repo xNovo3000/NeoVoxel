@@ -7,3 +7,4 @@
 #pragma once
 
 #include <neovoxel/application.hpp>
+#include <neovoxel/log.hpp>
