@@ -1,3 +1,10 @@
+/*
+    Entrypoint
+    
+    This must be included only one time in the client 'main.cpp' file.
+    It's the scaffolding for running a neovoxel application
+*/
+
 #include <neovoxel/application.hpp>
 
 extern neovoxel::application *create_application();
