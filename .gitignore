@@ -165,3 +165,6 @@ $RECYCLE.BIN/
 
 # Log files created by default by the nohup command
 nohup.out
+
+# VSCode
+.vscode/
