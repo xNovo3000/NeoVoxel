@@ -1,5 +1,7 @@
 #pragma once
 
+#include <neovoxel/core.hpp>
+
 namespace neovoxel {
 
     /*
@@ -8,12 +10,10 @@ namespace neovoxel {
         It's a singleton and it's the base class that contains everything
         needed to keep this engine running. Manages events and the layer stack.
     */
-    class application {
+    class application : public named_resource {
 
     private:
         static application *_instance;
-
-        const char *_name;
 
     public:
         static application &instance() { return *_instance; }
@@ -27,8 +27,6 @@ namespace neovoxel {
         application(application&&) noexcept = delete;
 
         void run();
-
-        const char *name() const noexcept { return _name; }
 
     };
 

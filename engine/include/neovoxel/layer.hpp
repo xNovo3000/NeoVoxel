@@ -21,12 +21,11 @@ namespace neovoxel {
         Since only one layer at a time can be the current layer, the function
         'current' returns the current active layer in any lifecycle call
     */
-    class layer {
+    class layer : public named_resource {
 
     private:
         static layer *_current;
 
-        const char *_name;
         bool _front;
     
     protected:
@@ -52,8 +51,6 @@ namespace neovoxel {
 
         virtual void on_tick(timestep _timestep, std::vector<event_ptr> &_events);
         virtual void on_render();
-
-        const char *name() const noexcept { return _name; }
 
     };
 

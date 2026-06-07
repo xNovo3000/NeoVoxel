@@ -3,6 +3,8 @@
 
 namespace neovoxel {
 
+    named_resource::named_resource(const char *_name) : _name(_name) {}
+
     timestep::timestep(double _delta_seconds) : _delta_seconds(_delta_seconds) {}
 
     double timestep::delta_milliseconds() const { return _delta_seconds * 1000.0; }

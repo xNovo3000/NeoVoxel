@@ -5,6 +5,23 @@
 namespace neovoxel {
 
     /*
+        Named Resource
+
+        Common properties for all resources that should have a name (layer, context, etc...)
+    */
+    class named_resource {
+
+    private:
+        const char *_name;
+
+    public:
+        named_resource(const char *_name);
+
+        const char *name() const noexcept { return _name; }
+
+    };
+
+    /*
         Timestep
 
         Represents the time elapsed from one frame to another

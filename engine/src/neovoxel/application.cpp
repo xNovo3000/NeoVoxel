@@ -9,18 +9,18 @@ namespace neovoxel {
 
     application::application() : application("application") {}
 
-    application::application(const char *_name) : _name(_name) {
-        NV_LOG_INFO("Starting application '{}'", _name);
+    application::application(const char *_name) : named_resource(_name) {
+        NV_LOG_INFO("Starting application '{}'", name());
         _instance = this;
     }
 
     application::~application() {
-        NV_LOG_INFO("Stopping application '{}'", _name);
+        NV_LOG_INFO("Stopping application '{}'", name());
         _instance = nullptr;
     }
     
     void application::run() {
-        NV_LOG_INFO("Running application '{}'", _name);
+        NV_LOG_INFO("Running application '{}'", name());
     }
 
 }
