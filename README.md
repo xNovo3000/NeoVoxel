@@ -2,9 +2,12 @@
 
 Simple C++23 desktop game engine
 
-### Macros
+### Macros definitions
 
-- `NV_LOG_*`: logging
+- `NV_BUILD_TYPE`: current build type
+- `NV_LOG`: logging
+- `NV_KEY`: keyboard key
+- `NV_MOUSE_BUTTON`: mouse button
 
 ### Getting Started
 

@@ -6,7 +6,9 @@
 
 #pragma once
 
-#include <neovoxel/application.hpp>
 #include <neovoxel/core.hpp>
+
+#include <neovoxel/application.hpp>
 #include <neovoxel/debug.hpp>
 #include <neovoxel/event.hpp>
+#include <neovoxel/layer.hpp>
