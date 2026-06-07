@@ -18,8 +18,8 @@ namespace neovoxel {
     public:
         static application &get() { return *_instance; }
 
-        application();
-        application(const char *_name);
+        explicit application();
+        explicit application(const char *_name);
         virtual ~application();
 
         // Singletons are non-copyable and non-movable by definition
