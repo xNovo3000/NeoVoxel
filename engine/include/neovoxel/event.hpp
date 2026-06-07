@@ -71,4 +71,27 @@ namespace neovoxel {
 
     };
 
+    class window_close_event : public event {
+
+    public:
+        static constexpr uint64_t _type = 0;
+
+        window_close_event();
+
+    };
+
+    class window_focus_event : public event {
+
+    private:
+        bool _focused;
+
+    public:
+        static constexpr uint64_t _type = 1;
+
+        window_focus_event(bool _focused);
+
+        bool focused() const noexcept { return _focused; }
+
+    };
+
 }
