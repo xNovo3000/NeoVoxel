@@ -2,6 +2,8 @@
 
 #include <neovoxel/core.hpp>
 
+#include <glm/glm.hpp>
+
 #include <cstdint>
 #include <memory>
 #include <type_traits>
@@ -91,6 +93,72 @@ namespace neovoxel {
         window_focus_event(bool _focused);
 
         bool focused() const noexcept { return _focused; }
+
+    };
+
+    class window_size_event : public event {
+
+    private:
+        glm::ivec2 _size;
+
+    public:
+        static constexpr uint64_t _type = 2;
+
+        window_size_event(glm::ivec2 _size);
+
+        glm::ivec2 size() const noexcept { return _size; }
+
+    };
+
+    class cursor_position_event : public event {
+
+    private:
+        glm::vec2 _position;
+
+    public:
+        static constexpr uint64_t _type = 3;
+
+        cursor_position_event(glm::vec2 _position);
+
+        glm::vec2 position() const noexcept { return _position; }
+
+    };
+
+    enum class key_action { release, press, repeat };
+
+    class key_event : public event {
+
+    private:
+        int32_t _key, _modifiers;
+        key_action _action;
+
+    public:
+        static constexpr uint64_t _type = 4;
+
+        key_event(int32_t _key, int32_t _modifiers, key_action _action);
+
+        int32_t key() const noexcept { return _key; }
+        int32_t modifiers() const noexcept { return _modifiers; }
+        key_action action() const noexcept { return _action; }
+
+    };
+
+    enum class mouse_button_action { release, press, repeat };
+
+    class mouse_button_event : public event {
+
+    private:
+        int32_t _button, _modifiers;
+        mouse_button_action _action;
+
+    public:
+        static constexpr uint64_t _type = 5;
+
+        mouse_button_event(int32_t _button, int32_t _modifiers, mouse_button_action _action);
+
+        int32_t button() const noexcept { return _button; }
+        int32_t modifiers() const noexcept { return _modifiers; }
+        mouse_button_action action() const noexcept { return _action; }
 
     };
 

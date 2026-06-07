@@ -2,6 +2,10 @@
 
 Simple C++23 desktop game engine
 
+### Macros
+
+- `NV_LOG_*`: logging
+
 ### Getting Started
 
 Requirements:
