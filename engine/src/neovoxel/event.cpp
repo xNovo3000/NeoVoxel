@@ -7,7 +7,7 @@ namespace neovoxel {
     event::event(uint64_t _type) : _type(_type) {}
 
     void event::stop_propagation() {
-        NV_LOG_DEBUG("Event type '{}': stopped propagation", _type);
+        NV_LOG_DEBUG("Event type '{}': stopped propagation", static_cast<uint64_t>(_type));
         _propagate = 0;
     }
 

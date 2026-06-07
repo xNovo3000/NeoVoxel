@@ -6,7 +6,15 @@
 
 #pragma once
 
-#include <spdlog/spdlog.h>
+#if NV_BUILD_TYPE == NV_BUILD_TYPE_DEBUG
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_TRACE
+#elif NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_DEBUG
+#else
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_INFO
+#endif
+
+#include <spdlog/spdlog.h>  // Include only one time in this header
 
 #define NV_LOG_TRACE(...)       SPDLOG_TRACE(__VA_ARGS__)
 #define NV_LOG_DEBUG(...)       SPDLOG_DEBUG(__VA_ARGS__)
@@ -15,11 +23,48 @@
 #define NV_LOG_ERROR(...)       SPDLOG_ERROR(__VA_ARGS__)
 #define NV_LOG_CRITICAL(...)    SPDLOG_CRITICAL(__VA_ARGS__)
 
-namespace neovoxel::log {
+namespace neovoxel {
 
-    static void initialize() {
-        spdlog::set_pattern("[%H:%M:%S.%F] [%^%l%$] [%t] %v");
-        spdlog::set_level(spdlog::level::trace);
+    namespace logging {
+
+        static void initialize() {
+            spdlog::set_pattern("[%H:%M:%S.%F] [%^%l%$] [%t] %v");
+            spdlog::set_level(spdlog::level::trace);
+        }
+
     }
+
+#if NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
+
+#include <source_location>
+
+    namespace tracing {
+
+        static void start();
+        static void stop();
+
+        class function_watcher {
+        
+        private:
+            const char *_name;
+
+        public:
+            function_watcher(const char *_name);
+            ~function_watcher();
+
+        };
+
+    }
+
+    #define NV_TRACING_BEGIN    ::neovoxel::tracing::start
+    #define NV_TRACING_END      ::neovoxel::tracing::stop
+    #define NV_TRACING_WATCH    ::neovoxel::tracing::function_watcher __watcher(std::source_location::current().function_name());
+
+#else
+    // Provide empty macros by default
+    #define NV_TRACING_BEGIN
+    #define NV_TRACING_END
+    #define NV_TRACING_WATCH
+#endif
 
 }

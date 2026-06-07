@@ -11,7 +11,7 @@
 extern neovoxel::application *create_application();
 
 int main(int argc, char const *argv[]) {
-    neovoxel::log::initialize();
+    neovoxel::logging::initialize();
     auto app = create_application();
     app->run();
     delete app;
