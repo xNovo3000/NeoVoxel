@@ -16,11 +16,13 @@ namespace neovoxel {
 
     void layer::on_visible() {
         _current = this;
+        _front = true;
         NV_LOG_DEBUG("Layer '{}': on_visible called", _name);
     }
 
     void layer::on_cover() {
         _current = this;
+        _front = false;
         NV_LOG_DEBUG("Layer '{}': on_cover called", _name);
     }
 

@@ -52,7 +52,7 @@ namespace neovoxel {
     template <typename _e>
     class event_listener {
 
-        static_assert(std::is_base_of_v<event, _e>, "_e does not inherit from Event");
+        static_assert(std::is_base_of_v<event, _e>, "_e does not inherit from event");
 
     public:
         virtual ~event_listener() = default;
