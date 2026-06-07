@@ -6,7 +6,7 @@
 */
 
 #include <neovoxel/application.hpp>
-#include <neovoxel/log.hpp>
+#include <neovoxel/debug.hpp>
 
 extern neovoxel::application *create_application();
 
