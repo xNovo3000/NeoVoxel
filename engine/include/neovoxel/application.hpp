@@ -16,7 +16,7 @@ namespace neovoxel {
         const char *_name;
 
     public:
-        static application &get() { return *_instance; }
+        static application &instance() { return *_instance; }
 
         explicit application();
         explicit application(const char *_name);
