@@ -1,3 +1,9 @@
+/*
+    Debug
+
+    Here all the debug-related features for neovoxel, like logging and tracing
+*/
+
 #pragma once
 
 #include <spdlog/spdlog.h>

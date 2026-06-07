@@ -14,13 +14,18 @@ namespace neovoxel {
     private:
         static application *_instance;
 
+        const char *_name;
+
     public:
         static application &get() { return *_instance; }
 
         application();
+        application(const char *_name);
         virtual ~application();
 
         void run();
+
+        const char *name() const noexcept { return _name; }
 
     };
 
