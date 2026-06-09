@@ -16,7 +16,7 @@ namespace neovoxel {
         - on_visible: called when it's the first layer in the stack
         - on_cover: called when it's no more the first layer in the stack
         - on_destroy: called when it's removed from the layersack (do not use destructor)
-        - on_tick: called every tick (top to bottom)
+        - on_update: called every tick (top to bottom)
         - on_render: called every tick (bottom to top)
         Since only one layer at a time can be the current layer, the function
         'current' returns the current active layer in any lifecycle call
@@ -49,7 +49,7 @@ namespace neovoxel {
         virtual void on_cover();
         virtual void on_destroy();
 
-        virtual void on_tick(timestep _timestep, std::vector<event_ptr> &_events);
+        virtual void on_update(timestep _timestep, std::vector<event_ptr> &_events);
         virtual void on_render();
 
     };

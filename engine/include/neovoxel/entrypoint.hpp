@@ -21,10 +21,10 @@ int main(int argc, char const *argv[])
 #endif
 {
     neovoxel::logging::initialize();
-    NV_TRACING_BEGIN();
+    NV_TRACING_BEGIN;
     auto app = create_application();
     app->run();
     delete app;
-    NV_TRACING_END();
+    NV_TRACING_END;
     return 0;
 }

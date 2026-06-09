@@ -31,9 +31,9 @@ namespace neovoxel {
         NV_LOG_DEBUG("Layer '{}': on_destroy called", name());
     }
 
-    void layer::on_tick(timestep _timestep, std::vector<event_ptr> &_events) {
+    void layer::on_update(timestep _timestep, std::vector<event_ptr> &_events) {
         _current = this;
-        NV_LOG_TRACE("Layer '{}': on_tick called", name());
+        NV_LOG_TRACE("Layer '{}': on_update called", name());
     }
 
     void layer::on_render() {

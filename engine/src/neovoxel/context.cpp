@@ -22,6 +22,12 @@ namespace neovoxel {
 
     std::vector<event_ptr> input::poll_events() { return {}; }
 
+    timepoint input::current_time() {
+        auto now = std::chrono::steady_clock::now();
+        auto nanoseconds_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
+        return timepoint { nanoseconds_since_epoch.count() };
+    }
+
     void input::cursor_mode(input_cursor_mode _mode) {}
     input_cursor_mode input::cursor_mode() const { return input_cursor_mode::normal; }
 

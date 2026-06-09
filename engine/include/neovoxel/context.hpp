@@ -52,6 +52,8 @@ namespace neovoxel {
         input &operator=(input&&) noexcept = default;
 
         virtual std::vector<event_ptr> poll_events();
+        
+        virtual timepoint current_time();
 
         virtual void cursor_mode(input_cursor_mode _mode);
         virtual input_cursor_mode cursor_mode() const;

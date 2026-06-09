@@ -1,10 +1,13 @@
 #pragma once
 
+#include <algorithm>
 #include <chrono>
 #include <cstdint>
 #include <fstream>
+#include <iterator>
 #include <memory>
 #include <mutex>
+#include <ranges>
 #include <thread>
 #include <type_traits>
 #include <vector>
