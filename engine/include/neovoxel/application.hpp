@@ -33,7 +33,7 @@ namespace neovoxel {
         input_ptr _input;
 
     public:
-        static application &instance() { return *_instance; }
+        static application &get() { return *_instance; }
 
         explicit application();
         explicit application(const char *_name);

@@ -34,64 +34,64 @@ namespace neovoxel {
             NV_TRACING_WATCH;
 
             // Extract current timestep
-            auto current_tick_time = _input->current_time();
-            auto timestep = current_tick_time - _last_tick_time;
-            _last_tick_time = current_tick_time;
+            auto _current_tick_time = _input->current_time();
+            auto _timestep = _current_tick_time - _last_tick_time;
+            _last_tick_time = _current_tick_time;
 
             // Extract events for this loop
-            auto window_events = _window->poll_events();
-            auto input_events = _input->poll_events();
-            std::vector<event_ptr> events;
-            events.reserve(window_events.size() + input_events.size());
-            events.insert(events.end(), std::make_move_iterator(window_events.begin()), std::make_move_iterator(window_events.end()));
-            events.insert(events.end(), std::make_move_iterator(input_events.begin()), std::make_move_iterator(input_events.end()));
+            auto _window_events = _window->poll_events();
+            auto _input_events = _input->poll_events();
+            std::vector<event_ptr> _events;
+            _events.reserve(_window_events.size() + _input_events.size());
+            _events.insert(_events.end(), std::make_move_iterator(_window_events.begin()), std::make_move_iterator(_window_events.end()));
+            _events.insert(_events.end(), std::make_move_iterator(_input_events.begin()), std::make_move_iterator(_input_events.end()));
 
             // Print timestep and number of events
-            NV_LOG_TRACE("Timestep: {} ms. Events: {}", timestep.delta_milliseconds(), events.size());
+            NV_LOG_TRACE("Timestep: {} ms. Events: {}", _timestep.delta_milliseconds(), _events.size());
 
             // Update (reverse order)
-            for (auto &layer : _layer_stack | std::views::reverse) {
-                layer->on_update(timestep, events);
+            for (auto &_layer : _layer_stack | std::views::reverse) {
+                _layer->on_update(_timestep, _events);
                 // Remove events that should not be propagated down
-                std::erase_if(events, [](const event_ptr &event) { return !event->propagate(); });
+                std::erase_if(_events, [](const event_ptr &event) { return !event->propagate(); });
             }
 
             // Render (forward order)
-            for (auto &layer : _layer_stack) {
-                layer->on_render();
+            for (auto &_layer : _layer_stack) {
+                _layer->on_render();
             }
 
             // Insert layers
-            for (auto layer_to_insert : _layer_insert_queue) {
-                layer_to_insert->on_create();
+            for (auto _layer_to_insert : _layer_insert_queue) {
+                _layer_to_insert->on_create();
                 if (!_layer_stack.empty()) {
                     _layer_stack.back()->on_cover();
                 }
-                layer_to_insert->on_visible();
-                _layer_stack.emplace_back(layer_to_insert);
+                _layer_to_insert->on_visible();
+                _layer_stack.emplace_back(_layer_to_insert);
             }
             _layer_insert_queue.clear();
 
             // Delete layers
-            for (auto layer_to_delete : _layer_delete_queue) {
+            for (auto _layer_to_delete : _layer_delete_queue) {
                 // Find layer
-                auto maybe_found = std::ranges::find_if(_layer_stack,
-                    [layer_to_delete](const layer_ptr &layer) { return layer.get() == layer_to_delete; });
-                if (maybe_found == _layer_stack.end()) {
-                    NV_LOG_WARN("Layer {} not found in the stack", layer_to_delete->name());
+                auto _maybe_found = std::ranges::find_if(_layer_stack,
+                    [_layer_to_delete](const layer_ptr &_layer) { return _layer.get() == _layer_to_delete; });
+                if (_maybe_found == _layer_stack.end()) {
+                    NV_LOG_WARN("Layer {} not found in the stack", _layer_to_delete->name());
                     continue;
                 }
-                auto &found = *maybe_found;
+                auto &_found = *_maybe_found;
                 // Make lower layer visible and cover this if it's the top layer
-                if (maybe_found == _layer_stack.end() - 1) {
-                    found->on_cover();
+                if (_maybe_found == _layer_stack.end() - 1) {
+                    _found->on_cover();
                     if (!_layer_stack.empty()) {
                         _layer_stack.back()->on_visible();
                     }
                 }
                 // Delete this layer
-                found->on_destroy();
-                _layer_stack.erase(maybe_found);
+                _found->on_destroy();
+                _layer_stack.erase(_maybe_found);
             }
             _layer_delete_queue.clear();
 
@@ -106,6 +106,9 @@ namespace neovoxel {
     void application::terminate() {
         NV_LOG_INFO("Application '{}': termination requested");
         _is_running = false;
+        for (auto &_layer : _layer_stack) {
+            _layer_delete_queue.emplace_back(_layer.get());
+        }
     }
 
 }

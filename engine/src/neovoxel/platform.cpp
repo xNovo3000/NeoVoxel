@@ -19,7 +19,7 @@ namespace neovoxel {
 
     bool base_layer::on_event(timestep _timestep, window_close_event &_event) {
         NV_LOG_INFO("base_layer::on_event(window_close_event): application stop requested");
-        application::instance().terminate();
+        application::get().terminate();
         return false;
     }
 

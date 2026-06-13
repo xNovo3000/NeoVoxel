@@ -9,30 +9,28 @@ namespace neovoxel {
     std::vector<event_ptr> window::poll_events() { return {}; }
     void window::swap_buffers() {}
 
-    void window::title(const char *_title) {}
+    void window::set_title(const char *_title) {}
+    void window::set_size(glm::ivec2 _size) {}
+    void window::set_refresh_rate(uint32_t _rate) {}
 
-    void window::size(glm::ivec2 _size) {}
-    glm::ivec2 window::size() const { return {}; }
-
-    void window::refresh_rate(uint32_t _rate) {}
-    uint32_t window::refresh_rate() const { return 0; }
+    glm::ivec2 window::get_size() const { return {}; }
+    uint32_t window::get_refresh_rate() const { return 0; }
 
     input::input() : input("input") {}
     input::input(const char *_name) : named_resource(_name) {}
 
     std::vector<event_ptr> input::poll_events() { return {}; }
-
     timepoint input::current_time() {
-        auto now = std::chrono::steady_clock::now();
-        auto nanoseconds_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch());
-        return timepoint { nanoseconds_since_epoch.count() };
+        auto _now = std::chrono::steady_clock::now();
+        auto _nanoseconds_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(_now.time_since_epoch());
+        return timepoint { _nanoseconds_since_epoch.count() };
     }
 
-    void input::cursor_mode(input_cursor_mode _mode) {}
-    input_cursor_mode input::cursor_mode() const { return input_cursor_mode::normal; }
+    void input::set_cursor_mode(input_cursor_mode _mode) {}
 
-    glm::vec2 input::cursor_position() const { return {}; }
-    bool input::key_pressed() const { return false; }
-    bool input::mouse_button_pressed() const { return false; }
+    input_cursor_mode input::get_cursor_mode() const { return input_cursor_mode::normal; }
+    glm::vec2 input::get_cursor_position() const { return {}; }
+    bool input::is_key_pressed() const { return false; }
+    bool input::is_mouse_button_pressed() const { return false; }
 
 }

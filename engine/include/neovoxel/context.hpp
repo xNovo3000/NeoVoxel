@@ -25,13 +25,12 @@ namespace neovoxel {
         virtual std::vector<event_ptr> poll_events();
         virtual void swap_buffers();
 
-        virtual void title(const char *_title);
+        virtual void set_title(const char *_title);
+        virtual void set_size(glm::ivec2 _size);
+        virtual void set_refresh_rate(uint32_t _rate);
 
-        virtual void size(glm::ivec2 _size);
-        virtual glm::ivec2 size() const;
-
-        virtual void refresh_rate(uint32_t _rate);
-        virtual uint32_t refresh_rate() const;
+        virtual glm::ivec2 get_size() const;
+        virtual uint32_t get_refresh_rate() const;
 
     };
 
@@ -52,15 +51,14 @@ namespace neovoxel {
         input &operator=(input&&) noexcept = default;
 
         virtual std::vector<event_ptr> poll_events();
-        
         virtual timepoint current_time();
 
-        virtual void cursor_mode(input_cursor_mode _mode);
-        virtual input_cursor_mode cursor_mode() const;
+        virtual void set_cursor_mode(input_cursor_mode _mode);
 
-        virtual glm::vec2 cursor_position() const;
-        virtual bool key_pressed() const;
-        virtual bool mouse_button_pressed() const;
+        virtual input_cursor_mode get_cursor_mode() const;
+        virtual glm::vec2 get_cursor_position() const;
+        virtual bool is_key_pressed() const;
+        virtual bool is_mouse_button_pressed() const;
 
     };
 
