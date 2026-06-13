@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <vector>
 
 namespace neovoxel {
     
@@ -35,6 +36,7 @@ namespace neovoxel {
     
     private:
         GLFWwindow *_handle;
+        std::vector<event_ptr> _events;
 
     public:
         glfw_window(const glfw_window_spec &_spec);
@@ -42,6 +44,8 @@ namespace neovoxel {
 
         glfw_window(glfw_window &&_other) noexcept;
         glfw_window &operator=(glfw_window &&_other) noexcept;
+
+        void push_event(event *_event);
 
         std::vector<event_ptr> poll_events() override;
         void swap_buffers() override;
@@ -52,6 +56,8 @@ namespace neovoxel {
 
         glm::ivec2 get_size() const override;
         uint32_t get_refresh_rate() const override;
+
+        GLFWwindow *get_handle() const noexcept { return _handle; }
 
     };
 
@@ -66,10 +72,10 @@ namespace neovoxel {
 
     public:
         glfw_input(const glfw_input_spec &_spec);
-        ~glfw_input() override;
+        ~glfw_input() override = default;
 
-        glfw_input(glfw_input &&_other) noexcept;
-        glfw_input &operator=(glfw_input &&_other) noexcept;
+        glfw_input(glfw_input &&_other) noexcept = default;
+        glfw_input &operator=(glfw_input &&_other) noexcept = default;
 
         std::vector<event_ptr> poll_events() override;
         timepoint current_time() override;
@@ -78,8 +84,8 @@ namespace neovoxel {
 
         input_cursor_mode get_cursor_mode() const override;
         glm::vec2 get_cursor_position() const override;
-        bool is_key_pressed() const override;
-        bool is_mouse_button_pressed() const override;
+        bool is_key_pressed(int32_t _mouse_button) const override;
+        bool is_mouse_button_pressed(int32_t _mouse_button) const override;
 
     };
 

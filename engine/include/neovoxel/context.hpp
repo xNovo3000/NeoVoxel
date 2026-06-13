@@ -57,8 +57,8 @@ namespace neovoxel {
 
         virtual input_cursor_mode get_cursor_mode() const;
         virtual glm::vec2 get_cursor_position() const;
-        virtual bool is_key_pressed() const;
-        virtual bool is_mouse_button_pressed() const;
+        virtual bool is_key_pressed(int32_t _mouse_button) const;
+        virtual bool is_mouse_button_pressed(int32_t _mouse_button) const;
 
     };
 

@@ -30,7 +30,7 @@ namespace neovoxel {
 
     input_cursor_mode input::get_cursor_mode() const { return input_cursor_mode::normal; }
     glm::vec2 input::get_cursor_position() const { return {}; }
-    bool input::is_key_pressed() const { return false; }
-    bool input::is_mouse_button_pressed() const { return false; }
+    bool input::is_key_pressed(int32_t _mouse_button) const { return false; }
+    bool input::is_mouse_button_pressed(int32_t _mouse_button) const { return false; }
 
 }
