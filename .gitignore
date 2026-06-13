@@ -168,3 +168,7 @@ nohup.out
 
 # VSCode
 .vscode/
+
+# Always include static added libraries
+!engine/vendor/glfw/lib/macos-universal/libglfw3.a
+!engine/vendor/openal-soft/lib/macos-universal/libalsoft.common.a
