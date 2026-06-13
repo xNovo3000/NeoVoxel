@@ -7,11 +7,11 @@
 #pragma once
 
 #if NV_BUILD_TYPE == NV_BUILD_TYPE_DEBUG
-    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_TRACE
-#elif NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
     #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_DEBUG
-#else
+#elif NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
     #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_INFO
+#else
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_ERROR
 #endif
 
 #include <spdlog/spdlog.h>  // Include only one time in this header
@@ -29,7 +29,7 @@ namespace neovoxel {
 
         static void initialize() {
             spdlog::set_pattern("[%H:%M:%S.%F] [%^%l%$] [%t] %v");
-            spdlog::set_level(spdlog::level::trace);
+            spdlog::set_level(spdlog::level::debug);
         }
 
     }

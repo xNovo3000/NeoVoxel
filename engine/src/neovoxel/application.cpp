@@ -3,6 +3,8 @@
 
 #include <neovoxel/debug.hpp>
 
+#include "platform.hpp"
+
 namespace neovoxel {
 
     application *application::_instance = nullptr;
@@ -14,11 +16,25 @@ namespace neovoxel {
         _layer_stack(), _layer_insert_queue(), _layer_delete_queue(),
         _window(nullptr), _input(nullptr)
     {
+        NV_TRACING_WATCH;
         NV_LOG_INFO("Application '{}': created", name());
         _instance = this;
-        // Create singleton instances
-        _window = std::make_unique<window>();
-        _input = std::make_unique<input>();
+        // Create window
+        glfw_window_spec _window_spec = {
+            ._title = "NeoVoxel",
+            ._size = { 960, 540 },
+            ._refresh_rate = 0
+        };
+        glfw_window *_window_ptr = new glfw_window(_window_spec);
+        _window = std::unique_ptr<glfw_window>(_window_ptr);
+        // Create input
+        glfw_input_spec _input_spec = {
+            ._handle = _window_ptr->get_handle()
+        };
+        glfw_input *_input_ptr = new glfw_input(_input_spec);
+        _input = std::unique_ptr<glfw_input>(_input_ptr);
+        // Create base layer
+        _layer_insert_queue.emplace_back(new base_layer);
     }
 
     application::~application() {
@@ -82,6 +98,7 @@ namespace neovoxel {
                     continue;
                 }
                 auto &_found = *_maybe_found;
+                // BUG: on_visible called after on_cover
                 // Make lower layer visible and cover this if it's the top layer
                 if (_maybe_found == _layer_stack.end() - 1) {
                     _found->on_cover();
@@ -104,7 +121,7 @@ namespace neovoxel {
     }
 
     void application::terminate() {
-        NV_LOG_INFO("Application '{}': termination requested");
+        NV_LOG_INFO("Application '{}': termination requested", name());
         _is_running = false;
         for (auto &_layer : _layer_stack) {
             _layer_delete_queue.emplace_back(_layer.get());

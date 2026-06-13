@@ -13,12 +13,16 @@ target_compile_definitions(engine PUBLIC NV_BUILD_TYPE_RELEASE=2)
 target_compile_definitions(engine PUBLIC NV_BUILD_TYPE=$<$<CONFIG:Debug>:NV_BUILD_TYPE_DEBUG>$<$<CONFIG:RelWithDebInfo>:NV_BUILD_TYPE_PROFILE>$<$<CONFIG:Release>:NV_BUILD_TYPE_RELEASE>)
 
 # glad
+find_package(OpenGL)
+target_link_libraries(engine PRIVATE OpenGL::GL)
 target_include_directories(engine PRIVATE "vendor/glad/include")
 
 # glfw
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_directories(engine PUBLIC "vendor/glfw/lib/macos-universal")
     target_link_libraries(engine PUBLIC "glfw3")
+    target_link_libraries(engine PUBLIC "-framework Cocoa")
+    target_link_libraries(engine PUBLIC "-framework IOKit")
 endif ()
 target_include_directories(engine PRIVATE "vendor/glfw/include")
 target_compile_definitions(engine PRIVATE GLFW_INCLUDE_NONE)
