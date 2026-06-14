@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <fstream>
 #include <iterator>
+#include <limits>
 #include <memory>
 #include <mutex>
 #include <ranges>

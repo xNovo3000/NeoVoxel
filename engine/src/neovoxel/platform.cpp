@@ -37,6 +37,10 @@ namespace neovoxel {
 
     /* glfw callbacks */
 
+    constexpr glm::dvec2 _cursor_disabled_invalid(std::numeric_limits<double>::infinity(), std::numeric_limits<double>::infinity());
+    constexpr glm::dvec2 _cursor_normal_position_min(-1.0, -1.0);
+    constexpr glm::dvec2 _cursor_normal_position_max( 1.0,  1.0);
+
     void cb_glfw_error(int _code, const char *_description) {
         NV_TRACING_WATCH;
         NV_LOG_ERROR("GLFW Error. Code: {}. Description: {}", _code, _description);
@@ -49,10 +53,76 @@ namespace neovoxel {
         _context->push_event(new window_close_event);
     }
 
+    void cb_glfw_window_focus(GLFWwindow *_window, int32_t _focused) {
+        NV_TRACING_WATCH;
+        auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
+        NV_LOG_DEBUG("GLFW: received window focus event. Focused: {}", _focused);
+        _context->push_event(new window_focus_event(_focused != 0));
+    }
+
+    // Framebuffer size instead of window size because the window is tied
+    // to the logical pixels, the framebuffer instead on the physical ones
+    void cb_glfw_framebuffer_size(GLFWwindow *_window, int32_t _width, int32_t _height) {
+        NV_TRACING_WATCH;
+        auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
+        NV_LOG_DEBUG("GLFW: received window size event. Size: ({}, {})", _width, _height);
+        _context->push_event(new window_size_event({ _width, _height }));
+    }
+
+    void cb_glfw_key(GLFWwindow* _window, int32_t _key, int32_t _, int32_t _action, int32_t _mods) {
+        NV_TRACING_WATCH;
+        auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
+        NV_LOG_DEBUG("GLFW: received key event. Key: {}, action: {}, mods: {}", _key, _action, _mods);
+        _context->push_event(new key_event(_key, _mods, static_cast<key_action>(_action)));
+    }
+
+    void cb_glfw_mouse_button(GLFWwindow* _window, int32_t _button, int32_t _action, int32_t _mods) {
+        NV_TRACING_WATCH;
+        auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
+        NV_LOG_DEBUG("GLFW: received mouse button event. Button: {}, action: {}, mods: {}", _button, _action, _mods);
+        _context->push_event(new mouse_button_event(_button, _mods, static_cast<mouse_button_action>(_action)));
+    }
+
+    void cb_glfw_cursor_pos(GLFWwindow *_window, double _xpos, double _ypos) {
+        NV_TRACING_WATCH;
+        auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
+        auto _cursor_input_mode = glfwGetInputMode(_window, GLFW_CURSOR);
+        if (_cursor_input_mode == GLFW_CURSOR_NORMAL) {
+            // Always invalidate the last position of the disabled cursor
+            _context->_cursor_disabled_last_position = _cursor_disabled_invalid;
+            // Map the cursor to OpenGL viewport coordinates
+            glm::ivec2 _window_size;
+            glfwGetWindowSize(_window, &_window_size.x, &_window_size.y);
+            glm::dvec2 _cursor_position = {
+                _xpos / _window_size.x * 2.0 - 1.0,
+                -(_ypos / _window_size.y * 2.0 - 1.0)
+            };
+            _cursor_position = glm::clamp(_cursor_position,
+                _cursor_normal_position_min, _cursor_normal_position_max);
+            NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", _cursor_position.x, _cursor_position.y);
+            _context->push_event(new cursor_position_event(_cursor_position));
+        } else if (_cursor_input_mode == GLFW_CURSOR_DISABLED) {
+            // Map the cursor as the delta from the last one
+            if (_context->_cursor_disabled_last_position == _cursor_disabled_invalid) {
+                // First time, just send (0, 0)
+                NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", 0.0, 0.0);
+                _context->push_event(new cursor_position_event({ 0.0, 0.0 }));
+            } else [[likely]] {
+                // Calculate delta from previous
+                auto _delta = glm::dvec2 { _xpos, _ypos } - _context->_cursor_disabled_last_position;
+                NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", _delta.x, -_delta.y);
+                _context->push_event(new cursor_position_event({ _delta.x, -_delta.y }));
+            }
+            // Update latest position as the current one
+            _context->_cursor_disabled_last_position = { _xpos, _ypos };
+        }
+    }
+
     /* glfw_window */
 
     glfw_window::glfw_window(const glfw_window_spec &_spec) :
-        window("glfw_window"), _handle(nullptr)
+        window("glfw_window"), _handle(nullptr),
+        _cursor_disabled_last_position(_cursor_disabled_invalid)
     {
         NV_TRACING_WATCH;
         // Global GLFW error callback
@@ -84,6 +154,11 @@ namespace neovoxel {
         // TODO: Initialize callbacks
         glfwSetWindowUserPointer(_handle, this);
         glfwSetWindowCloseCallback(_handle, cb_glfw_window_close);
+        glfwSetWindowFocusCallback(_handle, cb_glfw_window_focus);
+        glfwSetFramebufferSizeCallback(_handle, cb_glfw_framebuffer_size);
+        glfwSetKeyCallback(_handle, cb_glfw_key);
+        glfwSetMouseButtonCallback(_handle, cb_glfw_mouse_button);
+        glfwSetCursorPosCallback(_handle, cb_glfw_cursor_pos);
     }
 
     glfw_window::~glfw_window() {
@@ -95,15 +170,19 @@ namespace neovoxel {
     }
 
     glfw_window::glfw_window(glfw_window &&_other) noexcept :
-        window(std::move(_other)), _handle(_other._handle)
+        window(std::move(_other)), _handle(_other._handle),
+        _cursor_disabled_last_position(_other._cursor_disabled_last_position)
     {
         _other._handle = nullptr;
+        _other._cursor_disabled_last_position = _cursor_disabled_invalid;
     }
 
     glfw_window &glfw_window::operator=(glfw_window &&_other) noexcept {
         window::operator=(std::move(_other));
         _handle = _other._handle;
+        _cursor_disabled_last_position = _other._cursor_disabled_last_position;
         _other._handle = nullptr;
+        _other._cursor_disabled_last_position = _cursor_disabled_invalid;
         return *this;
     }
 

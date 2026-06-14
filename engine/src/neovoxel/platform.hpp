@@ -37,6 +37,10 @@ namespace neovoxel {
     private:
         GLFWwindow *_handle;
         std::vector<event_ptr> _events;
+    
+    public:
+        // Used to calculate the delta when the cursor is hidden (3D movement)
+        glm::dvec2 _cursor_disabled_last_position;
 
     public:
         glfw_window(const glfw_window_spec &_spec);
