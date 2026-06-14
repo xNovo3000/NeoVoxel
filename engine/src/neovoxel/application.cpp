@@ -94,21 +94,22 @@ namespace neovoxel {
                 auto _maybe_found = std::ranges::find_if(_layer_stack,
                     [_layer_to_delete](const layer_ptr &_layer) { return _layer.get() == _layer_to_delete; });
                 if (_maybe_found == _layer_stack.end()) {
+                    // Not found
                     NV_LOG_WARN("Layer {} not found in the stack", _layer_to_delete->name());
                     continue;
-                }
-                auto &_found = *_maybe_found;
-                // BUG: on_visible called after on_cover
-                // Make lower layer visible and cover this if it's the top layer
-                if (_maybe_found == _layer_stack.end() - 1) {
-                    _found->on_cover();
+                } else if (_maybe_found == _layer_stack.end() - 1) {
+                    // Last layer in the stack
+                    (*_maybe_found)->on_cover();
+                    (*_maybe_found)->on_destroy();
+                    _layer_stack.erase(_maybe_found);
                     if (!_layer_stack.empty()) {
                         _layer_stack.back()->on_visible();
                     }
+                } else {
+                    // Not last layer in the stack
+                    (*_maybe_found)->on_destroy();
+                    _layer_stack.erase(_maybe_found);
                 }
-                // Delete this layer
-                _found->on_destroy();
-                _layer_stack.erase(_maybe_found);
             }
             _layer_delete_queue.clear();
 
