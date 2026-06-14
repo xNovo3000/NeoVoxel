@@ -151,7 +151,7 @@ namespace neovoxel {
         }
         glfwMakeContextCurrent(_handle);
         glfwSwapInterval(_spec._refresh_rate == 0);
-        // TODO: Initialize callbacks
+        // Initialize callbacks
         glfwSetWindowUserPointer(_handle, this);
         glfwSetWindowCloseCallback(_handle, cb_glfw_window_close);
         glfwSetWindowFocusCallback(_handle, cb_glfw_window_focus);

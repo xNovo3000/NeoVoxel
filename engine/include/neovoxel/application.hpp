@@ -45,8 +45,8 @@ namespace neovoxel {
 
         void run();
 
-        // virtual void push_layer(layer *_layer);
-        // virtual void pop_layer(layer *_layer);
+        virtual void push_layer(layer *_layer);
+        virtual void pop_layer(layer *_layer);
         virtual void terminate();
 
         window &get_window() const noexcept { return *_window; }

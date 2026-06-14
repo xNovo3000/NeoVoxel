@@ -36,8 +36,8 @@ namespace neovoxel {
 
         void stop_propagation();
 
-        bool propagate() const noexcept { return _propagate == 1; }
-        uint64_t type() const noexcept { return _type; }
+        bool should_propagate() const noexcept { return _propagate == 1; }
+        uint64_t get_type() const noexcept { return _type; }
 
     };
 
@@ -59,7 +59,7 @@ namespace neovoxel {
 
         virtual void dispatch_events(timestep _timestep, std::vector<event_ptr> &_events) {
             for (auto &_event : _events) {
-                if (_event->type() == _e::_type) {
+                if (_event->get_type() == _e::_type) {
                     bool _continue_propagation = on_event(_timestep, static_cast<_e&>(*_event));
                     if (!_continue_propagation) {
                         _event->stop_propagation();
@@ -92,7 +92,7 @@ namespace neovoxel {
 
         window_focus_event(bool _focused);
 
-        bool focused() const noexcept { return _focused; }
+        bool is_focused() const noexcept { return _focused; }
 
     };
 
@@ -106,7 +106,7 @@ namespace neovoxel {
 
         window_size_event(glm::ivec2 _size);
 
-        glm::ivec2 size() const noexcept { return _size; }
+        glm::ivec2 get_size() const noexcept { return _size; }
 
     };
 
@@ -120,7 +120,7 @@ namespace neovoxel {
 
         cursor_position_event(glm::vec2 _position);
 
-        glm::vec2 position() const noexcept { return _position; }
+        glm::vec2 get_position() const noexcept { return _position; }
 
     };
 
@@ -137,9 +137,9 @@ namespace neovoxel {
 
         key_event(int32_t _key, int32_t _modifiers, key_action _action);
 
-        int32_t key() const noexcept { return _key; }
-        int32_t modifiers() const noexcept { return _modifiers; }
-        key_action action() const noexcept { return _action; }
+        int32_t get_key() const noexcept { return _key; }
+        int32_t get_modifiers() const noexcept { return _modifiers; }
+        key_action get_action() const noexcept { return _action; }
 
     };
 
@@ -156,9 +156,9 @@ namespace neovoxel {
 
         mouse_button_event(int32_t _button, int32_t _modifiers, mouse_button_action _action);
 
-        int32_t button() const noexcept { return _button; }
-        int32_t modifiers() const noexcept { return _modifiers; }
-        mouse_button_action action() const noexcept { return _action; }
+        int32_t get_button() const noexcept { return _button; }
+        int32_t get_modifiers() const noexcept { return _modifiers; }
+        mouse_button_action get_action() const noexcept { return _action; }
 
     };
 

@@ -34,7 +34,7 @@ namespace neovoxel {
         glfw_input *_input_ptr = new glfw_input(_input_spec);
         _input = std::unique_ptr<glfw_input>(_input_ptr);
         // Create base layer
-        _layer_insert_queue.emplace_back(new base_layer);
+        push_layer(new base_layer);
     }
 
     application::~application() {
@@ -69,7 +69,7 @@ namespace neovoxel {
             for (auto &_layer : _layer_stack | std::views::reverse) {
                 _layer->on_update(_timestep, _events);
                 // Remove events that should not be propagated down
-                std::erase_if(_events, [](const event_ptr &event) { return !event->propagate(); });
+                std::erase_if(_events, [](const event_ptr &event) { return !event->should_propagate(); });
             }
 
             // Render (forward order)
@@ -120,12 +120,24 @@ namespace neovoxel {
 
         NV_LOG_INFO("Application '{}': stopped", name());
     }
+    
+    void application::push_layer(layer *_layer) {
+        if (_is_running) {
+            NV_LOG_DEBUG("Application '{}': requested to insert layer {}", name(), fmt::ptr(_layer));
+            _layer_insert_queue.emplace_back(_layer);
+        }
+    }
+
+    void application::pop_layer(layer *_layer) {
+        NV_LOG_DEBUG("Application '{}': requested to pop layer {}", name(), fmt::ptr(_layer));
+        _layer_delete_queue.emplace_back(_layer);
+    }
 
     void application::terminate() {
         NV_LOG_INFO("Application '{}': termination requested", name());
         _is_running = false;
         for (auto &_layer : _layer_stack) {
-            _layer_delete_queue.emplace_back(_layer.get());
+            pop_layer(_layer.get());
         }
     }
 
