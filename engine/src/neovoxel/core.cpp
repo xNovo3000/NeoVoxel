@@ -1,6 +1,8 @@
 #include <pch.hpp>
 #include <neovoxel/core.hpp>
 
+#include <neovoxel/debug.hpp>
+
 namespace neovoxel {
 
     /* named_resource */
@@ -23,6 +25,31 @@ namespace neovoxel {
         const auto _nanoseconds_delta = _lhs.nanoseconds() - _rhs.nanoseconds();
         const auto _seconds_delta = static_cast<double>(_nanoseconds_delta) / 1000000000.0;
         return timestep(_seconds_delta);
+    }
+
+    /* threading */
+
+    static void thread_set_priority(thread_priority _priority) {
+        // TODO: Implement platform-specific thread management
+    }
+
+    thread_pool::thread_pool(const char *_name, size_t _size, thread_priority _priority) :
+        named_resource(_name),
+        _context(),
+        _guard(asio::make_work_guard(_context.get_executor())),
+        _handles(),
+        _priority(_priority)
+    {
+        for (int32_t _i = 0; _i < _size; _i++) {
+            _handles.emplace_back(&thread_pool::loop, this, _i);
+        }
+    }
+
+    void thread_pool::loop(int32_t _index) {
+        NV_LOG_INFO("Thread '{}-{}': starting", name(), _index);
+        thread_set_priority(_priority);
+        _context.run();
+        NV_LOG_INFO("Thread '{}': finishing", name());
     }
 
 }

@@ -1,6 +1,10 @@
 #pragma once
 
+#include <asio.hpp>
+
 #include <cstdint>
+#include <thread>
+#include <vector>
 
 namespace neovoxel {
 
@@ -57,6 +61,31 @@ namespace neovoxel {
     };
 
     timestep operator-(const timepoint& _lhs, const timepoint& _rhs);
+
+    enum class thread_priority { low, normal, high };
+
+    /*
+        ThreadPool
+
+        A pool of threads that executes synchronously futures using asio
+    */
+    class thread_pool : public named_resource {
+
+    private:
+        asio::io_context _context;
+        asio::executor_work_guard<asio::io_context::executor_type> _guard;
+        std::vector<std::jthread> _handles;
+        thread_priority _priority;
+    
+    private:
+        void loop(int32_t _index);
+    
+    public:
+        thread_pool(const char *_name, size_t _size, thread_priority _priority);
+
+        asio::io_context::executor_type get_context() noexcept { return _context.get_executor(); }
+
+    };
 
 }
 

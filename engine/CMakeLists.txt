@@ -12,6 +12,9 @@ target_compile_definitions(engine PUBLIC NV_BUILD_TYPE_PROFILE=1)
 target_compile_definitions(engine PUBLIC NV_BUILD_TYPE_RELEASE=2)
 target_compile_definitions(engine PUBLIC NV_BUILD_TYPE=$<$<CONFIG:Debug>:NV_BUILD_TYPE_DEBUG>$<$<CONFIG:RelWithDebInfo>:NV_BUILD_TYPE_PROFILE>$<$<CONFIG:Release>:NV_BUILD_TYPE_RELEASE>)
 
+# asio
+target_include_directories(engine PUBLIC "vendor/glm/asio")
+
 # glad
 find_package(OpenGL)
 target_link_libraries(engine PRIVATE OpenGL::GL)

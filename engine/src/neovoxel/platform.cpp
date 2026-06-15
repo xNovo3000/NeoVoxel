@@ -41,19 +41,19 @@ namespace neovoxel {
     constexpr glm::dvec2 _cursor_normal_position_min(-1.0, -1.0);
     constexpr glm::dvec2 _cursor_normal_position_max( 1.0,  1.0);
 
-    void cb_glfw_error(int _code, const char *_description) {
+    static void cb_glfw_error(int _code, const char *_description) {
         NV_TRACING_WATCH;
         NV_LOG_ERROR("GLFW Error. Code: {}. Description: {}", _code, _description);
     }
 
-    void cb_glfw_window_close(GLFWwindow *_window) {
+    static void cb_glfw_window_close(GLFWwindow *_window) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         NV_LOG_DEBUG("GLFW: received window close event");
         _context->push_event(new window_close_event);
     }
 
-    void cb_glfw_window_focus(GLFWwindow *_window, int32_t _focused) {
+    static void cb_glfw_window_focus(GLFWwindow *_window, int32_t _focused) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         NV_LOG_DEBUG("GLFW: received window focus event. Focused: {}", _focused);
@@ -62,28 +62,28 @@ namespace neovoxel {
 
     // Framebuffer size instead of window size because the window is tied
     // to the logical pixels, the framebuffer instead on the physical ones
-    void cb_glfw_framebuffer_size(GLFWwindow *_window, int32_t _width, int32_t _height) {
+    static void cb_glfw_framebuffer_size(GLFWwindow *_window, int32_t _width, int32_t _height) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         NV_LOG_DEBUG("GLFW: received window size event. Size: ({}, {})", _width, _height);
         _context->push_event(new window_size_event({ _width, _height }));
     }
 
-    void cb_glfw_key(GLFWwindow* _window, int32_t _key, int32_t _, int32_t _action, int32_t _mods) {
+    static void cb_glfw_key(GLFWwindow* _window, int32_t _key, int32_t _, int32_t _action, int32_t _mods) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         NV_LOG_DEBUG("GLFW: received key event. Key: {}, action: {}, mods: {}", _key, _action, _mods);
         _context->push_event(new key_event(_key, _mods, static_cast<key_action>(_action)));
     }
 
-    void cb_glfw_mouse_button(GLFWwindow* _window, int32_t _button, int32_t _action, int32_t _mods) {
+    static void cb_glfw_mouse_button(GLFWwindow* _window, int32_t _button, int32_t _action, int32_t _mods) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         NV_LOG_DEBUG("GLFW: received mouse button event. Button: {}, action: {}, mods: {}", _button, _action, _mods);
         _context->push_event(new mouse_button_event(_button, _mods, static_cast<mouse_button_action>(_action)));
     }
 
-    void cb_glfw_cursor_pos(GLFWwindow *_window, double _xpos, double _ypos) {
+    static void cb_glfw_cursor_pos(GLFWwindow *_window, double _xpos, double _ypos) {
         NV_TRACING_WATCH;
         auto _context = reinterpret_cast<glfw_window*>(glfwGetWindowUserPointer(_window));
         auto _cursor_input_mode = glfwGetInputMode(_window, GLFW_CURSOR);
