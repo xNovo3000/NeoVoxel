@@ -28,9 +28,13 @@ namespace neovoxel {
         std::vector<layer*> _layer_insert_queue;
         std::vector<layer*> _layer_delete_queue;
 
-        /* Context, graphics, audio and multithreading */
+        /* Context, graphics, audio */
         window_ptr _window;
         input_ptr _input;
+
+        /* Multithreading */
+        thread_pool _render_thread_pool;
+        thread_pool _computation_thread_pool;
 
     public:
         static application &get() { return *_instance; }
@@ -51,6 +55,9 @@ namespace neovoxel {
 
         window &get_window() const noexcept { return *_window; }
         input &get_input() const noexcept { return *_input; }
+
+        thread_pool &get_render_thread_pool() const noexcept { return const_cast<thread_pool&>(_render_thread_pool); }
+        thread_pool &get_computation_thread_pool() const noexcept { return const_cast<thread_pool&>(_computation_thread_pool); }
 
     };
 

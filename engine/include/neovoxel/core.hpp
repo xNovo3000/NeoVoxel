@@ -74,14 +74,15 @@ namespace neovoxel {
     private:
         asio::io_context _context;
         asio::executor_work_guard<asio::io_context::executor_type> _guard;
-        std::vector<std::jthread> _handles;
+        std::vector<std::thread> _handles;
         thread_priority _priority;
     
     private:
-        void loop(int32_t _index);
+        void loop(uint32_t _index);
     
     public:
-        thread_pool(const char *_name, size_t _size, thread_priority _priority);
+        thread_pool(const char *_name, uint32_t _size, thread_priority _priority);
+        ~thread_pool();
 
         asio::io_context::executor_type get_context() noexcept { return _context.get_executor(); }
 

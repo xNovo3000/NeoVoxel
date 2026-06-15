@@ -33,23 +33,30 @@ namespace neovoxel {
         // TODO: Implement platform-specific thread management
     }
 
-    thread_pool::thread_pool(const char *_name, size_t _size, thread_priority _priority) :
+    thread_pool::thread_pool(const char *_name, uint32_t _size, thread_priority _priority) :
         named_resource(_name),
         _context(),
         _guard(asio::make_work_guard(_context.get_executor())),
         _handles(),
         _priority(_priority)
     {
-        for (int32_t _i = 0; _i < _size; _i++) {
+        for (uint32_t _i = 0; _i < _size; _i++) {
             _handles.emplace_back(&thread_pool::loop, this, _i);
         }
     }
 
-    void thread_pool::loop(int32_t _index) {
+    thread_pool::~thread_pool() {
+        _guard.reset();
+        for (auto &_handle : _handles) {
+            _handle.join();
+        }
+    }
+
+    void thread_pool::loop(uint32_t _index) {
         NV_LOG_INFO("Thread '{}-{}': starting", name(), _index);
         thread_set_priority(_priority);
         _context.run();
-        NV_LOG_INFO("Thread '{}': finishing", name());
+        NV_LOG_INFO("Thread '{}-{}': finishing", name(), _index);
     }
 
 }

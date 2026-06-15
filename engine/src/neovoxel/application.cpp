@@ -14,7 +14,9 @@ namespace neovoxel {
     application::application(const char *_name) : named_resource(_name),
         _is_running(true), _last_tick_time(0),
         _layer_stack(), _layer_insert_queue(), _layer_delete_queue(),
-        _window(nullptr), _input(nullptr)
+        _window(nullptr), _input(nullptr),
+        _render_thread_pool("render", 1, thread_priority::high),
+        _computation_thread_pool("computation", std::thread::hardware_concurrency(), thread_priority::low)
     {
         NV_TRACING_WATCH;
         NV_LOG_INFO("Application '{}': created", name());
