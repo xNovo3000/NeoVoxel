@@ -36,8 +36,6 @@ namespace neovoxel {
 
 #if NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
 
-#include <source_location>
-
     namespace tracing {
 
         void start();
