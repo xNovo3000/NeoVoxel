@@ -7,6 +7,8 @@ namespace neovoxel {
 
     namespace tracing {
 
+        /* tracer singleton */
+
         struct data {
             const char *_name;
             std::thread::id _thread_id;
@@ -24,31 +26,6 @@ namespace neovoxel {
         };
 
         tracer *_singleton = nullptr;
-
-        void start() {
-            NV_LOG_INFO("Tracer: starting");
-            _singleton = new tracer {
-                std::chrono::steady_clock::now(),
-                std::fstream("Traces.json", std::ios::out | std::ios::trunc),
-                std::vector<data>(),
-                std::mutex(),
-                std::thread(&loop),
-                true
-            };
-        }
-
-        void stop() {
-            NV_LOG_INFO("Tracer: terminating");
-            _singleton->_is_running = false;
-            _singleton->_runner.join();
-            delete _singleton;
-            _singleton = nullptr;
-        }
-
-        static void add_trace(data &&_data) {
-            std::lock_guard _guard(_singleton->_traces);
-            _singleton->_traces.emplace_back(std::move(_data));
-        }
 
         static void loop() {
             using namespace std::chrono_literals;
@@ -91,6 +68,33 @@ namespace neovoxel {
             _singleton->_output_file.seekp(-1, std::ios::end);  // Remove trailing comma
             _singleton->_output_file << "]";
         }
+
+        void start() {
+            NV_LOG_INFO("Tracer: starting");
+            _singleton = new tracer {
+                std::chrono::steady_clock::now(),
+                std::fstream("Traces.json", std::ios::out | std::ios::trunc),
+                std::vector<data>(),
+                std::mutex(),
+                std::thread(&loop),
+                true
+            };
+        }
+
+        void stop() {
+            NV_LOG_INFO("Tracer: terminating");
+            _singleton->_is_running = false;
+            _singleton->_runner.join();
+            delete _singleton;
+            _singleton = nullptr;
+        }
+
+        static void add_trace(data &&_data) {
+            std::lock_guard _guard(_singleton->_lock);
+            _singleton->_traces.emplace_back(std::move(_data));
+        }
+
+        /* function_watcher */
 
         function_watcher::function_watcher(const char *_name) : _name(_name) {
             auto _data = data { _name, std::this_thread::get_id(), true, std::chrono::steady_clock::now() };

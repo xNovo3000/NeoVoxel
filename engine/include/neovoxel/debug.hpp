@@ -40,8 +40,8 @@ namespace neovoxel {
 
     namespace tracing {
 
-        static void start();
-        static void stop();
+        void start();
+        void stop();
 
         class function_watcher {
         
@@ -58,7 +58,7 @@ namespace neovoxel {
 
     #define NV_TRACING_BEGIN    ::neovoxel::tracing::start()
     #define NV_TRACING_END      ::neovoxel::tracing::stop()
-    #define NV_TRACING_WATCH    ::neovoxel::tracing::function_watcher __watcher(std::source_location::current().function_name());
+    #define NV_TRACING_WATCH    ::neovoxel::tracing::function_watcher __watcher(__func__);
 
 #else
     // Provide empty macros by default

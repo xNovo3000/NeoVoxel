@@ -211,7 +211,6 @@ namespace neovoxel {
     }
 
     void glfw_window::swap_buffers() {
-        NV_TRACING_WATCH;
         auto _swap_buffers_future = asio::post(
             application::get().get_render_thread_pool().get_executor(),
             asio::use_future([&]() {
