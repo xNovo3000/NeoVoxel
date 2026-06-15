@@ -14,6 +14,8 @@
 #include <type_traits>
 #include <vector>
 
+#include <asio.hpp>
+
 #include <glm/glm.hpp>
 
 #if defined(_WIN32)

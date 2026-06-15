@@ -1,6 +1,7 @@
 #include <pch.hpp>
 #include "platform.hpp"
 
+#include <neovoxel/application.hpp>
 #include <neovoxel/debug.hpp>
 
 namespace neovoxel {
@@ -159,6 +160,15 @@ namespace neovoxel {
         glfwSetKeyCallback(_handle, cb_glfw_key);
         glfwSetMouseButtonCallback(_handle, cb_glfw_mouse_button);
         glfwSetCursorPosCallback(_handle, cb_glfw_cursor_pos);
+        // Switch context off-thread
+        glfwMakeContextCurrent(nullptr);
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            asio::use_future([&]() {
+                NV_TRACING_WATCH;
+                glfwMakeContextCurrent(_handle);
+            })
+        );
     }
 
     glfw_window::~glfw_window() {
@@ -202,7 +212,14 @@ namespace neovoxel {
 
     void glfw_window::swap_buffers() {
         NV_TRACING_WATCH;
-        glfwSwapBuffers(_handle);
+        auto _swap_buffers_future = asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            asio::use_future([&]() {
+                NV_TRACING_WATCH;
+                glfwSwapBuffers(_handle);
+            })
+        );
+        _swap_buffers_future.get();
     }
 
     void glfw_window::set_title(const char *_title) {}
