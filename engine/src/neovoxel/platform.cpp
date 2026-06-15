@@ -162,6 +162,7 @@ namespace neovoxel {
     }
 
     glfw_window::~glfw_window() {
+        NV_TRACING_WATCH;
         if (_handle != nullptr) {
             // Destroy window and terminate GLFW instance
             glfwDestroyWindow(_handle);
@@ -229,7 +230,11 @@ namespace neovoxel {
         NV_TRACING_WATCH;
         switch (_mode) {
             case input_cursor_mode::normal:
+                // Move cursor to window center when switching back to normal
+                glm::ivec2 _window_size;
+                glfwGetWindowSize(_handle, &_window_size.x, &_window_size.y);
                 glfwSetInputMode(_handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                glfwSetCursorPos(_handle, _window_size.x / 2.0, _window_size.y / 2.0);
                 break;
             case input_cursor_mode::disabled:
                 glfwSetInputMode(_handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
