@@ -81,7 +81,7 @@ namespace neovoxel {
         void loop(uint32_t _index);
     
     public:
-        thread_pool(const char *_name, uint32_t _size, thread_priority _priority);
+        explicit thread_pool(const char *_name, uint32_t _size, thread_priority _priority);
         ~thread_pool();
 
         asio::io_context::executor_type get_executor() noexcept { return _context.get_executor(); }

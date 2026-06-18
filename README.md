@@ -28,9 +28,14 @@ Insert this properties in `.vscode/settings.json`:
         "**/.git": true
     },
     "cmake.modifyLists.addNewSourceFiles": "no",
-    "cmake.modifyLists.removeDeletedSourceFiles": "no"
+    "cmake.modifyLists.removeDeletedSourceFiles": "no",
+    "clangd.arguments": [
+        "-header-insertion=never"
+    ]
 }
 ```
+
+Install `clangd` extension and, when prompted, disable intellisense.
 
 Insert this properties in `.vscode/c_cpp_properties.json` (choose only your current configuration):
 ```json
