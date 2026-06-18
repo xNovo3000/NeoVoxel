@@ -34,14 +34,14 @@ namespace neovoxel {
 
     bool base_layer::on_event(timestep _timestep, window_close_event &_event) {
         NV_TRACING_WATCH;
-        NV_LOG_INFO("base_layer::on_event(window_close_event): application stop requested");
+        NV_LOG_DEBUG("base_layer::on_event(window_close_event): application stop requested");
         application::get().terminate();
         return false;
     }
 
     bool base_layer::on_event(timestep _timestep, window_size_event &_event) {
         NV_TRACING_WATCH;
-        NV_LOG_INFO("base_layer::on_event(window_size_event): application resize requested");
+        NV_LOG_DEBUG("base_layer::on_event(window_size_event): application resize requested");
         application::get().get_graphics_api().set_viewport(_event.get_size());
         return true;
     }
@@ -110,18 +110,18 @@ namespace neovoxel {
             };
             _cursor_position = glm::clamp(_cursor_position,
                 _cursor_normal_position_min, _cursor_normal_position_max);
-            NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", _cursor_position.x, _cursor_position.y);
+            NV_LOG_TRACE("GLFW: received cursor position event. Position: ({}, {})", _cursor_position.x, _cursor_position.y);
             _context->push_event(new cursor_position_event(_cursor_position));
         } else if (_cursor_input_mode == GLFW_CURSOR_DISABLED) {
             // Map the cursor as the delta from the last one
             if (_context->_cursor_disabled_last_position == _cursor_disabled_invalid) {
                 // First time, just send (0, 0)
-                NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", 0.0, 0.0);
+                NV_LOG_TRACE("GLFW: received cursor position event. Position: ({}, {})", 0.0, 0.0);
                 _context->push_event(new cursor_position_event({ 0.0, 0.0 }));
             } else [[likely]] {
                 // Calculate delta from previous
                 auto _delta = glm::dvec2 { _xpos, _ypos } - _context->_cursor_disabled_last_position;
-                NV_LOG_DEBUG("GLFW: received cursor position event. Position: ({}, {})", _delta.x, -_delta.y);
+                NV_LOG_TRACE("GLFW: received cursor position event. Position: ({}, {})", _delta.x, -_delta.y);
                 _context->push_event(new cursor_position_event({ _delta.x, -_delta.y }));
             }
             // Update latest position as the current one
@@ -301,6 +301,19 @@ namespace neovoxel {
         return glfwGetMouseButton(_handle, _mouse_button) == GLFW_PRESS;
     }
 
+    /* opengl callbacks */
+
+#if NV_BUILD_TYPE == NV_BUILD_TYPE_DEBUG
+    static void cb_gl_check_error(const char *_file, long _line) {
+        if (auto _error = glGetError(); _error != GL_NO_ERROR) {
+            NV_LOG_ERROR("OpenGL error {}. File: {}. Line: {}", _error, _file, _line);
+        }
+    }
+    #define glCall(x)   x; cb_gl_check_error(__FILE__, __LINE__)
+#else
+    #define glCall(x)   x
+#endif
+
     /* opengl_graphics_api */
 
     opengl_graphics_api::opengl_graphics_api(const opengl_graphics_api_spec &_spec) :
@@ -325,7 +338,8 @@ namespace neovoxel {
             application::get().get_render_thread_pool().get_executor(),
             [_color]() {
                 NV_TRACING_WATCH;
-                glad_glClearColor(_color.r, _color.g, _color.b, _color.a);
+                glCall(glClearColor(_color.r, _color.g, _color.b, _color.a));
+                glCall(glClear(GL_COLOR_BUFFER_BIT));
             }
         );
     }
@@ -335,7 +349,8 @@ namespace neovoxel {
             application::get().get_render_thread_pool().get_executor(),
             [_depth]() {
                 NV_TRACING_WATCH;
-                glad_glClearDepth(_depth);
+                glCall(glClearDepth(_depth));
+                glCall(glClear(GL_DEPTH_BUFFER_BIT));
             }
         );
     }
@@ -345,7 +360,8 @@ namespace neovoxel {
             application::get().get_render_thread_pool().get_executor(),
             [_stencil]() {
                 NV_TRACING_WATCH;
-                glad_glClearStencil(_stencil);
+                glCall(glClearStencil(_stencil));
+                glCall(glClear(GL_STENCIL_BUFFER_BIT));
             }
         );
     }
@@ -358,7 +374,7 @@ namespace neovoxel {
             application::get().get_render_thread_pool().get_executor(),
             [_size]() {
                 NV_TRACING_WATCH;
-                glad_glViewport(0, 0, _size.x, _size.y);
+                glCall(glViewport(0, 0, _size.x, _size.y));
             }
         );
     }

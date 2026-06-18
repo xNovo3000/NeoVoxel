@@ -53,10 +53,10 @@ namespace neovoxel {
     }
 
     void thread_pool::loop(uint32_t _index) {
-        NV_LOG_INFO("Thread '{}-{}': starting", name(), _index);
+        NV_LOG_DEBUG("Thread '{}-{}': starting", name(), _index);
         thread_set_priority(_priority);
         _context.run();
-        NV_LOG_INFO("Thread '{}-{}': finishing", name(), _index);
+        NV_LOG_DEBUG("Thread '{}-{}': finishing", name(), _index);
     }
 
 }
