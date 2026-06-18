@@ -12,4 +12,5 @@
 #include <neovoxel/application.hpp>
 #include <neovoxel/context.hpp>
 #include <neovoxel/event.hpp>
+#include <neovoxel/graphics.hpp>
 #include <neovoxel/layer.hpp>

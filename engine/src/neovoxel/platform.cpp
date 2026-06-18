@@ -1,8 +1,14 @@
 #include <pch.hpp>
 #include "platform.hpp"
+#include "neovoxel/graphics.hpp"
 
 #include <neovoxel/application.hpp>
 #include <neovoxel/debug.hpp>
+
+#include <asio.hpp>
+
+#define GLAD_GL_IMPLEMENTATION
+#include <gl.h>
 
 namespace neovoxel {
 
@@ -20,6 +26,10 @@ namespace neovoxel {
     void base_layer::on_render() {
         NV_TRACING_WATCH;
         layer::on_render();
+        // Clear everyting
+        application::get().get_graphics_api().clear_color();
+        application::get().get_graphics_api().clear_depth();
+        application::get().get_graphics_api().clear_stencil();
     }
 
     bool base_layer::on_event(timestep _timestep, window_close_event &_event) {
@@ -32,7 +42,7 @@ namespace neovoxel {
     bool base_layer::on_event(timestep _timestep, window_size_event &_event) {
         NV_TRACING_WATCH;
         NV_LOG_INFO("base_layer::on_event(window_size_event): application resize requested");
-        // TODO: Graphics: set new viewport size
+        application::get().get_graphics_api().set_viewport(_event.get_size());
         return true;
     }
 
@@ -164,10 +174,10 @@ namespace neovoxel {
         glfwMakeContextCurrent(nullptr);
         asio::post(
             application::get().get_render_thread_pool().get_executor(),
-            asio::use_future([&]() {
+            [&]() {
                 NV_TRACING_WATCH;
                 glfwMakeContextCurrent(_handle);
-            })
+            }
         );
     }
 
@@ -289,6 +299,68 @@ namespace neovoxel {
     bool glfw_input::is_mouse_button_pressed(int32_t _mouse_button) const {
         NV_TRACING_WATCH;
         return glfwGetMouseButton(_handle, _mouse_button) == GLFW_PRESS;
+    }
+
+    /* opengl_graphics_api */
+
+    opengl_graphics_api::opengl_graphics_api(const opengl_graphics_api_spec &_spec) :
+        graphics_api("opengl_graphics_api")
+    {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [_spec]() {
+                NV_TRACING_WATCH;
+                // Initialize OpenGL
+                if (gladLoadGL(_spec._load_func) != 0) {
+                    NV_LOG_INFO("OpenGL: initialized");
+                } else {
+                    NV_LOG_ERROR("OpenGL: failed to initialize");
+                }
+            }
+        );
+    }
+
+    void opengl_graphics_api::clear_color(const glm::vec4 &_color) {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [_color]() {
+                NV_TRACING_WATCH;
+                glad_glClearColor(_color.r, _color.g, _color.b, _color.a);
+            }
+        );
+    }
+
+    void opengl_graphics_api::clear_depth(double _depth) {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [_depth]() {
+                NV_TRACING_WATCH;
+                glad_glClearDepth(_depth);
+            }
+        );
+    }
+
+    void opengl_graphics_api::clear_stencil(int32_t _stencil) {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [_stencil]() {
+                NV_TRACING_WATCH;
+                glad_glClearStencil(_stencil);
+            }
+        );
+    }
+
+    void opengl_graphics_api::disable(graphics_capability _capability) {}
+    void opengl_graphics_api::enable(graphics_capability _capability) {}
+
+    void opengl_graphics_api::set_viewport(const glm::ivec2 &_size) {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [_size]() {
+                NV_TRACING_WATCH;
+                glad_glViewport(0, 0, _size.x, _size.y);
+            }
+        );
     }
 
 }

@@ -3,6 +3,7 @@
 #include <neovoxel/core.hpp>
 #include <neovoxel/context.hpp>
 #include <neovoxel/event.hpp>
+#include <neovoxel/graphics.hpp>
 #include <neovoxel/layer.hpp>
 
 #include <vector>
@@ -31,6 +32,7 @@ namespace neovoxel {
         /* Context, graphics, audio */
         window_ptr _window;
         input_ptr _input;
+        graphics_api_ptr _graphics_api;
 
         /* Multithreading */
         thread_pool _render_thread_pool;
@@ -55,6 +57,7 @@ namespace neovoxel {
 
         window &get_window() const noexcept { return *_window; }
         input &get_input() const noexcept { return *_input; }
+        graphics_api &get_graphics_api() const noexcept { return *_graphics_api; }
 
         thread_pool &get_render_thread_pool() const noexcept { return const_cast<thread_pool&>(_render_thread_pool); }
         thread_pool &get_computation_thread_pool() const noexcept { return const_cast<thread_pool&>(_computation_thread_pool); }

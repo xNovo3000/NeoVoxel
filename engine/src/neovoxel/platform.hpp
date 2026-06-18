@@ -1,5 +1,6 @@
 #pragma once
 
+#include "neovoxel/graphics.hpp"
 #include <neovoxel.hpp>
 
 #include <GLFW/glfw3.h>
@@ -32,6 +33,8 @@ namespace neovoxel {
         uint32_t _refresh_rate;
     };
 
+    using glfw_load_func = void (*(*)(const char *))();
+
     class glfw_window : public window {
     
     private:
@@ -62,6 +65,7 @@ namespace neovoxel {
         uint32_t get_refresh_rate() const override;
 
         GLFWwindow *get_handle() const noexcept { return _handle; }
+        glfw_load_func get_load_func() const noexcept { return glfwGetProcAddress; }
 
     };
 
@@ -90,6 +94,27 @@ namespace neovoxel {
         glm::vec2 get_cursor_position() const override;
         bool is_key_pressed(int32_t _mouse_button) const override;
         bool is_mouse_button_pressed(int32_t _mouse_button) const override;
+
+    };
+
+    struct opengl_graphics_api_spec {
+        glfw_load_func _load_func;
+    };
+
+    class opengl_graphics_api : public graphics_api {
+
+    public:
+        explicit opengl_graphics_api(const opengl_graphics_api_spec &_spec);
+        ~opengl_graphics_api() override = default;
+
+        void clear_color(const glm::vec4 &_color) override;
+        void clear_depth(double _depth) override;
+        void clear_stencil(int32_t _stencil) override;
+
+        void disable(graphics_capability _capability) override;
+        void enable(graphics_capability _capability) override;
+
+        void set_viewport(const glm::ivec2 &_size) override;
 
     };
 

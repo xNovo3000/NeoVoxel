@@ -1,8 +1,10 @@
+#include <memory>
 #include <pch.hpp>
 #include <neovoxel/application.hpp>
 
 #include <neovoxel/debug.hpp>
 
+#include "neovoxel/graphics.hpp"
 #include "platform.hpp"
 
 namespace neovoxel {
@@ -14,7 +16,7 @@ namespace neovoxel {
     application::application(const char *_name) : named_resource(_name),
         _is_running(true), _last_tick_time(0),
         _layer_stack(), _layer_insert_queue(), _layer_delete_queue(),
-        _window(nullptr), _input(nullptr),
+        _window(nullptr), _input(nullptr), _graphics_api(nullptr),
         _render_thread_pool("render", 1, thread_priority::high),
         _computation_thread_pool("computation", std::thread::hardware_concurrency(), thread_priority::low)
     {
@@ -22,7 +24,7 @@ namespace neovoxel {
         NV_LOG_INFO("Application '{}': created", name());
         _instance = this;
         // Create window
-        glfw_window_spec _window_spec = {
+        glfw_window_spec _window_spec {
             ._title = "NeoVoxel",
             ._size = { 960, 540 },
             ._refresh_rate = 0
@@ -30,11 +32,17 @@ namespace neovoxel {
         glfw_window *_window_ptr = new glfw_window(_window_spec);
         _window = std::unique_ptr<glfw_window>(_window_ptr);
         // Create input
-        glfw_input_spec _input_spec = {
+        glfw_input_spec _input_spec {
             ._handle = _window_ptr->get_handle()
         };
         glfw_input *_input_ptr = new glfw_input(_input_spec);
         _input = std::unique_ptr<glfw_input>(_input_ptr);
+        // Create graphics
+        opengl_graphics_api_spec _graphics_api_spec {
+            ._load_func = _window_ptr->get_load_func()
+        };
+        opengl_graphics_api *_graphics_api_ptr = new opengl_graphics_api(_graphics_api_spec);
+        _graphics_api = std::unique_ptr<opengl_graphics_api>(_graphics_api_ptr);
         // Create base layer
         push_layer(new base_layer);
     }
