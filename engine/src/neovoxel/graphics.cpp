@@ -4,6 +4,9 @@
 #include <neovoxel/application.hpp>
 #include <neovoxel/debug.hpp>
 
+#include <glm/gtc/constants.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace neovoxel {
 
     /* gpu_buffer */
@@ -125,5 +128,85 @@ namespace neovoxel {
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const float &_value) {}
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat3 &_value) {}
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat4 &_value) {}
+
+    /* transform_2d */
+
+    constexpr transform_2d::transform_2d() : transform_2d({}, 0.0F, 1.0F) {}
+    constexpr transform_2d::transform_2d(const glm::vec2 &_position, float _roll, float _scale) :
+        _position(_position), _roll(_roll), _scale(_scale)
+    {}
+
+    void transform_2d::set_position(const glm::vec2 &_position) {
+        this->_position = _position;
+    }
+
+    void transform_2d::set_roll(float _roll) {
+        this->_roll = _roll;
+        while (this->_roll > glm::pi<float>()) [[unlikely]] {
+            this->_roll -= glm::two_pi<float>();
+        }
+        while (this->_roll <= -glm::pi<float>()) [[unlikely]] {
+            this->_roll += glm::two_pi<float>();
+        }
+    }
+
+    void transform_2d::set_scale(float _scale) {
+        this->_scale = glm::max(_scale, glm::epsilon<float>());
+    }
+
+    glm::mat4 transform_2d::get_model_matrix() const {
+        glm::mat4 _result;
+        _result = glm::scale(_result, glm::vec3(_scale));
+        _result = glm::rotate(_result, _roll, glm::vec3(0.0F, 0.0F, 1.0F));
+        _result = glm::translate(_result, glm::vec3(_position, 0.0F));
+        return _result;
+    }
+
+    /* transform_3d */
+
+    constexpr transform_3d::transform_3d() : transform_3d({}, {}, 1.0F) {}
+    constexpr transform_3d::transform_3d(const glm::vec3 &_position, const glm::vec3 &_rotation, float _scale) :
+        _position(_position), _rotation(_rotation), _scale(_scale)
+    {}
+
+    void transform_3d::set_position(const glm::vec3 &_position) {
+        this->_position = _position;
+    }
+
+    void transform_3d::set_rotation(const glm::vec3 &_rotation) {
+        this->_rotation = _rotation;
+        while (this->_rotation.x > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.x -= glm::two_pi<float>();
+        }
+        while (this->_rotation.x <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.x += glm::two_pi<float>();
+        }
+        while (this->_rotation.y > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.y -= glm::two_pi<float>();
+        }
+        while (this->_rotation.y <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.y += glm::two_pi<float>();
+        }
+        while (this->_rotation.z > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.z -= glm::two_pi<float>();
+        }
+        while (this->_rotation.z <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.z += glm::two_pi<float>();
+        }
+    }
+
+    void transform_3d::set_scale(float _scale) {
+        this->_scale = glm::max(_scale, glm::epsilon<float>());
+    }
+
+    glm::mat4 transform_3d::get_model_matrix() const {
+        glm::mat4 _result;
+        _result = glm::scale(_result, glm::vec3(_scale));
+        _result = glm::rotate(_result, _rotation.z, glm::vec3(0.0F, 0.0F, 1.0F));
+        _result = glm::rotate(_result, _rotation.y, glm::vec3(0.0F, 1.0F, 0.0F));
+        _result = glm::rotate(_result, _rotation.x, glm::vec3(1.0F, 0.0F, 0.0F));
+        _result = glm::translate(_result, _position);
+        return _result;
+    }
 
 }

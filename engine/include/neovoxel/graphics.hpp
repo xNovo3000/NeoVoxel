@@ -140,4 +140,48 @@ namespace neovoxel {
 
     using graphics_api_ptr = std::unique_ptr<graphics_api>;
 
+    class transform_2d {
+
+    private:
+        glm::vec2 _position;
+        float _roll, _scale;
+
+    public:
+        constexpr explicit transform_2d();
+        constexpr explicit transform_2d(const glm::vec2 &_position, float _roll, float _scale);
+
+        void set_position(const glm::vec2 &_position);
+        void set_roll(float _roll);
+        void set_scale(float _scale);
+
+        glm::mat4 get_model_matrix() const;
+
+        const glm::vec2 &get_position() const noexcept { return _position; }
+        float get_roll() const noexcept { return _roll; }
+        float get_scale() const noexcept { return _scale; }
+
+    };
+
+    class transform_3d {
+
+    private:
+        glm::vec3 _position, _rotation;
+        float _scale;
+
+    public:
+        constexpr explicit transform_3d();
+        constexpr explicit transform_3d(const glm::vec3 &_position, const glm::vec3 &_rotation, float _scale);
+
+        void set_position(const glm::vec3 &_position);
+        void set_rotation(const glm::vec3 &_position);
+        void set_scale(float _scale);
+
+        glm::mat4 get_model_matrix() const;
+
+        const glm::vec3 &get_position() const noexcept { return _position; }
+        const glm::vec3 &get_rotation() const noexcept { return _rotation; }
+        float get_scale() const noexcept { return _scale; }
+
+    };
+
 }
