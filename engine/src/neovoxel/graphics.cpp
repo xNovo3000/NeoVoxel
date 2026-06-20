@@ -209,4 +209,19 @@ namespace neovoxel {
         return _result;
     }
 
+    /* orthographic_projection */
+
+    constexpr orthographic_projection::orthographic_projection() : orthographic_projection(1.0F) {}
+    constexpr orthographic_projection::orthographic_projection(float _zoom) : _zoom(_zoom) {}
+
+    void orthographic_projection::set_zoom(float _zoom) {
+        this->_zoom = glm::max(_zoom, glm::epsilon<float>());
+    }
+
+    glm::mat4 orthographic_projection::get_projection_matrix(float _aspect_ratio) const {
+        float _vertical = 1 / _zoom;
+        float _horizontal = _vertical * _aspect_ratio;
+        return glm::ortho(-_horizontal, _horizontal, -_vertical, _vertical);
+    }
+
 }

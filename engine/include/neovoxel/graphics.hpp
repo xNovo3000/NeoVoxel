@@ -154,11 +154,11 @@ namespace neovoxel {
         void set_roll(float _roll);
         void set_scale(float _scale);
 
-        glm::mat4 get_model_matrix() const;
-
         const glm::vec2 &get_position() const noexcept { return _position; }
         float get_roll() const noexcept { return _roll; }
         float get_scale() const noexcept { return _scale; }
+
+        glm::mat4 get_model_matrix() const;
 
     };
 
@@ -176,11 +176,35 @@ namespace neovoxel {
         void set_rotation(const glm::vec3 &_position);
         void set_scale(float _scale);
 
-        glm::mat4 get_model_matrix() const;
-
         const glm::vec3 &get_position() const noexcept { return _position; }
         const glm::vec3 &get_rotation() const noexcept { return _rotation; }
         float get_scale() const noexcept { return _scale; }
+
+        glm::mat4 get_model_matrix() const;
+
+    };
+
+    class projection {
+
+    public:
+        virtual glm::mat4 get_projection_matrix(float _aspect_ratio) const = 0;
+
+    };
+
+    class orthographic_projection : public projection {
+
+    private:
+        float _zoom;
+
+    public:
+        constexpr explicit orthographic_projection();
+        constexpr explicit orthographic_projection(float _zoom);
+
+        void set_zoom(float _zoom);
+
+        float get_zoom() const noexcept { return _zoom; }
+
+        glm::mat4 get_projection_matrix(float _aspect_ratio) const override;
 
     };
 
