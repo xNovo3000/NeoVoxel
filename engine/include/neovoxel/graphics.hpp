@@ -28,6 +28,13 @@ namespace neovoxel {
         gpu_buffer_draw_type _draw_type;
     };
 
+    /*
+        GPU Buffer
+
+        This represents the current logical and physical buffers
+        in the GPU memory with updating and drawing features.
+        Do not use this class as-is, always use gpu_buffer_ref.
+    */
     class gpu_buffer {
 
     private:
@@ -59,6 +66,12 @@ namespace neovoxel {
         std::string _fragment_shader_code;
     };
 
+    /*
+        GPU Shader
+
+        This represents a compiled shader program in the GPU memory (both vertex and fragment).
+        Do not use this class as-is, always use gpu_shader_ref.
+    */
     class gpu_shader {
 
     private:
@@ -89,6 +102,12 @@ namespace neovoxel {
         bool _compress;  // Unused for now
     };
 
+    /*
+        GPU Texture 2D
+
+        This represents a 2D texture in the GPU memory.
+        Do not use this class as-is, always use gpu_texture_2d_ref.
+    */
     class gpu_texture_2d {
 
     private:
@@ -123,6 +142,12 @@ namespace neovoxel {
 
     enum class graphics_capability {};
 
+    /*
+        Graphics API
+
+        Singleton empty class that is capable of receiving instructions from `gpu_*` resources and
+        update the global state of the current API in use.
+    */
     class graphics_api : public named_resource {
 
     public:
@@ -183,6 +208,11 @@ namespace neovoxel {
 
     using graphics_api_ptr = std::unique_ptr<graphics_api>;
 
+    /*
+        Transform 2D
+
+        Used to represent a transformation in the 2D space.
+    */
     class transform_2d {
 
     private:
@@ -205,6 +235,11 @@ namespace neovoxel {
 
     };
 
+    /*
+        Transform 3D
+
+        Used to represent a transformation in the 3D space.
+    */
     class transform_3d {
 
     private:
@@ -227,6 +262,11 @@ namespace neovoxel {
 
     };
 
+    /*
+        Projection
+
+        Used to represent a projection for the camera
+    */
     class projection {
 
     public:
@@ -234,6 +274,11 @@ namespace neovoxel {
 
     };
 
+    /*
+        Orthographic projection
+
+        Used to represent an orthographic projection with a zoom parameter in the range [0, +infinity)
+    */
     class orthographic_projection : public projection {
 
     private:

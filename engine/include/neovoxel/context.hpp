@@ -10,6 +10,13 @@
 
 namespace neovoxel {
     
+    /*
+        Window
+    
+        Singleton in the application structure. Used to manage everything related
+        to the video output. In embedded systems the window is simply the quad
+        that is shown to the end user.
+    */
     class window : public named_resource {
 
     public:
@@ -38,6 +45,12 @@ namespace neovoxel {
 
     enum class input_cursor_mode { normal, disabled };
 
+    /*
+        Input
+        
+        Manages everything related to the input from the end user (mouse, keyboard, etc...)
+        and timekeeping. Joystick is not supported at the moment
+    */
     class input : public named_resource {
 
     public:
