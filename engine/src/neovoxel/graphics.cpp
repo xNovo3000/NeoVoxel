@@ -12,17 +12,17 @@ namespace neovoxel {
     /* gpu_buffer */
 
     gpu_buffer::gpu_buffer(const gpu_buffer_spec &_spec) :
-        _handle(application::get().get_graphics_api().graphics_api::_gb_create(_spec))
+        _handle(application::get().get_graphics_api()._gb_create(_spec))
     {}
 
     gpu_buffer::~gpu_buffer() {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gb_destroy(*_handle);
+            application::get().get_graphics_api()._gb_destroy(*_handle);
     }
 
     void gpu_buffer::draw() const {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gb_draw(*_handle);
+            application::get().get_graphics_api()._gb_draw(*_handle);
         else
             NV_LOG_WARN("gpu_buffer:draw() called with empty handle");
     }
@@ -30,7 +30,7 @@ namespace neovoxel {
     template <typename T>
     void gpu_buffer::set_vertex_data(uint32_t _index, const std::vector<T> &_data) {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gb_set_vertex_data(*_handle, _index, _data);
+            application::get().get_graphics_api()._gb_set_vertex_data(*_handle, _index, _data);
         else
             NV_LOG_WARN("gpu_buffer:set_vertex_data() called with empty handle");
     }
@@ -42,7 +42,7 @@ namespace neovoxel {
     template <typename T>
     void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<T> &_data) {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gb_set_vertex_subdata(*_handle, _index, _offset, _data);
+            application::get().get_graphics_api()._gb_set_vertex_subdata(*_handle, _index, _offset, _data);
         else
             NV_LOG_WARN("gpu_buffer:set_vertex_subdata() called with empty handle");
     }
@@ -54,7 +54,7 @@ namespace neovoxel {
     template <typename T>
     void gpu_buffer::set_index_data(const std::vector<T> &_data) {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gb_set_index_data(*_handle, _data);
+            application::get().get_graphics_api()._gb_set_index_data(*_handle, _data);
         else
             NV_LOG_WARN("gpu_buffer:set_index_data() called with empty handle");
     }
@@ -65,20 +65,20 @@ namespace neovoxel {
     /* gpu_shader */
 
     gpu_shader::gpu_shader(const gpu_shader_spec &_spec) :
-        _handle(application::get().get_graphics_api().graphics_api::graphics_api::_gs_create(_spec))
+        _handle(application::get().get_graphics_api()._gs_create(_spec))
     {}
 
     gpu_shader::~gpu_shader() {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::graphics_api::_gs_destroy(*_handle);
+            application::get().get_graphics_api()._gs_destroy(*_handle);
     }
 
     template <typename T>
     void gpu_shader::set_uniform(const std::string &_name, const T &_value) {
         if (_handle) [[likely]]
-            application::get().get_graphics_api().graphics_api::_gs_set_uniform(*_handle, _name, _value);
+            application::get().get_graphics_api()._gs_set_uniform(*_handle, _name, _value);
         else
-            NV_LOG_WARN("gpu_buffer:set_index_data() called with empty handle");
+            NV_LOG_WARN("gpu_buffer:set_uniform() called with empty handle");
     }
 
     template <> void gpu_shader::set_uniform(const std::string &_name, const int32_t &_value);
@@ -86,6 +86,45 @@ namespace neovoxel {
     template <> void gpu_shader::set_uniform(const std::string &_name, const float &_value);
     template <> void gpu_shader::set_uniform(const std::string &_name, const glm::mat3 &_value);
     template <> void gpu_shader::set_uniform(const std::string &_name, const glm::mat4 &_value);
+
+    /* gpu_texture_2d */
+
+    gpu_texture_2d::gpu_texture_2d(const gpu_texture_2d_spec &_spec) :
+        _handle(application::get().get_graphics_api()._gt2_create(_spec))
+    {}
+
+    gpu_texture_2d::~gpu_texture_2d() {
+        if (_handle) [[likely]]
+            application::get().get_graphics_api()._gt2_destroy(*_handle);
+    }
+
+    void gpu_texture_2d::bind(uint32_t _slot) const {
+        if (_handle) [[likely]]
+            application::get().get_graphics_api()._gt2_bind(*_handle, _slot);
+        else
+            NV_LOG_WARN("gpu_buffer:bind() called with empty handle");
+    }
+
+    void gpu_texture_2d::allocate(const glm::ivec2 &_size) {
+        if (_handle) [[likely]]
+            application::get().get_graphics_api()._gt2_allocate(*_handle, _size);
+        else
+            NV_LOG_WARN("gpu_buffer:allocate() called with empty handle");
+    }
+
+    void gpu_texture_2d::set_image_data(const glm::ivec2 &_size, const std::vector<uint8_t> &_data, uint32_t _channels) {
+        if (_handle) [[likely]]
+            application::get().get_graphics_api()._gt2_set_image_data(*_handle, _size, _data, _channels);
+        else
+            NV_LOG_WARN("gpu_buffer:set_image_data() called with empty handle");
+    }
+
+    void gpu_texture_2d::set_image_subdata(const glm::ivec2 &_size, const glm::ivec2 &_offset, const std::vector<uint8_t> &_data, uint32_t _channels) {
+        if (_handle) [[likely]]
+            application::get().get_graphics_api()._gt2_set_image_subdata(*_handle, _size, _offset, _data, _channels);
+        else
+            NV_LOG_WARN("gpu_buffer:set_image_subdata() called with empty handle");
+    }
 
     /* graphics_api */
 
@@ -98,6 +137,10 @@ namespace neovoxel {
 
     gpu_shader_ref graphics_api::create(const gpu_shader_spec &_spec) {
         return std::make_shared<gpu_shader>(_spec);
+    }
+
+    gpu_texture_2d_ref graphics_api::create(const gpu_texture_2d_spec &_spec) {
+        return std::make_shared<gpu_texture_2d>(_spec);
     }
 
     void graphics_api::clear_color(const glm::vec4 &_color) {}
@@ -128,6 +171,13 @@ namespace neovoxel {
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const float &_value) {}
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat3 &_value) {}
     void graphics_api::_gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat4 &_value) {}
+
+    uint32_t graphics_api::_gt2_create(const gpu_texture_2d_spec &_spec) { return 0; }
+    void graphics_api::_gt2_destroy(uint32_t _handle) {}
+    void graphics_api::_gt2_bind(uint32_t _handle, uint32_t _slot) {}
+    void graphics_api::_gt2_allocate(uint32_t _handle, const glm::ivec2 &_size) {}
+    void graphics_api::_gt2_set_image_data(uint32_t _handle, const glm::ivec2 &_size, const std::vector<uint8_t> &_data, uint32_t _channels) {}
+    void graphics_api::_gt2_set_image_subdata(uint32_t _handle, const glm::ivec2 &_size, const glm::ivec2 &_offset, const std::vector<uint8_t> &_data, uint32_t _channels) {}
 
     /* transform_2d */
 

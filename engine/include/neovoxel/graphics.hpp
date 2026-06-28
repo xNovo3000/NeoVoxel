@@ -44,6 +44,8 @@ namespace neovoxel {
 
         void draw() const;
 
+        // TODO: Implement raw "alloacate" function
+        // TODO: Implement raw set_vertex_data and set_vertex_subdata function with type erased data
         template <typename T> void set_vertex_data(uint32_t _index, const std::vector<T> &_data);
         template <typename T> void set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<T> &_data);
         template <typename T> void set_index_data(const std::vector<T> &_data);
@@ -79,6 +81,38 @@ namespace neovoxel {
 
     using gpu_shader_ref = std::shared_ptr<gpu_shader>;
 
+    enum class gpu_texture_2d_usage { diffuse };
+
+    struct gpu_texture_2d_spec {
+        gpu_texture_2d_usage _usage;
+        bool _generate_mipmaps;
+        bool _compress;  // Unused for now
+    };
+
+    class gpu_texture_2d {
+
+    private:
+        std::optional<uint32_t> _handle;
+
+    public:
+        explicit gpu_texture_2d(const gpu_texture_2d_spec &_spec);
+        ~gpu_texture_2d();
+
+        // Non-copyable but movable, required for smart pointers
+        gpu_texture_2d(const gpu_texture_2d&) = delete;
+        gpu_texture_2d(gpu_texture_2d&&) noexcept = default;
+        gpu_texture_2d &operator=(gpu_texture_2d&&) noexcept = default;
+
+        void bind(uint32_t _slot = 0) const;
+
+        void allocate(const glm::ivec2 &_size);
+        void set_image_data(const glm::ivec2 &_size, const std::vector<uint8_t> &_data, uint32_t _channels);
+        void set_image_subdata(const glm::ivec2 &_size, const glm::ivec2 &_offset, const std::vector<uint8_t> &_data, uint32_t _channels);
+
+    };
+
+    using gpu_texture_2d_ref = std::shared_ptr<gpu_texture_2d>;
+
 #if NV_BUILD_TYPE == NV_BUILD_TYPE_DEBUG
     constexpr glm::vec4 _graphics_default_clear_color { 0.75F, 0.125F, 0.65F, 0.0F };
 #else
@@ -103,6 +137,7 @@ namespace neovoxel {
 
         static gpu_buffer_ref create(const gpu_buffer_spec &_spec);
         static gpu_shader_ref create(const gpu_shader_spec &_spec);
+        static gpu_texture_2d_ref create(const gpu_texture_2d_spec &_spec);
 
         virtual void clear_color(const glm::vec4 &_color = _graphics_default_clear_color);
         virtual void clear_depth(double _depth = _graphics_default_clear_depth);
@@ -135,6 +170,14 @@ namespace neovoxel {
         virtual void _gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat3 &_value);
         virtual void _gs_set_uniform(uint32_t _handle, const std::string &_name, const glm::mat4 &_value);
         friend class gpu_shader;
+
+        virtual uint32_t _gt2_create(const gpu_texture_2d_spec &_spec);
+        virtual void _gt2_destroy(uint32_t _handle);
+        virtual void _gt2_bind(uint32_t _handle, uint32_t _slot);
+        virtual void _gt2_allocate(uint32_t _handle, const glm::ivec2 &_size);
+        virtual void _gt2_set_image_data(uint32_t _handle, const glm::ivec2 &_size, const std::vector<uint8_t> &_data, uint32_t _channels);
+        virtual void _gt2_set_image_subdata(uint32_t _handle, const glm::ivec2 &_size, const glm::ivec2 &_offset, const std::vector<uint8_t> &_data, uint32_t _channels);
+        friend class gpu_texture_2d;
 
     };
 
