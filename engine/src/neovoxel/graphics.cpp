@@ -183,8 +183,11 @@ namespace neovoxel {
 
     constexpr transform_2d::transform_2d() : transform_2d({}, 0.0F, 1.0F) {}
     constexpr transform_2d::transform_2d(const glm::vec2 &_position, float _roll, float _scale) :
-        _position(_position), _roll(_roll), _scale(_scale)
-    {}
+        _position(_position), _roll(), _scale()
+    {
+        set_roll(_roll);
+        set_scale(_scale);
+    }
 
     void transform_2d::set_position(const glm::vec2 &_position) {
         this->_position = _position;
@@ -216,8 +219,11 @@ namespace neovoxel {
 
     constexpr transform_3d::transform_3d() : transform_3d({}, {}, 1.0F) {}
     constexpr transform_3d::transform_3d(const glm::vec3 &_position, const glm::vec3 &_rotation, float _scale) :
-        _position(_position), _rotation(_rotation), _scale(_scale)
-    {}
+        _position(_position), _rotation(), _scale()
+    {
+        set_rotation(_rotation);
+        set_scale(_scale);
+    }
 
     void transform_3d::set_position(const glm::vec3 &_position) {
         this->_position = _position;
@@ -261,79 +267,37 @@ namespace neovoxel {
 
     /* orthographic_projection */
 
-    constexpr orthographic_projection::orthographic_projection() : orthographic_projection(1.0F) {}
-    constexpr orthographic_projection::orthographic_projection(float _zoom) : _zoom(_zoom) {}
+    constexpr orthographic_projection::orthographic_projection() :
+        orthographic_projection(10.0F)
+    {}
 
-    void orthographic_projection::set_zoom(float _zoom) {
-        this->_zoom = glm::max(_zoom, glm::epsilon<float>());
+    constexpr orthographic_projection::orthographic_projection(float _zoom) :
+        orthographic_projection(_zoom, 0.0F, 50.0F)
+    {}
+
+    constexpr orthographic_projection::orthographic_projection(float _zoom_percentage, float _min_vsize, float _max_vsize) :
+        _zoom_percentage(_zoom_percentage), _min_vsize(), _max_vsize()
+    {
+        set_min_vsize(_min_vsize);
+        set_max_vsize(_max_vsize);
+    }
+
+    void orthographic_projection::set_min_vsize(float _min_vsize) {
+        this->_min_vsize = glm::max(0.0F, glm::min(_min_vsize, this->_max_vsize));
+    }
+
+    void orthographic_projection::set_max_vsize(float _max_vsize) {
+        this->_max_vsize = glm::max(this->_min_vsize, _max_vsize);
+    }
+
+    void orthographic_projection::set_zoom_percentage(float _zoom) {
+        this->_zoom_percentage = glm::clamp(_zoom, 0.0F, 100.0F);
     }
 
     glm::mat4 orthographic_projection::get_projection_matrix(float _aspect_ratio) const {
-        float _vertical = 1 / _zoom;
+        float _vertical = _min_vsize * _max_vsize / 100.0F * _zoom_percentage + _max_vsize;
         float _horizontal = _vertical * _aspect_ratio;
         return glm::ortho(-_horizontal, _horizontal, -_vertical, _vertical);
     }
-
-    /*
-    TODO: Zoom fix from Perplexity
-
-    Short answer: use an exponential mapping for the zoom parameter (or equivalently use the logarithm for the UI control) so equal UI steps change the view scale multiplicatively rather than additively — e.g. set scale = exp(k * zoomInput) and compute your ortho extents from scale. This makes zooming in and out symmetric and perceptually uniform.
-
-    Explanation and practical formulas
-
-    What’s happening
-
-    Your code treats _zoom as a linear denominator so a fixed additive change in _zoom produces very different multiplicative changes in the view size depending on the current value (small _zoom → large fractional change, large _zoom → small fractional change). This yields fast zoom-in and slow zoom-out behavior.
-
-    Use an exponential (log) mapping
-
-    Let s be the scale that controls the half-extent of your orthographic view (what you currently compute as _vertical = 1 / _zoom). Rather than using s = 1 / _zoom, use:
-    s = s0 * exp(k * z)
-    where z is the user-controlled zoom parameter, s0 is a base scale (for z = 0), and k controls sensitivity (e.g., k = ln(2) makes one unit in z double/halve the scale).
-
-    Compute extents from s:
-    vertical = s
-    horizontal = s * aspect
-    projection = glm::ortho(-horizontal, horizontal, -vertical, vertical)
-
-    Common convenient choices
-
-    If you want one mouse-wheel “tick” to double/halve the view size: choose k = ln(2). Then z += 1 doubles s (zooms out), z -= 1 halves s (zooms in).
-
-    If you prefer smaller steps use k = ln(1.1) so each tick scales by 1.1.
-
-    If you have a UI slider in range [0..1], map it to a larger z range linearly (e.g., z = (slider - 0.5) * 10) before applying exp to get useful dynamic range.
-
-    Concrete replacement for your function
-
-    Pick s0 = 1.0 (or whatever "neutral" half-height you want) and a sensitivity k. Example with k = ln(2):
-
-    glm::mat4 orthographic_projection::get_projection_matrix(float _aspect_ratio) const {
-    float s0 = 1.0f; // base half-extent at zoom = 0
-    float k = 0.69314718f; // ln(2) -> each unit of _zoom doubles the extent
-    float scale = s0 * exp(k * _zoom); // exponential mapping
-    float vertical = scale;
-    float horizontal = vertical * _aspect_ratio;
-    return glm::ortho(-horizontal, horizontal, -vertical, vertical);
-    }
-
-    If in your code _zoom currently increases to zoom in, invert sign: use exp(-k * _zoom) so larger _zoom makes the view smaller.
-
-    Why exponential/log fixes it
-
-    Perceptually, zoom feels multiplicative: each step should scale the view by a constant factor, not add a constant amount to extents. The exponential mapping makes fixed input steps produce constant multiplicative changes, so zoom-in and zoom-out speeds feel symmetric.
-
-    Extra tips
-
-    Clamp scale to avoid extremely small/large extents (e.g., scale in [1e-4, 1e4]).
-
-    Internally keep a log-scale zoom value (logScale). Update logScale += delta when the user scrolls; compute scale = exp(logScale) for the projection. This avoids numerical issues and makes it easy to implement smooth interpolation.
-
-    If you want mouse-centered zoom (zoom toward cursor), adjust the camera position when changing scale so the world point under the cursor remains fixed.
-
-    Would you like a version where the slider/mouse-wheel maps to zoom in a particular way (e.g., one tick = 1.1×) or an example that keeps zoom centered on the cursor?
-
-
-    */
 
 }

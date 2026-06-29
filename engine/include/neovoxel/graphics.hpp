@@ -277,20 +277,26 @@ namespace neovoxel {
     /*
         Orthographic projection
 
-        Used to represent an orthographic projection with a zoom parameter in the range [0, +infinity)
+        TODO
     */
     class orthographic_projection : public projection {
 
     private:
-        float _zoom;
+        float _zoom_percentage;
+        float _min_vsize, _max_vsize;
 
     public:
         constexpr explicit orthographic_projection();
-        constexpr explicit orthographic_projection(float _zoom);
+        constexpr explicit orthographic_projection(float _zoom_percentage);
+        constexpr explicit orthographic_projection(float _zoom_percentage, float _min_vsize, float _max_vsize);
 
-        void set_zoom(float _zoom);
+        void set_min_vsize(float _min_vsize);
+        void set_max_vsize(float _max_vsize);
+        void set_zoom_percentage(float _zoom);
 
-        float get_zoom() const noexcept { return _zoom; }
+        float get_min_vsize() const noexcept { return _min_vsize; }
+        float get_max_vsize() const noexcept { return _max_vsize; }
+        float get_zoom_percentage() const noexcept { return _zoom_percentage; }
 
         glm::mat4 get_projection_matrix(float _aspect_ratio) const override;
 
