@@ -27,29 +27,19 @@ namespace neovoxel {
             NV_LOG_WARN("gpu_buffer:draw() called with empty handle");
     }
 
-    template <typename T>
-    void gpu_buffer::set_vertex_data(uint32_t _index, const std::vector<T> &_data) {
+    void gpu_buffer::set_vertex_data(uint32_t _index, const gpu_buffer_data &_data) {
         if (_handle) [[likely]]
             application::get().get_graphics_api()._gb_set_vertex_data(*_handle, _index, _data);
         else
             NV_LOG_WARN("gpu_buffer:set_vertex_data() called with empty handle");
     }
 
-    template <> void gpu_buffer::set_vertex_data(uint32_t _index, const std::vector<int32_t> &_data);
-    template <> void gpu_buffer::set_vertex_data(uint32_t _index, const std::vector<uint32_t> &_data);
-    template <> void gpu_buffer::set_vertex_data(uint32_t _index, const std::vector<float> &_data);
-
-    template <typename T>
-    void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<T> &_data) {
+    void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data) {
         if (_handle) [[likely]]
             application::get().get_graphics_api()._gb_set_vertex_subdata(*_handle, _index, _offset, _data);
         else
             NV_LOG_WARN("gpu_buffer:set_vertex_subdata() called with empty handle");
     }
-
-    template <> void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<int32_t> &_data);
-    template <> void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<uint32_t> &_data);
-    template <> void gpu_buffer::set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<float> &_data);
 
     template <typename T>
     void gpu_buffer::set_index_data(const std::vector<T> &_data) {
@@ -155,12 +145,8 @@ namespace neovoxel {
     uint32_t graphics_api::_gb_create(const gpu_buffer_spec &_spec) { return 0; }
     void graphics_api::_gb_destroy(uint32_t _handle) {}
     void graphics_api::_gb_draw(uint32_t _handle) {}
-    void graphics_api::_gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<int32_t> &_data) {}
-    void graphics_api::_gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<uint32_t> &_data) {}
-    void graphics_api::_gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<float> &_data) {}
-    void graphics_api::_gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<int32_t> &_data) {}
-    void graphics_api::_gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<uint32_t> &_data) {}
-    void graphics_api::_gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<float> &_data) {}
+    void graphics_api::_gb_set_vertex_data(uint32_t _handle, uint32_t _index, const gpu_buffer_data &_data) {}
+    void graphics_api::_gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data) {}
     void graphics_api::_gb_set_index_data(uint32_t _handle, const std::vector<uint16_t> &_data) {}
     void graphics_api::_gb_set_index_data(uint32_t _handle, const std::vector<uint32_t> &_data) {}
 

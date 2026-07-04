@@ -11,6 +11,23 @@
 
 namespace neovoxel {
 
+    class gpu_buffer_data {
+    
+    private:
+        std::vector<uint8_t> _data;
+
+    public:
+        template <typename T>
+        void push(const T &_element) {
+            auto _first = reinterpret_cast<uint8_t*>(&_element);
+            auto _last = _first + sizeof(T);
+            _data.insert(_data.end(), _first, _last);
+        }
+        
+        const std::vector<uint8_t> &get_data() const noexcept { return _data; }
+
+    };
+
     enum class gpu_buffer_draw_type { _static, dynamic };
     enum class gpu_buffer_element {
 // TODO: This buffer types will be implemented later
@@ -52,9 +69,8 @@ namespace neovoxel {
         void draw() const;
 
         // TODO: Implement raw "alloacate" function
-        // TODO: Implement raw set_vertex_data and set_vertex_subdata function with type erased data
-        template <typename T> void set_vertex_data(uint32_t _index, const std::vector<T> &_data);
-        template <typename T> void set_vertex_subdata(uint32_t _index, uint32_t _offset, const std::vector<T> &_data);
+        void set_vertex_data(uint32_t _index, const gpu_buffer_data &_data);
+        void set_vertex_subdata(uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data);
         template <typename T> void set_index_data(const std::vector<T> &_data);
 
     };
@@ -177,12 +193,8 @@ namespace neovoxel {
         virtual uint32_t _gb_create(const gpu_buffer_spec &_spec);
         virtual void _gb_destroy(uint32_t _handle);
         virtual void _gb_draw(uint32_t _handle);
-        virtual void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<int32_t> &_data);
-        virtual void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<uint32_t> &_data);
-        virtual void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const std::vector<float> &_data);
-        virtual void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<int32_t> &_data);
-        virtual void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<uint32_t> &_data);
-        virtual void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const std::vector<float> &_data);
+        virtual void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const gpu_buffer_data &_data);
+        virtual void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data);
         virtual void _gb_set_index_data(uint32_t _handle, const std::vector<uint16_t> &_data);
         virtual void _gb_set_index_data(uint32_t _handle, const std::vector<uint32_t> &_data);
         friend class gpu_buffer;
