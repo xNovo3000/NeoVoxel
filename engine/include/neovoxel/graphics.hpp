@@ -275,6 +275,55 @@ namespace neovoxel {
     };
 
     /*
+        Camera 2D
+
+        TODO
+    */
+    class camera_2d {
+
+    private:
+        glm::vec2 _position;
+        float _roll;
+
+    public:
+        constexpr explicit camera_2d();
+        constexpr explicit camera_2d(const glm::vec2 &_position, float _roll);
+
+        void set_position(const glm::vec2 &_position);
+        void set_roll(float _roll);
+
+        const glm::vec2 &get_position() const noexcept { return _position; }
+        float get_roll() const noexcept { return _roll; }
+
+        glm::mat4 get_view_matrix() const;
+
+    };
+
+    /*
+        Camera 3D
+    
+        TODO
+    */
+    class camera_3d {
+
+    private:
+        glm::vec3 _position, _rotation;
+
+    public:
+        constexpr explicit camera_3d();
+        constexpr explicit camera_3d(const glm::vec3 &_position, const glm::vec3 &_rotation);
+
+        void set_position(const glm::vec3 &_position);
+        void set_rotation(const glm::vec3 &_position);
+
+        const glm::vec3 &get_position() const noexcept { return _position; }
+        const glm::vec3 &get_rotation() const noexcept { return _rotation; }
+
+        glm::mat4 get_view_matrix() const;
+
+    };
+
+    /*
         Projection
 
         Used to represent a projection for the camera

@@ -251,6 +251,80 @@ namespace neovoxel {
         return _result;
     }
 
+    /* camera_2d */
+
+    constexpr camera_2d::camera_2d() : camera_2d({}, 0.0F) {}
+    constexpr camera_2d::camera_2d(const glm::vec2 &_position, float _roll) :
+        _position(_position), _roll()
+    {
+        set_roll(_roll);
+    }
+
+    void camera_2d::set_position(const glm::vec2 &_position) {
+        this->_position = _position;
+    }
+
+    void camera_2d::set_roll(float _roll) {
+        this->_roll = _roll;
+        while (this->_roll > glm::pi<float>()) [[unlikely]] {
+            this->_roll -= glm::two_pi<float>();
+        }
+        while (this->_roll <= -glm::pi<float>()) [[unlikely]] {
+            this->_roll += glm::two_pi<float>();
+        }
+    }
+
+    glm::mat4 camera_2d::get_view_matrix() const {
+        glm::mat4 _result;
+        _result = glm::rotate(_result, -_roll, glm::vec3(0.0F, 0.0F, 1.0F));
+        _result = glm::translate(-_result, glm::vec3(_position, 0.0F));
+        return _result;
+    }
+
+    /* camera_3d */
+
+    constexpr camera_3d::camera_3d() : camera_3d({}, {}) {}
+    constexpr camera_3d::camera_3d(const glm::vec3 &_position, const glm::vec3 &_rotation) :
+        _position(_position), _rotation()
+    {
+        set_rotation(_rotation);
+    }
+
+    void camera_3d::set_position(const glm::vec3 &_position) {
+        this->_position = _position;
+    }
+
+    void camera_3d::set_rotation(const glm::vec3 &_rotation) {
+        this->_rotation = _rotation;
+        while (this->_rotation.x > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.x -= glm::two_pi<float>();
+        }
+        while (this->_rotation.x <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.x += glm::two_pi<float>();
+        }
+        while (this->_rotation.y > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.y -= glm::two_pi<float>();
+        }
+        while (this->_rotation.y <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.y += glm::two_pi<float>();
+        }
+        while (this->_rotation.z > glm::pi<float>()) [[unlikely]] {
+            this->_rotation.z -= glm::two_pi<float>();
+        }
+        while (this->_rotation.z <= -glm::pi<float>()) [[unlikely]] {
+            this->_rotation.z += glm::two_pi<float>();
+        }
+    }
+
+    glm::mat4 camera_3d::get_view_matrix() const {
+        glm::mat4 _result;
+        _result = glm::rotate(_result, -_rotation.z, glm::vec3(0.0F, 0.0F, 1.0F));
+        _result = glm::rotate(_result, -_rotation.y, glm::vec3(0.0F, 1.0F, 0.0F));
+        _result = glm::rotate(_result, -_rotation.x, glm::vec3(1.0F, 0.0F, 0.0F));
+        _result = glm::translate(_result, -_position);
+        return _result;
+    }
+
     /* orthographic_projection */
 
     constexpr orthographic_projection::orthographic_projection() :
