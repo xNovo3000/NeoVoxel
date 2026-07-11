@@ -3,9 +3,13 @@
 #include "neovoxel/graphics.hpp"
 #include <neovoxel.hpp>
 
+#include <gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include <array>
+#include <map>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -101,6 +105,15 @@ namespace neovoxel {
         glfw_load_func _load_func;
     };
 
+    struct opengl_gpu_buffer_data {  // TODO: Optimize
+        GLuint _vao_handle = 0, _ebo_handle = 0;
+        std::array<GLuint, 8> _vbo_handles = {};
+        uint32_t _vbo_handles_size = 0;
+        gpu_buffer_draw_type _draw_type = gpu_buffer_draw_type::_static;
+        bool _is_ebo_long = false;  // True if EBO has 32-bit inside it
+        uint32_t _number_of_vertices = 0;
+    };
+
     class opengl_graphics_api : public graphics_api {
 
     public:
@@ -115,6 +128,20 @@ namespace neovoxel {
         void enable(graphics_capability _capability) override;
 
         void set_viewport(const glm::ivec2 &_size) override;
+
+    protected:
+        uint32_t _gb_create(const gpu_buffer_spec &_spec) override;
+        void _gb_destroy(uint32_t _handle) override;
+        // void _gb_draw(uint32_t _handle) override;
+        // void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const gpu_buffer_data &_data) override;
+        // void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data) override;
+        // void _gb_set_index_data(uint32_t _handle, const std::vector<uint16_t> &_data) override;
+        // void _gb_set_index_data(uint32_t _handle, const std::vector<uint32_t> &_data) override;
+
+    private:
+        std::map<uint32_t, opengl_gpu_buffer_data> _gpu_buffer_data;
+        std::mutex _gpu_buffer_data_mutex;
+        uint32_t _gpu_buffer_data_next;
 
     };
 

@@ -1,14 +1,17 @@
 #pragma once
 
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <fstream>
 #include <iterator>
 #include <limits>
+#include <map>
 #include <memory>
 #include <mutex>
+#include <numeric>
 #include <ranges>
 #include <string>
 #include <thread>

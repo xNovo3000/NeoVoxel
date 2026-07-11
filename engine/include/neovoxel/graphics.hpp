@@ -363,4 +363,6 @@ namespace neovoxel {
 
     };
 
+    /* TODO: Change projection and create projection_ptr (only zoom is needed - fov in case of perspective) */
+
 }

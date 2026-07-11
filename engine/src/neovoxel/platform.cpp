@@ -316,8 +316,43 @@ namespace neovoxel {
 
     /* opengl_graphics_api */
 
+    static GLenum _util_ogl_get_draw_type(gpu_buffer_draw_type _type) {
+        if (_type == gpu_buffer_draw_type::dynamic) return GL_DYNAMIC_DRAW;
+        return GL_STATIC_DRAW;
+    }
+
+    static uint32_t _util_ogl_get_bytes(gpu_buffer_element _element) {
+        switch (_element) {
+            case gpu_buffer_element::vec1_f32: case gpu_buffer_element::vec1_i32: case gpu_buffer_element::vec1_u32: return 4;
+            case gpu_buffer_element::vec2_f32: case gpu_buffer_element::vec2_i32: case gpu_buffer_element::vec2_u32: return 8;
+            case gpu_buffer_element::vec3_f32: case gpu_buffer_element::vec3_i32: case gpu_buffer_element::vec3_u32: return 12;
+            case gpu_buffer_element::vec4_f32: case gpu_buffer_element::vec4_i32: case gpu_buffer_element::vec4_u32: return 16;
+        }
+        return 0;
+    }
+
+    static GLint _util_ogl_get_elements_size(gpu_buffer_element _element) {
+        switch (_element) {
+            case gpu_buffer_element::vec1_f32: case gpu_buffer_element::vec1_i32: case gpu_buffer_element::vec1_u32: return 1;
+            case gpu_buffer_element::vec2_f32: case gpu_buffer_element::vec2_i32: case gpu_buffer_element::vec2_u32: return 2;
+            case gpu_buffer_element::vec3_f32: case gpu_buffer_element::vec3_i32: case gpu_buffer_element::vec3_u32: return 3;
+            case gpu_buffer_element::vec4_f32: case gpu_buffer_element::vec4_i32: case gpu_buffer_element::vec4_u32: return 4;
+        }
+        return 0;
+    }
+
+    static GLenum _util_ogl_get_type(gpu_buffer_element _element) {
+        switch (_element) {
+            case gpu_buffer_element::vec1_f32: case gpu_buffer_element::vec2_f32: case gpu_buffer_element::vec3_f32: case gpu_buffer_element::vec4_f32: return GL_FLOAT;
+            case gpu_buffer_element::vec1_i32: case gpu_buffer_element::vec2_i32: case gpu_buffer_element::vec3_i32: case gpu_buffer_element::vec4_i32: return GL_INT;
+            case gpu_buffer_element::vec1_u32: case gpu_buffer_element::vec2_u32: case gpu_buffer_element::vec3_u32: case gpu_buffer_element::vec4_u32: return GL_UNSIGNED_INT;
+        }
+        return 0;
+    }
+
     opengl_graphics_api::opengl_graphics_api(const opengl_graphics_api_spec &_spec) :
-        graphics_api("opengl_graphics_api")
+        graphics_api("opengl_graphics_api"),
+        _gpu_buffer_data(), _gpu_buffer_data_mutex(), _gpu_buffer_data_next(0)
     {
         asio::post(
             application::get().get_render_thread_pool().get_executor(),
@@ -377,6 +412,71 @@ namespace neovoxel {
                 glCall(glViewport(0, 0, _size.x, _size.y));
             }
         );
+    }
+
+    uint32_t opengl_graphics_api::_gb_create(const gpu_buffer_spec &_spec) {
+        // Reserve next index available
+        uint32_t _idx = _gpu_buffer_data_next;
+        {
+            std::lock_guard _g(_gpu_buffer_data_mutex);
+            while (_gpu_buffer_data.contains(_idx))
+                _idx += 1;
+            _gpu_buffer_data[_idx] = {};
+            _gpu_buffer_data_next = _idx + 1;
+        }
+        // Render thread: create the required index
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [=, this]() {
+                NV_TRACING_WATCH;
+                // Extract data
+                opengl_gpu_buffer_data _data;
+                {
+                    std::lock_guard _g(_gpu_buffer_data_mutex);
+                    _data = _gpu_buffer_data[_idx];
+                }
+                // Create VAO and set active
+                glCall(glGenVertexArrays(1, &_data._vao_handle));
+                glCall(glBindVertexArray(_data._vao_handle));
+                // Create EBO and initialize it
+                glCall(glGenBuffers(1, &_data._ebo_handle));
+                glCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _data._ebo_handle));
+                glCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 0, nullptr, _util_ogl_get_draw_type(_spec._draw_type)));
+                // Create VBOs, initialize it and set accordingly into physical/logical distinction
+                glCall(glGenBuffers(_spec._buffers.size(), _data._vbo_handles.data()));
+                uint32_t _physical_buffer_index = 0, _logical_buffer_index = 0;
+                // Create physical VBO
+                for (auto &_physical_buffer : _spec._buffers) {
+                    uint32_t _physical_buffer_size = std::accumulate(
+                        _physical_buffer.begin(), _physical_buffer.end(), 0u,
+                        [](const uint32_t _a, const gpu_buffer_element &_element) { return _a + _util_ogl_get_bytes(_element); }
+                    );
+                    glCall(glBindBuffer(GL_ARRAY_BUFFER, _data._vbo_handles[_physical_buffer_index]));
+                    glCall(glBufferData(GL_ARRAY_BUFFER, 0, nullptr, _util_ogl_get_draw_type(_spec._draw_type)));
+                    // Create logical VBO
+                    uint32_t _logical_buffer_offset = 0;
+                    for (auto &_logical_buffer : _physical_buffer) {
+                        glCall(glVertexAttribPointer(_logical_buffer_index, _util_ogl_get_elements_size(_logical_buffer), _util_ogl_get_type(_logical_buffer), GL_FALSE, _physical_buffer_size, reinterpret_cast<void*>(_logical_buffer_offset)));
+                        glCall(glEnableVertexAttribArray(_logical_buffer_index));
+                        _logical_buffer_offset += _util_ogl_get_bytes(_logical_buffer);
+                        _logical_buffer_index += 1;
+                    }
+                    _physical_buffer_index += 1;
+                }
+                // Update data
+                _data._vbo_handles_size = _spec._buffers.size();
+                {
+                    std::lock_guard _g(_gpu_buffer_data_mutex);
+                    _gpu_buffer_data[_idx] = _data;
+                }
+            }
+        );
+        // Immediate: return the generated index
+        return _idx;
+    }
+
+    void opengl_graphics_api::_gb_destroy(uint32_t _handle) {
+
     }
 
 }
