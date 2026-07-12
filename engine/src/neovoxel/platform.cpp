@@ -429,6 +429,7 @@ namespace neovoxel {
             application::get().get_render_thread_pool().get_executor(),
             [=, this]() {
                 NV_TRACING_WATCH;
+                NV_LOG_DEBUG("gpu_buffer {}: creating", _idx);
                 // Extract data
                 opengl_gpu_buffer_data _data;
                 {
@@ -451,14 +452,17 @@ namespace neovoxel {
                         _physical_buffer.begin(), _physical_buffer.end(), 0u,
                         [](const uint32_t _a, const gpu_buffer_element &_element) { return _a + _util_ogl_get_bytes(_element); }
                     );
+                    NV_LOG_DEBUG("gpu_buffer {}: creating physical buffer {} of {} bytes", _idx, _physical_buffer_index, _physical_buffer_size);
                     glCall(glBindBuffer(GL_ARRAY_BUFFER, _data._vbo_handles[_physical_buffer_index]));
                     glCall(glBufferData(GL_ARRAY_BUFFER, 0, nullptr, _util_ogl_get_draw_type(_spec._draw_type)));
                     // Create logical VBO
                     uint32_t _logical_buffer_offset = 0;
                     for (auto &_logical_buffer : _physical_buffer) {
+                        uint32_t _logical_buffer_size = _util_ogl_get_bytes(_logical_buffer);
+                        NV_LOG_DEBUG("gpu_buffer {}: creating logical buffer {} of {} bytes, offset {}", _idx, _logical_buffer_index, _logical_buffer_size, _logical_buffer_offset);
                         glCall(glVertexAttribPointer(_logical_buffer_index, _util_ogl_get_elements_size(_logical_buffer), _util_ogl_get_type(_logical_buffer), GL_FALSE, _physical_buffer_size, reinterpret_cast<void*>(_logical_buffer_offset)));
                         glCall(glEnableVertexAttribArray(_logical_buffer_index));
-                        _logical_buffer_offset += _util_ogl_get_bytes(_logical_buffer);
+                        _logical_buffer_offset += _logical_buffer_size;
                         _logical_buffer_index += 1;
                     }
                     _physical_buffer_index += 1;
@@ -476,7 +480,23 @@ namespace neovoxel {
     }
 
     void opengl_graphics_api::_gb_destroy(uint32_t _handle) {
-
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [=, this]() {
+                NV_TRACING_WATCH;
+                NV_LOG_DEBUG("gpu_buffer {}: destroying", _handle);
+                // Extract data
+                opengl_gpu_buffer_data _data;
+                {
+                    std::lock_guard _g(_gpu_buffer_data_mutex);
+                    _data = _gpu_buffer_data[_handle];
+                }
+                // Destroy all buffers
+                glCall(glDeleteVertexArrays(1, &_data._vao_handle));
+                glCall(glDeleteBuffers(1, &_data._ebo_handle));
+                glCall(glDeleteBuffers(_data._vbo_handles_size, _data._vbo_handles.data()));
+            }
+        );
     }
 
 }

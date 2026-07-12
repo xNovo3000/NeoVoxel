@@ -6,18 +6,15 @@
 
 #pragma once
 
-#include <spdlog/spdlog.h>  // Include only one time in this header
-
 #if NV_BUILD_TYPE == NV_BUILD_TYPE_DEBUG
-    #undef SPDLOG_ACTIVE_LEVEL
-    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_DEBUG
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
 #elif NV_BUILD_TYPE == NV_BUILD_TYPE_PROFILE
-    #undef SPDLOG_ACTIVE_LEVEL
-    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_INFO
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
 #else
-    #undef SPDLOG_ACTIVE_LEVEL
-    #define SPDLOG_ACTIVE_LEVEL SPDLOG_ACTIVE_LEVEL_ERROR
+    #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_ERROR
 #endif
+
+#include <spdlog/spdlog.h>  // Include only one time in this header
 
 #define NV_LOG_TRACE(...)       SPDLOG_TRACE(__VA_ARGS__)       // Logged every frame
 #define NV_LOG_DEBUG(...)       SPDLOG_DEBUG(__VA_ARGS__)       // Logged once something happens
@@ -32,7 +29,7 @@ namespace neovoxel {
 
         static void initialize() {
             spdlog::set_pattern("[%H:%M:%S.%F] [%^%l%$] [%t] %v");
-            spdlog::set_level(spdlog::level::debug);
+            spdlog::set_level(spdlog::level::trace);
         }
 
     }

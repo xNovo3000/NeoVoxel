@@ -5,8 +5,29 @@ class my_layer : public neovoxel::layer,
     public neovoxel::event_listener<neovoxel::mouse_button_event>
 {
 
+private:
+    neovoxel::gpu_buffer_ref _ref;
+
 public:
     my_layer() : layer("my_layer") {}
+
+    void on_create() {
+        layer::on_create();
+        auto gpu_buffer_spec = neovoxel::gpu_buffer_spec {
+            ._buffers = {
+                {
+                    neovoxel::gpu_buffer_element::vec3_f32,
+                    neovoxel::gpu_buffer_element::vec2_f32,
+                    neovoxel::gpu_buffer_element::vec3_f32
+                },
+                {
+                    neovoxel::gpu_buffer_element::vec3_f32
+                }
+            },
+            ._draw_type = neovoxel::gpu_buffer_draw_type::_static
+        };
+        _ref = neovoxel::graphics_api::create(gpu_buffer_spec);
+    }
 
     void on_update(neovoxel::timestep _timestep, std::vector<neovoxel::event_ptr> &_events) {
         layer::on_update(_timestep, _events);
