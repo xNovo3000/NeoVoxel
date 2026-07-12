@@ -350,6 +350,10 @@ namespace neovoxel {
         return 0;
     }
 
+    static GLenum _util_ogl_get_index_type(bool _is_ebo_long) {
+        return _is_ebo_long ? GL_UNSIGNED_INT : GL_UNSIGNED_SHORT;
+    }
+
     opengl_graphics_api::opengl_graphics_api(const opengl_graphics_api_spec &_spec) :
         graphics_api("opengl_graphics_api"),
         _gpu_buffer_data(), _gpu_buffer_data_mutex(), _gpu_buffer_data_next(0)
@@ -485,7 +489,7 @@ namespace neovoxel {
             [=, this]() {
                 NV_TRACING_WATCH;
                 NV_LOG_DEBUG("gpu_buffer {}: destroying", _handle);
-                // Extract data
+                // Extract data (exists because only gpu_buffer can call this)
                 opengl_gpu_buffer_data _data;
                 {
                     std::lock_guard _g(_gpu_buffer_data_mutex);
@@ -495,6 +499,30 @@ namespace neovoxel {
                 glCall(glDeleteVertexArrays(1, &_data._vao_handle));
                 glCall(glDeleteBuffers(1, &_data._ebo_handle));
                 glCall(glDeleteBuffers(_data._vbo_handles_size, _data._vbo_handles.data()));
+                // Erase from dictionary
+                {
+                    std::lock_guard _g(_gpu_buffer_data_mutex);
+                    _gpu_buffer_data.erase(_handle);
+                }
+            }
+        );
+    }
+
+    void opengl_graphics_api::_gb_draw(uint32_t _handle) {
+        asio::post(
+            application::get().get_render_thread_pool().get_executor(),
+            [=, this]() {
+                NV_TRACING_WATCH;
+                // Extract data (exists because only gpu_buffer can call this)
+                opengl_gpu_buffer_data _data;
+                {
+                    std::lock_guard _g(_gpu_buffer_data_mutex);
+                    _data = _gpu_buffer_data[_handle];
+                }
+                // Draw
+                NV_LOG_DEBUG("gpu_buffer {}: drawing {} vertices", _handle, _data._number_of_vertices);
+                glCall(glBindVertexArray(_data._vao_handle));
+                glCall(glDrawElements(GL_TRIANGLES, _data._number_of_vertices, _util_ogl_get_index_type(_data._is_ebo_long), nullptr));
             }
         );
     }

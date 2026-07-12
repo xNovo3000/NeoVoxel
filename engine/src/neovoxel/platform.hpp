@@ -132,7 +132,7 @@ namespace neovoxel {
     protected:
         uint32_t _gb_create(const gpu_buffer_spec &_spec) override;
         void _gb_destroy(uint32_t _handle) override;
-        // void _gb_draw(uint32_t _handle) override;
+        void _gb_draw(uint32_t _handle) override;
         // void _gb_set_vertex_data(uint32_t _handle, uint32_t _index, const gpu_buffer_data &_data) override;
         // void _gb_set_vertex_subdata(uint32_t _handle, uint32_t _index, uint32_t _offset, const gpu_buffer_data &_data) override;
         // void _gb_set_index_data(uint32_t _handle, const std::vector<uint16_t> &_data) override;
