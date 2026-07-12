@@ -520,7 +520,7 @@ namespace neovoxel {
                     _data = _gpu_buffer_data[_handle];
                 }
                 // Draw
-                NV_LOG_DEBUG("gpu_buffer {}: drawing {} vertices", _handle, _data._number_of_vertices);
+                NV_LOG_TRACE("gpu_buffer {}: drawing {} vertices", _handle, _data._number_of_vertices);
                 glCall(glBindVertexArray(_data._vao_handle));
                 glCall(glDrawElements(GL_TRIANGLES, _data._number_of_vertices, _util_ogl_get_index_type(_data._is_ebo_long), nullptr));
             }

@@ -35,6 +35,11 @@ public:
         neovoxel::event_listener<neovoxel::mouse_button_event>::dispatch_events(_timestep, _events);
     }
 
+    void on_render() {
+        layer::on_render();
+        _ref->draw();
+    }
+
     bool on_event(neovoxel::timestep _timestep, neovoxel::key_event &_event) {
         // Set cursor normal when clicking escape
         if (_event.get_key() == NV_KEY_ESCAPE && _event.get_action() == neovoxel::key_action::press) {
